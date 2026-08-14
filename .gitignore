@@ -1,0 +1,36 @@
+# Model weights (large)
+DiffBrush-ckpt.pt
+model_zoo/
+*.pt
+*.pth
+*.safetensors
+
+# Runtime data
+data/pairs/*
+!data/pairs/.gitkeep
+data/outputs/*
+!data/outputs/.gitkeep
+data/styles/*
+!data/styles/default/
+!data/styles/default/representative_text.png
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+*.egg-info/
+.pytest_cache/
+
+# Node
+apps/web/node_modules/
+apps/web/dist/
+
+# OS / IDE
+.DS_Store
+.preview/
+.cursor/
+
+# Modal
+.modal/
