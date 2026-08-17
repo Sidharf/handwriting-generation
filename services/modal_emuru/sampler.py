@@ -123,13 +123,16 @@ def encode_gray_png(arr: np.ndarray) -> bytes:
     return buf.tobytes()
 
 
-def thicken_ink(arr: np.ndarray) -> np.ndarray:
-    """1px dilate on dark ink to reduce fragile stroke washout."""
+def thicken_ink(arr: np.ndarray, iterations: int = 1) -> np.ndarray:
+    """Dilate dark ink to reduce fragile stroke washout. iterations=0 skips."""
+    iters = max(0, int(iterations))
+    if iters <= 0:
+        return arr
     ink = (arr < INK_DARK_THRESH).astype(np.uint8) * 255
     if ink.max() == 0:
         return arr
     kernel = np.ones((2, 2), np.uint8)
-    thick = cv2.dilate(ink, kernel, iterations=1)
+    thick = cv2.dilate(ink, kernel, iterations=iters)
     out = arr.copy()
     out[thick > 0] = np.minimum(out[thick > 0], 40)
     return out
@@ -280,6 +283,7 @@ class EmuruSampler:
         style_text: str,
         max_new_tokens: int = 128,
         seed: Optional[int] = None,
+        thicken: int = 1,
     ) -> bytes:
         gen_text = sanitize_text(text)
         style_prompt = sanitize_text(style_text)
@@ -328,7 +332,7 @@ class EmuruSampler:
                     flush=True,
                 )
 
-        arr = thicken_ink(arr)
+        arr = thicken_ink(arr, iterations=thicken)
         return encode_gray_png(arr)
 
     def generate_lines(
@@ -338,10 +342,15 @@ class EmuruSampler:
         style_text: str,
         max_new_tokens: int = 128,
         seed: Optional[int] = None,
+        seed_stride: int = 17,
+        thicken: int = 1,
+        start_index: int = 0,
     ) -> List[bytes]:
+        stride = max(1, int(seed_stride))
+        start = max(0, int(start_index))
         out: List[bytes] = []
         for i, text in enumerate(texts):
-            line_seed = None if seed is None else seed + i * 17
+            line_seed = None if seed is None else seed + (start + i) * stride
             out.append(
                 self.generate_line(
                     text,
@@ -349,6 +358,7 @@ class EmuruSampler:
                     style_text,
                     max_new_tokens=max_new_tokens,
                     seed=line_seed,
+                    thicken=thicken,
                 )
             )
         return out

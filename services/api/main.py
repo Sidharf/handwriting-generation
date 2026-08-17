@@ -30,6 +30,22 @@ from store import (
     update_job,
     update_style_text,
 )
+from variation import resolve_variation, seed_stride, thicken_iterations
+from style_synthesize import STYLE_TEXT, synthesize_handwriting_samples
+
+
+def _load_dotenv() -> None:
+    """Load repo-root .env into os.environ if python-dotenv is available (local only)."""
+    try:
+        from dotenv import load_dotenv
+    except ImportError:
+        return
+    env_path = REPO_ROOT / ".env"
+    if env_path.is_file():
+        load_dotenv(env_path, override=False)
+
+
+_load_dotenv()
 
 app = FastAPI(title="Handwriting Generation", version="0.2.0")
 app.add_middleware(
@@ -66,6 +82,8 @@ class JobRequest(BaseModel):
     seed: Optional[int] = 0
     pair_id: Optional[str] = None
     pair_name: Optional[str] = None
+    # {master, diversity, size, placement, stroke} each 0..100
+    variation: Optional[Dict[str, Any]] = None
 
 
 class StyleTextUpdate(BaseModel):
@@ -74,6 +92,7 @@ class StyleTextUpdate(BaseModel):
 
 @app.on_event("startup")
 def _startup_refresh_styles():
+    _load_dotenv()
     try:
         ensure_styles_prepared()
     except Exception:
@@ -82,7 +101,13 @@ def _startup_refresh_styles():
 
 @app.get("/api/health")
 def health():
-    return {"ok": True, "generator": "emuru"}
+    from style_synthesize import openai_api_key
+
+    return {
+        "ok": True,
+        "generator": "emuru",
+        "openai_key_configured": bool(openai_api_key()),
+    }
 
 
 @app.get("/api/pairs/reference")
@@ -161,6 +186,26 @@ def styles_list():
     return {"styles": list(st.get("styles", {}).values()), "active_style_id": st.get("active_style_id")}
 
 
+@app.post("/api/styles/synthesize")
+def styles_synthesize():
+    """Generate 4 CMC-style handwriting PNGs via OpenAI (parallel)."""
+    from style_synthesize import openai_api_key
+    import os
+
+    demo = (os.environ.get("OPENAI_SYNTH_DEMO") or "").strip() in ("1", "true", "yes")
+    if not demo and not openai_api_key():
+        raise HTTPException(
+            503,
+            "OPENAI_API_KEY is not set. Add it to a gitignored .env at the repo root "
+            "or export it, then restart the API. (Or set OPENAI_SYNTH_DEMO=1 for local placeholders.)",
+        )
+    try:
+        images = synthesize_handwriting_samples(4)
+    except Exception as e:
+        raise HTTPException(502, f"OpenAI synthesize failed: {e}") from e
+    return {"images": images, "style_text": STYLE_TEXT}
+
+
 @app.post("/api/styles/upload")
 async def styles_upload(
     file: UploadFile = File(...),
@@ -222,16 +267,28 @@ def _run_job(job_id: str) -> None:
         texts = [c.get("text") or " " for c in enabled]
         style_png, style_text = get_active_style()
         max_new_tokens = int(job.get("max_new_tokens") or job.get("steps") or 128)
+        axes = resolve_variation(job.get("variation"))
+        stride = seed_stride(axes.diversity)
+        thick = thicken_iterations(axes.stroke)
         pngs = generate_lines_remote(
             texts,
             style_png,
             style_text,
             max_new_tokens=max_new_tokens,
             seed=job.get("seed"),
+            seed_stride=stride,
+            thicken=thick,
         )
         update_job(job_id, status="stamping")
         out = OUTPUTS_DIR / job_id / "handwritten.pdf"
-        stamp_pdf(Path(job["template_path"]), enabled, pngs, out)
+        stamp_pdf(
+            Path(job["template_path"]),
+            enabled,
+            pngs,
+            out,
+            variation=axes.as_dict(),
+            seed=job.get("seed"),
+        )
         # also save line previews
         lines_dir = OUTPUTS_DIR / job_id / "lines"
         lines_dir.mkdir(parents=True, exist_ok=True)
@@ -254,7 +311,10 @@ def jobs_create(req: JobRequest):
     max_new_tokens = req.max_new_tokens
     if req.steps is not None:
         max_new_tokens = req.steps
-    job = create_job(pair, req.cells, max_new_tokens, req.seed)
+    variation = None
+    if req.variation is not None:
+        variation = resolve_variation(req.variation).as_dict()
+    job = create_job(pair, req.cells, max_new_tokens, req.seed, variation=variation)
     thread = threading.Thread(target=_run_job, args=(job["id"],), daemon=True)
     thread.start()
     return job

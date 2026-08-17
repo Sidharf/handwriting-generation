@@ -97,6 +97,9 @@ class EmuruService:
         style_text: str,
         max_new_tokens: int = 128,
         seed: Optional[int] = None,
+        seed_stride: int = 17,
+        thicken: int = 1,
+        start_index: int = 0,
     ) -> List[bytes]:
         return self.sampler.generate_lines(
             texts,
@@ -104,6 +107,9 @@ class EmuruService:
             style_text,
             max_new_tokens=max_new_tokens,
             seed=seed,
+            seed_stride=seed_stride,
+            thicken=thicken,
+            start_index=start_index,
         )
 
 

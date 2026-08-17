@@ -1,5 +1,5 @@
 {
-  "active_style_id": "default",
+  "active_style_id": "d716153c03",
   "styles": {
     "default": {
       "id": "default",
@@ -15,7 +15,31 @@
       "path": "/Users/sidharthsirdeshmukh/Documents/handwriting-generation/data/styles/4247c74bf0/Screenshot 2026-08-14 at 11.27.19\u202fAM.png",
       "prepared_path": "/Users/sidharthsirdeshmukh/Documents/handwriting-generation/data/styles/4247c74bf0/prepared.png",
       "created_at": "2026-08-14T18:27:34.629837+00:00",
-      "style_text": ""
+      "style_text": "This is my normal handwriting"
+    },
+    "711316602f": {
+      "id": "711316602f",
+      "name": "Screenshot 2026-08-14 at 3.21.52\u202fPM.png",
+      "path": "/Users/sidharthsirdeshmukh/Documents/handwriting-generation/data/styles/711316602f/Screenshot 2026-08-14 at 3.21.52\u202fPM.png",
+      "prepared_path": "/Users/sidharthsirdeshmukh/Documents/handwriting-generation/data/styles/711316602f/prepared.png",
+      "style_text": "what are we doing",
+      "created_at": "2026-08-14T22:22:05.370347+00:00"
+    },
+    "65ac0801b2": {
+      "id": "65ac0801b2",
+      "name": "Screenshot 2026-08-14 at 3.22.46\u202fPM.png",
+      "path": "/Users/sidharthsirdeshmukh/Documents/handwriting-generation/data/styles/65ac0801b2/Screenshot 2026-08-14 at 3.22.46\u202fPM.png",
+      "prepared_path": "/Users/sidharthsirdeshmukh/Documents/handwriting-generation/data/styles/65ac0801b2/prepared.png",
+      "style_text": "what are we doing",
+      "created_at": "2026-08-14T22:23:03.562380+00:00"
+    },
+    "d716153c03": {
+      "id": "d716153c03",
+      "name": "synth-biotech-0.png",
+      "path": "/Users/sidharthsirdeshmukh/Documents/handwriting-generation/data/styles/d716153c03/synth-biotech-0.png",
+      "prepared_path": "/Users/sidharthsirdeshmukh/Documents/handwriting-generation/data/styles/d716153c03/prepared.png",
+      "style_text": "biotech is cool",
+      "created_at": "2026-08-14T23:02:27.621778+00:00"
     }
   },
   "pairs": {
@@ -90,6 +114,38 @@
       "synthetic_path": "/Users/sidharthsirdeshmukh/Documents/handwriting-generation/data/pairs/a8abc920fc/synthetic.pdf",
       "source": "upload",
       "created_at": "2026-08-14T21:02:28.217265+00:00"
+    },
+    "28ee23b7e3": {
+      "id": "28ee23b7e3",
+      "name": "MBR_Production_Bioreactor_Transfection_DS-26052_EXECUTED_synthetic",
+      "template_path": "/Users/sidharthsirdeshmukh/Documents/handwriting-generation/data/pairs/28ee23b7e3/template.pdf",
+      "synthetic_path": "/Users/sidharthsirdeshmukh/Documents/handwriting-generation/data/pairs/28ee23b7e3/synthetic.pdf",
+      "source": "upload",
+      "created_at": "2026-08-14T22:01:45.519020+00:00"
+    },
+    "a5fded5f39": {
+      "id": "a5fded5f39",
+      "name": "MBR_Production_Bioreactor_Transfection_DS-26052_EXECUTED_synthetic",
+      "template_path": "/Users/sidharthsirdeshmukh/Documents/handwriting-generation/data/pairs/a5fded5f39/template.pdf",
+      "synthetic_path": "/Users/sidharthsirdeshmukh/Documents/handwriting-generation/data/pairs/a5fded5f39/synthetic.pdf",
+      "source": "upload",
+      "created_at": "2026-08-14T22:12:41.570560+00:00"
+    },
+    "b2912409b5": {
+      "id": "b2912409b5",
+      "name": "MBR_Production_Bioreactor_Transfection_DS-26052_EXECUTED_synthetic",
+      "template_path": "/Users/sidharthsirdeshmukh/Documents/handwriting-generation/data/pairs/b2912409b5/template.pdf",
+      "synthetic_path": "/Users/sidharthsirdeshmukh/Documents/handwriting-generation/data/pairs/b2912409b5/synthetic.pdf",
+      "source": "upload",
+      "created_at": "2026-08-14T22:23:49.741787+00:00"
+    },
+    "7def609250": {
+      "id": "7def609250",
+      "name": "MBR_Production_Bioreactor_Transfection_DS-26052_EXECUTED_synthetic",
+      "template_path": "/Users/sidharthsirdeshmukh/Documents/handwriting-generation/data/pairs/7def609250/template.pdf",
+      "synthetic_path": "/Users/sidharthsirdeshmukh/Documents/handwriting-generation/data/pairs/7def609250/synthetic.pdf",
+      "source": "upload",
+      "created_at": "2026-08-14T22:28:10.148804+00:00"
     }
   },
   "jobs": {
@@ -14702,6 +14758,6042 @@
       "updated_at": "2026-08-14T21:03:55.819243+00:00",
       "error": null,
       "result_pdf": "/Users/sidharthsirdeshmukh/Documents/handwriting-generation/data/outputs/985ffb73cba8/handwritten.pdf"
+    },
+    "e58c0a10dd67": {
+      "id": "e58c0a10dd67",
+      "status": "done",
+      "pair_id": "8d567a2903",
+      "pair_name": "MBR_Production_Bioreactor_Transfection_DS-26052_EXECUTED_synthetic var-0",
+      "template_path": "/Users/sidharthsirdeshmukh/Documents/handwriting-generation/data/pairs/8d567a2903/template.pdf",
+      "synthetic_path": "/Users/sidharthsirdeshmukh/Documents/handwriting-generation/data/pairs/8d567a2903/synthetic.pdf",
+      "cells": [
+        {
+          "id": "p1_c43",
+          "page": 1,
+          "bbox": [
+            310.5,
+            365.0050048828125,
+            340.01300048828125,
+            377.0489807128906
+          ],
+          "text": "10000",
+          "enabled": true
+        },
+        {
+          "id": "p0_c6",
+          "page": 0,
+          "bbox": [
+            436.5,
+            531.8049926757812,
+            490.4929504394531,
+            543.8489990234375
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c67",
+          "page": 2,
+          "bbox": [
+            317.95001220703125,
+            257.6549987792969,
+            325.9440002441406,
+            269.698974609375
+          ],
+          "text": "X",
+          "enabled": true
+        }
+      ],
+      "max_new_tokens": 128,
+      "steps": 128,
+      "seed": 7,
+      "variation": {
+        "master": 0.0,
+        "diversity": 0.0,
+        "size": 0.0,
+        "placement": 0.0,
+        "stroke": 0.0
+      },
+      "created_at": "2026-08-14T21:54:08.545645+00:00",
+      "updated_at": "2026-08-14T21:54:50.854180+00:00",
+      "error": null,
+      "result_pdf": "/Users/sidharthsirdeshmukh/Documents/handwriting-generation/data/outputs/e58c0a10dd67/handwritten.pdf"
+    },
+    "2ede19396505": {
+      "id": "2ede19396505",
+      "status": "done",
+      "pair_id": "8d567a2903",
+      "pair_name": "MBR_Production_Bioreactor_Transfection_DS-26052_EXECUTED_synthetic var-35",
+      "template_path": "/Users/sidharthsirdeshmukh/Documents/handwriting-generation/data/pairs/8d567a2903/template.pdf",
+      "synthetic_path": "/Users/sidharthsirdeshmukh/Documents/handwriting-generation/data/pairs/8d567a2903/synthetic.pdf",
+      "cells": [
+        {
+          "id": "p1_c43",
+          "page": 1,
+          "bbox": [
+            310.5,
+            365.0050048828125,
+            340.01300048828125,
+            377.0489807128906
+          ],
+          "text": "10000",
+          "enabled": true
+        },
+        {
+          "id": "p0_c6",
+          "page": 0,
+          "bbox": [
+            436.5,
+            531.8049926757812,
+            490.4929504394531,
+            543.8489990234375
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c67",
+          "page": 2,
+          "bbox": [
+            317.95001220703125,
+            257.6549987792969,
+            325.9440002441406,
+            269.698974609375
+          ],
+          "text": "X",
+          "enabled": true
+        }
+      ],
+      "max_new_tokens": 128,
+      "steps": 128,
+      "seed": 7,
+      "variation": {
+        "master": 35.0,
+        "diversity": 35.0,
+        "size": 35.0,
+        "placement": 35.0,
+        "stroke": 35.0
+      },
+      "created_at": "2026-08-14T21:54:53.675555+00:00",
+      "updated_at": "2026-08-14T21:54:56.917212+00:00",
+      "error": null,
+      "result_pdf": "/Users/sidharthsirdeshmukh/Documents/handwriting-generation/data/outputs/2ede19396505/handwritten.pdf"
+    },
+    "faf4aca434c3": {
+      "id": "faf4aca434c3",
+      "status": "done",
+      "pair_id": "8d567a2903",
+      "pair_name": "MBR_Production_Bioreactor_Transfection_DS-26052_EXECUTED_synthetic var-80",
+      "template_path": "/Users/sidharthsirdeshmukh/Documents/handwriting-generation/data/pairs/8d567a2903/template.pdf",
+      "synthetic_path": "/Users/sidharthsirdeshmukh/Documents/handwriting-generation/data/pairs/8d567a2903/synthetic.pdf",
+      "cells": [
+        {
+          "id": "p1_c43",
+          "page": 1,
+          "bbox": [
+            310.5,
+            365.0050048828125,
+            340.01300048828125,
+            377.0489807128906
+          ],
+          "text": "10000",
+          "enabled": true
+        },
+        {
+          "id": "p0_c6",
+          "page": 0,
+          "bbox": [
+            436.5,
+            531.8049926757812,
+            490.4929504394531,
+            543.8489990234375
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c67",
+          "page": 2,
+          "bbox": [
+            317.95001220703125,
+            257.6549987792969,
+            325.9440002441406,
+            269.698974609375
+          ],
+          "text": "X",
+          "enabled": true
+        }
+      ],
+      "max_new_tokens": 128,
+      "steps": 128,
+      "seed": 7,
+      "variation": {
+        "master": 80.0,
+        "diversity": 80.0,
+        "size": 80.0,
+        "placement": 80.0,
+        "stroke": 80.0
+      },
+      "created_at": "2026-08-14T21:54:59.710582+00:00",
+      "updated_at": "2026-08-14T21:55:03.130478+00:00",
+      "error": null,
+      "result_pdf": "/Users/sidharthsirdeshmukh/Documents/handwriting-generation/data/outputs/faf4aca434c3/handwritten.pdf"
+    },
+    "81036304a780": {
+      "id": "81036304a780",
+      "status": "done",
+      "pair_id": "8d567a2903",
+      "pair_name": "recheck-var-0",
+      "template_path": "/Users/sidharthsirdeshmukh/Documents/handwriting-generation/data/pairs/8d567a2903/template.pdf",
+      "synthetic_path": "/Users/sidharthsirdeshmukh/Documents/handwriting-generation/data/pairs/8d567a2903/synthetic.pdf",
+      "cells": [
+        {
+          "id": "p1_c43",
+          "page": 1,
+          "bbox": [
+            310.5,
+            365.0050048828125,
+            340.01300048828125,
+            377.0489807128906
+          ],
+          "text": "10000",
+          "enabled": true
+        },
+        {
+          "id": "p0_c6",
+          "page": 0,
+          "bbox": [
+            436.5,
+            531.8049926757812,
+            490.4929504394531,
+            543.8489990234375
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c67",
+          "page": 2,
+          "bbox": [
+            317.95001220703125,
+            257.6549987792969,
+            325.9440002441406,
+            269.698974609375
+          ],
+          "text": "X",
+          "enabled": true
+        }
+      ],
+      "max_new_tokens": 128,
+      "steps": 128,
+      "seed": 7,
+      "variation": {
+        "master": 0.0,
+        "diversity": 0.0,
+        "size": 0.0,
+        "placement": 0.0,
+        "stroke": 0.0
+      },
+      "created_at": "2026-08-14T21:55:48.729153+00:00",
+      "updated_at": "2026-08-14T21:55:53.155767+00:00",
+      "error": null,
+      "result_pdf": "/Users/sidharthsirdeshmukh/Documents/handwriting-generation/data/outputs/81036304a780/handwritten.pdf"
+    },
+    "84d5f7895527": {
+      "id": "84d5f7895527",
+      "status": "done",
+      "pair_id": "8d567a2903",
+      "pair_name": "recheck-var-35",
+      "template_path": "/Users/sidharthsirdeshmukh/Documents/handwriting-generation/data/pairs/8d567a2903/template.pdf",
+      "synthetic_path": "/Users/sidharthsirdeshmukh/Documents/handwriting-generation/data/pairs/8d567a2903/synthetic.pdf",
+      "cells": [
+        {
+          "id": "p1_c43",
+          "page": 1,
+          "bbox": [
+            310.5,
+            365.0050048828125,
+            340.01300048828125,
+            377.0489807128906
+          ],
+          "text": "10000",
+          "enabled": true
+        },
+        {
+          "id": "p0_c6",
+          "page": 0,
+          "bbox": [
+            436.5,
+            531.8049926757812,
+            490.4929504394531,
+            543.8489990234375
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c67",
+          "page": 2,
+          "bbox": [
+            317.95001220703125,
+            257.6549987792969,
+            325.9440002441406,
+            269.698974609375
+          ],
+          "text": "X",
+          "enabled": true
+        }
+      ],
+      "max_new_tokens": 128,
+      "steps": 128,
+      "seed": 7,
+      "variation": {
+        "master": 35.0,
+        "diversity": 35.0,
+        "size": 35.0,
+        "placement": 35.0,
+        "stroke": 35.0
+      },
+      "created_at": "2026-08-14T21:55:54.774943+00:00",
+      "updated_at": "2026-08-14T21:55:58.313190+00:00",
+      "error": null,
+      "result_pdf": "/Users/sidharthsirdeshmukh/Documents/handwriting-generation/data/outputs/84d5f7895527/handwritten.pdf"
+    },
+    "2e0b28958e3e": {
+      "id": "2e0b28958e3e",
+      "status": "done",
+      "pair_id": "8d567a2903",
+      "pair_name": "recheck2-var-0",
+      "template_path": "/Users/sidharthsirdeshmukh/Documents/handwriting-generation/data/pairs/8d567a2903/template.pdf",
+      "synthetic_path": "/Users/sidharthsirdeshmukh/Documents/handwriting-generation/data/pairs/8d567a2903/synthetic.pdf",
+      "cells": [
+        {
+          "id": "p1_c43",
+          "page": 1,
+          "bbox": [
+            310.5,
+            365.0050048828125,
+            340.01300048828125,
+            377.0489807128906
+          ],
+          "text": "10000",
+          "enabled": true
+        },
+        {
+          "id": "p0_c6",
+          "page": 0,
+          "bbox": [
+            436.5,
+            531.8049926757812,
+            490.4929504394531,
+            543.8489990234375
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c67",
+          "page": 2,
+          "bbox": [
+            317.95001220703125,
+            257.6549987792969,
+            325.9440002441406,
+            269.698974609375
+          ],
+          "text": "X",
+          "enabled": true
+        }
+      ],
+      "max_new_tokens": 128,
+      "steps": 128,
+      "seed": 7,
+      "variation": {
+        "master": 0.0,
+        "diversity": 0.0,
+        "size": 0.0,
+        "placement": 0.0,
+        "stroke": 0.0
+      },
+      "created_at": "2026-08-14T21:56:17.390997+00:00",
+      "updated_at": "2026-08-14T21:56:21.219612+00:00",
+      "error": null,
+      "result_pdf": "/Users/sidharthsirdeshmukh/Documents/handwriting-generation/data/outputs/2e0b28958e3e/handwritten.pdf"
+    },
+    "82b5530703f2": {
+      "id": "82b5530703f2",
+      "status": "done",
+      "pair_id": "8d567a2903",
+      "pair_name": "recheck2-var-35",
+      "template_path": "/Users/sidharthsirdeshmukh/Documents/handwriting-generation/data/pairs/8d567a2903/template.pdf",
+      "synthetic_path": "/Users/sidharthsirdeshmukh/Documents/handwriting-generation/data/pairs/8d567a2903/synthetic.pdf",
+      "cells": [
+        {
+          "id": "p1_c43",
+          "page": 1,
+          "bbox": [
+            310.5,
+            365.0050048828125,
+            340.01300048828125,
+            377.0489807128906
+          ],
+          "text": "10000",
+          "enabled": true
+        },
+        {
+          "id": "p0_c6",
+          "page": 0,
+          "bbox": [
+            436.5,
+            531.8049926757812,
+            490.4929504394531,
+            543.8489990234375
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c67",
+          "page": 2,
+          "bbox": [
+            317.95001220703125,
+            257.6549987792969,
+            325.9440002441406,
+            269.698974609375
+          ],
+          "text": "X",
+          "enabled": true
+        }
+      ],
+      "max_new_tokens": 128,
+      "steps": 128,
+      "seed": 7,
+      "variation": {
+        "master": 35.0,
+        "diversity": 35.0,
+        "size": 35.0,
+        "placement": 35.0,
+        "stroke": 35.0
+      },
+      "created_at": "2026-08-14T21:56:21.417294+00:00",
+      "updated_at": "2026-08-14T21:56:25.048930+00:00",
+      "error": null,
+      "result_pdf": "/Users/sidharthsirdeshmukh/Documents/handwriting-generation/data/outputs/82b5530703f2/handwritten.pdf"
+    },
+    "387efd227d70": {
+      "id": "387efd227d70",
+      "status": "done",
+      "pair_id": "8d567a2903",
+      "pair_name": "recheck2-var-80",
+      "template_path": "/Users/sidharthsirdeshmukh/Documents/handwriting-generation/data/pairs/8d567a2903/template.pdf",
+      "synthetic_path": "/Users/sidharthsirdeshmukh/Documents/handwriting-generation/data/pairs/8d567a2903/synthetic.pdf",
+      "cells": [
+        {
+          "id": "p1_c43",
+          "page": 1,
+          "bbox": [
+            310.5,
+            365.0050048828125,
+            340.01300048828125,
+            377.0489807128906
+          ],
+          "text": "10000",
+          "enabled": true
+        },
+        {
+          "id": "p0_c6",
+          "page": 0,
+          "bbox": [
+            436.5,
+            531.8049926757812,
+            490.4929504394531,
+            543.8489990234375
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c67",
+          "page": 2,
+          "bbox": [
+            317.95001220703125,
+            257.6549987792969,
+            325.9440002441406,
+            269.698974609375
+          ],
+          "text": "X",
+          "enabled": true
+        }
+      ],
+      "max_new_tokens": 128,
+      "steps": 128,
+      "seed": 7,
+      "variation": {
+        "master": 80.0,
+        "diversity": 80.0,
+        "size": 80.0,
+        "placement": 80.0,
+        "stroke": 80.0
+      },
+      "created_at": "2026-08-14T21:56:25.471536+00:00",
+      "updated_at": "2026-08-14T21:56:29.800728+00:00",
+      "error": null,
+      "result_pdf": "/Users/sidharthsirdeshmukh/Documents/handwriting-generation/data/outputs/387efd227d70/handwritten.pdf"
+    },
+    "4e99e7fb6b30": {
+      "id": "4e99e7fb6b30",
+      "status": "done",
+      "pair_id": "8d567a2903",
+      "pair_name": "final-var-0",
+      "template_path": "/Users/sidharthsirdeshmukh/Documents/handwriting-generation/data/pairs/8d567a2903/template.pdf",
+      "synthetic_path": "/Users/sidharthsirdeshmukh/Documents/handwriting-generation/data/pairs/8d567a2903/synthetic.pdf",
+      "cells": [
+        {
+          "id": "p1_c43",
+          "page": 1,
+          "bbox": [
+            310.5,
+            365.0050048828125,
+            340.01300048828125,
+            377.0489807128906
+          ],
+          "text": "10000",
+          "enabled": true
+        },
+        {
+          "id": "p0_c6",
+          "page": 0,
+          "bbox": [
+            436.5,
+            531.8049926757812,
+            490.4929504394531,
+            543.8489990234375
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c67",
+          "page": 2,
+          "bbox": [
+            317.95001220703125,
+            257.6549987792969,
+            325.9440002441406,
+            269.698974609375
+          ],
+          "text": "X",
+          "enabled": true
+        }
+      ],
+      "max_new_tokens": 128,
+      "steps": 128,
+      "seed": 7,
+      "variation": {
+        "master": 0.0,
+        "diversity": 0.0,
+        "size": 0.0,
+        "placement": 0.0,
+        "stroke": 0.0
+      },
+      "created_at": "2026-08-14T22:00:14.985248+00:00",
+      "updated_at": "2026-08-14T22:00:19.224341+00:00",
+      "error": null,
+      "result_pdf": "/Users/sidharthsirdeshmukh/Documents/handwriting-generation/data/outputs/4e99e7fb6b30/handwritten.pdf"
+    },
+    "385dbc292b15": {
+      "id": "385dbc292b15",
+      "status": "done",
+      "pair_id": "8d567a2903",
+      "pair_name": "final-var-35",
+      "template_path": "/Users/sidharthsirdeshmukh/Documents/handwriting-generation/data/pairs/8d567a2903/template.pdf",
+      "synthetic_path": "/Users/sidharthsirdeshmukh/Documents/handwriting-generation/data/pairs/8d567a2903/synthetic.pdf",
+      "cells": [
+        {
+          "id": "p1_c43",
+          "page": 1,
+          "bbox": [
+            310.5,
+            365.0050048828125,
+            340.01300048828125,
+            377.0489807128906
+          ],
+          "text": "10000",
+          "enabled": true
+        },
+        {
+          "id": "p0_c6",
+          "page": 0,
+          "bbox": [
+            436.5,
+            531.8049926757812,
+            490.4929504394531,
+            543.8489990234375
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c67",
+          "page": 2,
+          "bbox": [
+            317.95001220703125,
+            257.6549987792969,
+            325.9440002441406,
+            269.698974609375
+          ],
+          "text": "X",
+          "enabled": true
+        }
+      ],
+      "max_new_tokens": 128,
+      "steps": 128,
+      "seed": 7,
+      "variation": {
+        "master": 35.0,
+        "diversity": 35.0,
+        "size": 35.0,
+        "placement": 35.0,
+        "stroke": 35.0
+      },
+      "created_at": "2026-08-14T22:00:21.017305+00:00",
+      "updated_at": "2026-08-14T22:00:24.335773+00:00",
+      "error": null,
+      "result_pdf": "/Users/sidharthsirdeshmukh/Documents/handwriting-generation/data/outputs/385dbc292b15/handwritten.pdf"
+    },
+    "bece1ca58ad9": {
+      "id": "bece1ca58ad9",
+      "status": "done",
+      "pair_id": "8d567a2903",
+      "pair_name": "final-var-80",
+      "template_path": "/Users/sidharthsirdeshmukh/Documents/handwriting-generation/data/pairs/8d567a2903/template.pdf",
+      "synthetic_path": "/Users/sidharthsirdeshmukh/Documents/handwriting-generation/data/pairs/8d567a2903/synthetic.pdf",
+      "cells": [
+        {
+          "id": "p1_c43",
+          "page": 1,
+          "bbox": [
+            310.5,
+            365.0050048828125,
+            340.01300048828125,
+            377.0489807128906
+          ],
+          "text": "10000",
+          "enabled": true
+        },
+        {
+          "id": "p0_c6",
+          "page": 0,
+          "bbox": [
+            436.5,
+            531.8049926757812,
+            490.4929504394531,
+            543.8489990234375
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c67",
+          "page": 2,
+          "bbox": [
+            317.95001220703125,
+            257.6549987792969,
+            325.9440002441406,
+            269.698974609375
+          ],
+          "text": "X",
+          "enabled": true
+        }
+      ],
+      "max_new_tokens": 128,
+      "steps": 128,
+      "seed": 7,
+      "variation": {
+        "master": 80.0,
+        "diversity": 80.0,
+        "size": 80.0,
+        "placement": 80.0,
+        "stroke": 80.0
+      },
+      "created_at": "2026-08-14T22:00:25.043701+00:00",
+      "updated_at": "2026-08-14T22:00:28.334420+00:00",
+      "error": null,
+      "result_pdf": "/Users/sidharthsirdeshmukh/Documents/handwriting-generation/data/outputs/bece1ca58ad9/handwritten.pdf"
+    },
+    "00a51e4664a7": {
+      "id": "00a51e4664a7",
+      "status": "done",
+      "pair_id": "28ee23b7e3",
+      "pair_name": "MBR_Production_Bioreactor_Transfection_DS-26052_EXECUTED_synthetic",
+      "template_path": "/Users/sidharthsirdeshmukh/Documents/handwriting-generation/data/pairs/28ee23b7e3/template.pdf",
+      "synthetic_path": "/Users/sidharthsirdeshmukh/Documents/handwriting-generation/data/pairs/28ee23b7e3/synthetic.pdf",
+      "cells": [
+        {
+          "id": "p0_c0",
+          "page": 0,
+          "bbox": [
+            436.5,
+            153.95497131347656,
+            478.9999694824219,
+            165.9989776611328
+          ],
+          "text": "DS-26052",
+          "enabled": true
+        },
+        {
+          "id": "p0_c1",
+          "page": 0,
+          "bbox": [
+            436.5,
+            176.1549835205078,
+            486.01995849609375,
+            188.19898986816406
+          ],
+          "text": "10JUN2026",
+          "enabled": true
+        },
+        {
+          "id": "p0_c2",
+          "page": 0,
+          "bbox": [
+            436.5,
+            198.35499572753906,
+            495.4969787597656,
+            210.3989715576172
+          ],
+          "text": "WCB-293-018",
+          "enabled": true
+        },
+        {
+          "id": "p0_c3",
+          "page": 0,
+          "bbox": [
+            184.5,
+            220.5550079345703,
+            235.99998474121094,
+            232.59898376464844
+          ],
+          "text": "BRX-200-02",
+          "enabled": true
+        },
+        {
+          "id": "p0_c4",
+          "page": 0,
+          "bbox": [
+            184.5,
+            531.8049926757812,
+            235.99998474121094,
+            543.8489990234375
+          ],
+          "text": "BRX-200-02",
+          "enabled": true
+        },
+        {
+          "id": "p0_c5",
+          "page": 0,
+          "bbox": [
+            310.5,
+            531.8049926757812,
+            360.5059509277344,
+            543.8489990234375
+          ],
+          "text": "30SEP2026",
+          "enabled": true
+        },
+        {
+          "id": "p0_c6",
+          "page": 0,
+          "bbox": [
+            436.5,
+            531.8049926757812,
+            490.4929504394531,
+            543.8489990234375
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p0_c7",
+          "page": 0,
+          "bbox": [
+            184.5,
+            554.0050048828125,
+            217.99098205566406,
+            566.0490112304688
+          ],
+          "text": "DO-207",
+          "enabled": true
+        },
+        {
+          "id": "p0_c8",
+          "page": 0,
+          "bbox": [
+            310.5,
+            554.0050048828125,
+            361.5049743652344,
+            566.0490112304688
+          ],
+          "text": "12OCT2026",
+          "enabled": true
+        },
+        {
+          "id": "p0_c9",
+          "page": 0,
+          "bbox": [
+            436.5,
+            554.0050048828125,
+            490.4929504394531,
+            566.0490112304688
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p0_c10",
+          "page": 0,
+          "bbox": [
+            184.5,
+            576.2049560546875,
+            224.48898315429688,
+            588.2489624023438
+          ],
+          "text": "PHM-209",
+          "enabled": true
+        },
+        {
+          "id": "p0_c11",
+          "page": 0,
+          "bbox": [
+            310.5,
+            576.2049560546875,
+            362.00897216796875,
+            588.2489624023438
+          ],
+          "text": "05NOV2026",
+          "enabled": true
+        },
+        {
+          "id": "p0_c12",
+          "page": 0,
+          "bbox": [
+            436.5,
+            576.2049560546875,
+            490.4929504394531,
+            588.2489624023438
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p0_c13",
+          "page": 0,
+          "bbox": [
+            184.5,
+            598.4049682617188,
+            223.489990234375,
+            610.448974609375
+          ],
+          "text": "VCC-011",
+          "enabled": true
+        },
+        {
+          "id": "p0_c14",
+          "page": 0,
+          "bbox": [
+            310.5,
+            598.4049682617188,
+            362.00897216796875,
+            610.448974609375
+          ],
+          "text": "20AUG2026",
+          "enabled": true
+        },
+        {
+          "id": "p0_c15",
+          "page": 0,
+          "bbox": [
+            436.5,
+            598.4049682617188,
+            490.4929504394531,
+            610.448974609375
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p0_c16",
+          "page": 0,
+          "bbox": [
+            184.5,
+            620.60498046875,
+            221.50099182128906,
+            632.6489868164062
+          ],
+          "text": "BAL-021",
+          "enabled": true
+        },
+        {
+          "id": "p0_c17",
+          "page": 0,
+          "bbox": [
+            310.5,
+            620.60498046875,
+            362.00897216796875,
+            632.6489868164062
+          ],
+          "text": "22NOV2026",
+          "enabled": true
+        },
+        {
+          "id": "p0_c18",
+          "page": 0,
+          "bbox": [
+            436.5,
+            620.60498046875,
+            490.4929504394531,
+            632.6489868164062
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p0_c19",
+          "page": 0,
+          "bbox": [
+            184.5,
+            642.8049926757812,
+            217.99099731445312,
+            654.8489990234375
+          ],
+          "text": "BSC-06",
+          "enabled": true
+        },
+        {
+          "id": "p0_c20",
+          "page": 0,
+          "bbox": [
+            310.5,
+            642.8049926757812,
+            361.5139465332031,
+            654.8489990234375
+          ],
+          "text": "15DEC2026",
+          "enabled": true
+        },
+        {
+          "id": "p0_c21",
+          "page": 0,
+          "bbox": [
+            436.5,
+            642.8049926757812,
+            490.4929504394531,
+            654.8489990234375
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c22",
+          "page": 1,
+          "bbox": [
+            260.1000061035156,
+            53.50502395629883,
+            336.0799255371094,
+            65.54902267456055
+          ],
+          "text": "PL-REPCAP-0417",
+          "enabled": true
+        },
+        {
+          "id": "p1_c23",
+          "page": 1,
+          "bbox": [
+            360.8999938964844,
+            53.50502395629883,
+            414.8929443359375,
+            65.54902267456055
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c24",
+          "page": 1,
+          "bbox": [
+            461.70001220703125,
+            53.50502395629883,
+            515.6929931640625,
+            65.54902267456055
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c25",
+          "page": 1,
+          "bbox": [
+            260.1000061035156,
+            86.05501556396484,
+            322.59796142578125,
+            98.0990219116211
+          ],
+          "text": "PL-HELP-0417",
+          "enabled": true
+        },
+        {
+          "id": "p1_c26",
+          "page": 1,
+          "bbox": [
+            360.8999938964844,
+            86.05501556396484,
+            414.8929443359375,
+            98.0990219116211
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c27",
+          "page": 1,
+          "bbox": [
+            461.70001220703125,
+            86.05501556396484,
+            515.6929931640625,
+            98.0990219116211
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c28",
+          "page": 1,
+          "bbox": [
+            260.1000061035156,
+            118.6050033569336,
+            329.5819396972656,
+            130.64900970458984
+          ],
+          "text": "PL-TRANS-0417",
+          "enabled": true
+        },
+        {
+          "id": "p1_c29",
+          "page": 1,
+          "bbox": [
+            360.8999938964844,
+            118.6050033569336,
+            414.8929443359375,
+            130.64900970458984
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c30",
+          "page": 1,
+          "bbox": [
+            461.70001220703125,
+            118.6050033569336,
+            515.6929931640625,
+            130.64900970458984
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c31",
+          "page": 1,
+          "bbox": [
+            260.1000061035156,
+            140.8050079345703,
+            299.593994140625,
+            152.84901428222656
+          ],
+          "text": "PEI-0392",
+          "enabled": true
+        },
+        {
+          "id": "p1_c32",
+          "page": 1,
+          "bbox": [
+            360.8999938964844,
+            140.8050079345703,
+            414.8929443359375,
+            152.84901428222656
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c33",
+          "page": 1,
+          "bbox": [
+            461.70001220703125,
+            140.8050079345703,
+            515.6929931640625,
+            152.84901428222656
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c34",
+          "page": 1,
+          "bbox": [
+            260.1000061035156,
+            163.00502014160156,
+            305.0929870605469,
+            175.0490264892578
+          ],
+          "text": "MED-2208",
+          "enabled": true
+        },
+        {
+          "id": "p1_c35",
+          "page": 1,
+          "bbox": [
+            360.8999938964844,
+            163.00502014160156,
+            414.8929443359375,
+            175.0490264892578
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c36",
+          "page": 1,
+          "bbox": [
+            461.70001220703125,
+            163.00502014160156,
+            515.6929931640625,
+            175.0490264892578
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c37",
+          "page": 1,
+          "bbox": [
+            310.5,
+            266.8550109863281,
+            325.0010070800781,
+            278.89898681640625
+          ],
+          "text": "0.9",
+          "enabled": true
+        },
+        {
+          "id": "p1_c38",
+          "page": 1,
+          "bbox": [
+            394.5,
+            266.8550109863281,
+            448.4929504394531,
+            278.89898681640625
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c39",
+          "page": 1,
+          "bbox": [
+            478.45001220703125,
+            266.8550109863281,
+            532.4430541992188,
+            278.89898681640625
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c40",
+          "page": 1,
+          "bbox": [
+            310.5,
+            321.1050109863281,
+            322.50799560546875,
+            333.14898681640625
+          ],
+          "text": "95",
+          "enabled": true
+        },
+        {
+          "id": "p1_c41",
+          "page": 1,
+          "bbox": [
+            394.5,
+            321.1050109863281,
+            448.4929504394531,
+            333.14898681640625
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c42",
+          "page": 1,
+          "bbox": [
+            478.45001220703125,
+            321.1050109863281,
+            532.4430541992188,
+            333.14898681640625
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c43",
+          "page": 1,
+          "bbox": [
+            310.5,
+            365.0050048828125,
+            340.01300048828125,
+            377.0489807128906
+          ],
+          "text": "10000",
+          "enabled": true
+        },
+        {
+          "id": "p1_c44",
+          "page": 1,
+          "bbox": [
+            394.5,
+            365.0050048828125,
+            448.4929504394531,
+            377.0489807128906
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c45",
+          "page": 1,
+          "bbox": [
+            478.45001220703125,
+            365.0050048828125,
+            532.4430541992188,
+            377.0489807128906
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c46",
+          "page": 1,
+          "bbox": [
+            310.5,
+            500.9049987792969,
+            325.0010070800781,
+            512.9490051269531
+          ],
+          "text": "1.7",
+          "enabled": true
+        },
+        {
+          "id": "p1_c47",
+          "page": 1,
+          "bbox": [
+            394.5,
+            500.9049987792969,
+            448.4929504394531,
+            512.9490051269531
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c48",
+          "page": 1,
+          "bbox": [
+            478.45001220703125,
+            500.9049987792969,
+            532.4430541992188,
+            512.9490051269531
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c49",
+          "page": 1,
+          "bbox": [
+            310.5,
+            555.1549682617188,
+            340.01300048828125,
+            567.198974609375
+          ],
+          "text": "10000",
+          "enabled": true
+        },
+        {
+          "id": "p1_c50",
+          "page": 1,
+          "bbox": [
+            394.5,
+            555.1549682617188,
+            448.4929504394531,
+            567.198974609375
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c51",
+          "page": 1,
+          "bbox": [
+            478.45001220703125,
+            555.1549682617188,
+            532.4430541992188,
+            567.198974609375
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c52",
+          "page": 1,
+          "bbox": [
+            394.5,
+            609.4049682617188,
+            448.4929504394531,
+            621.448974609375
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c53",
+          "page": 1,
+          "bbox": [
+            478.45001220703125,
+            609.4049682617188,
+            532.4430541992188,
+            621.448974609375
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c54",
+          "page": 1,
+          "bbox": [
+            310.5,
+            630.10498046875,
+            325.0010070800781,
+            642.1489868164062
+          ],
+          "text": "1.0",
+          "enabled": true
+        },
+        {
+          "id": "p1_c55",
+          "page": 1,
+          "bbox": [
+            336.45001220703125,
+            651.8049926757812,
+            365.9630126953125,
+            663.8489990234375
+          ],
+          "text": "10000",
+          "enabled": true
+        },
+        {
+          "id": "p2_c56",
+          "page": 2,
+          "bbox": [
+            394.5,
+            53.50502395629883,
+            448.4929504394531,
+            65.54902267456055
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c57",
+          "page": 2,
+          "bbox": [
+            478.45001220703125,
+            53.50502395629883,
+            532.4430541992188,
+            65.54902267456055
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c58",
+          "page": 2,
+          "bbox": [
+            310.5,
+            63.855003356933594,
+            330.0050048828125,
+            75.89900970458984
+          ],
+          "text": "10.0",
+          "enabled": true
+        },
+        {
+          "id": "p2_c59",
+          "page": 2,
+          "bbox": [
+            310.5,
+            85.55501556396484,
+            325.0010070800781,
+            97.5990219116211
+          ],
+          "text": "1:2",
+          "enabled": true
+        },
+        {
+          "id": "p2_c60",
+          "page": 2,
+          "bbox": [
+            364.5,
+            96.90499114990234,
+            384.0050048828125,
+            108.9489974975586
+          ],
+          "text": "20.0",
+          "enabled": true
+        },
+        {
+          "id": "p2_c61",
+          "page": 2,
+          "bbox": [
+            310.5,
+            150.1549835205078,
+            379.97308349609375,
+            162.19898986816406
+          ],
+          "text": "3.33 / 3.33 / 3.33",
+          "enabled": true
+        },
+        {
+          "id": "p2_c62",
+          "page": 2,
+          "bbox": [
+            394.5,
+            150.1549835205078,
+            448.4929504394531,
+            162.19898986816406
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c63",
+          "page": 2,
+          "bbox": [
+            478.45001220703125,
+            150.1549835205078,
+            532.4430541992188,
+            162.19898986816406
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c64",
+          "page": 2,
+          "bbox": [
+            310.5,
+            203.4049835205078,
+            322.50799560546875,
+            215.44895935058594
+          ],
+          "text": "20",
+          "enabled": true
+        },
+        {
+          "id": "p2_c65",
+          "page": 2,
+          "bbox": [
+            394.5,
+            203.4049835205078,
+            448.4929504394531,
+            215.44895935058594
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c66",
+          "page": 2,
+          "bbox": [
+            478.45001220703125,
+            203.4049835205078,
+            532.4430541992188,
+            215.44895935058594
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c67",
+          "page": 2,
+          "bbox": [
+            317.95001220703125,
+            257.6549987792969,
+            325.9440002441406,
+            269.698974609375
+          ],
+          "text": "X",
+          "enabled": true
+        },
+        {
+          "id": "p2_c68",
+          "page": 2,
+          "bbox": [
+            388.5,
+            257.6549987792969,
+            442.4929504394531,
+            269.698974609375
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c69",
+          "page": 2,
+          "bbox": [
+            472.45001220703125,
+            257.6549987792969,
+            526.4430541992188,
+            269.698974609375
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c70",
+          "page": 2,
+          "bbox": [
+            310.5,
+            382.20501708984375,
+            330.0050048828125,
+            394.2489929199219
+          ],
+          "text": "37.0",
+          "enabled": true
+        },
+        {
+          "id": "p2_c71",
+          "page": 2,
+          "bbox": [
+            394.5,
+            382.20501708984375,
+            448.4929504394531,
+            394.2489929199219
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c72",
+          "page": 2,
+          "bbox": [
+            478.45001220703125,
+            382.20501708984375,
+            532.4430541992188,
+            394.2489929199219
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c73",
+          "page": 2,
+          "bbox": [
+            310.5,
+            426.1050109863281,
+            322.50799560546875,
+            438.14898681640625
+          ],
+          "text": "40",
+          "enabled": true
+        },
+        {
+          "id": "p2_c74",
+          "page": 2,
+          "bbox": [
+            394.5,
+            426.1050109863281,
+            448.4929504394531,
+            438.14898681640625
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c75",
+          "page": 2,
+          "bbox": [
+            478.45001220703125,
+            426.1050109863281,
+            532.4430541992188,
+            438.14898681640625
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c76",
+          "page": 2,
+          "bbox": [
+            310.5,
+            480.3550109863281,
+            322.50799560546875,
+            492.3990173339844
+          ],
+          "text": "96",
+          "enabled": true
+        },
+        {
+          "id": "p2_c77",
+          "page": 2,
+          "bbox": [
+            394.5,
+            480.3550109863281,
+            448.4929504394531,
+            492.3990173339844
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c78",
+          "page": 2,
+          "bbox": [
+            478.45001220703125,
+            480.3550109863281,
+            532.4430541992188,
+            492.3990173339844
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c79",
+          "page": 2,
+          "bbox": [
+            310.5,
+            524.2550048828125,
+            330.0050048828125,
+            536.2990112304688
+          ],
+          "text": "6.84",
+          "enabled": true
+        },
+        {
+          "id": "p2_c80",
+          "page": 2,
+          "bbox": [
+            394.5,
+            524.2550048828125,
+            448.4929504394531,
+            536.2990112304688
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c81",
+          "page": 2,
+          "bbox": [
+            478.45001220703125,
+            524.2550048828125,
+            532.4430541992188,
+            536.2990112304688
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c82",
+          "page": 2,
+          "bbox": [
+            310.5,
+            568.1549682617188,
+            322.50799560546875,
+            580.198974609375
+          ],
+          "text": "91",
+          "enabled": true
+        },
+        {
+          "id": "p2_c83",
+          "page": 2,
+          "bbox": [
+            394.5,
+            568.1549682617188,
+            448.4929504394531,
+            580.198974609375
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c84",
+          "page": 2,
+          "bbox": [
+            478.45001220703125,
+            568.1549682617188,
+            532.4430541992188,
+            580.198974609375
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c85",
+          "page": 2,
+          "bbox": [
+            310.5,
+            612.0549926757812,
+            330.0050048828125,
+            624.0989990234375
+          ],
+          "text": "7.05",
+          "enabled": true
+        },
+        {
+          "id": "p2_c86",
+          "page": 2,
+          "bbox": [
+            394.5,
+            612.0549926757812,
+            448.4929504394531,
+            624.0989990234375
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c87",
+          "page": 2,
+          "bbox": [
+            478.45001220703125,
+            612.0549926757812,
+            532.4430541992188,
+            624.0989990234375
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c88",
+          "page": 2,
+          "bbox": [
+            310.5,
+            655.9549560546875,
+            322.50799560546875,
+            667.9989624023438
+          ],
+          "text": "79",
+          "enabled": true
+        },
+        {
+          "id": "p2_c89",
+          "page": 2,
+          "bbox": [
+            394.5,
+            655.9549560546875,
+            448.4929504394531,
+            667.9989624023438
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c90",
+          "page": 2,
+          "bbox": [
+            478.45001220703125,
+            655.9549560546875,
+            532.4430541992188,
+            667.9989624023438
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p3_c91",
+          "page": 3,
+          "bbox": [
+            310.5,
+            96.40499114990234,
+            322.50799560546875,
+            108.4489974975586
+          ],
+          "text": "80",
+          "enabled": true
+        },
+        {
+          "id": "p3_c92",
+          "page": 3,
+          "bbox": [
+            394.5,
+            96.40499114990234,
+            448.4929504394531,
+            108.4489974975586
+          ],
+          "text": "TN 14JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p3_c93",
+          "page": 3,
+          "bbox": [
+            478.45001220703125,
+            96.40499114990234,
+            532.4430541992188,
+            108.4489974975586
+          ],
+          "text": "PA 14JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p3_c94",
+          "page": 3,
+          "bbox": [
+            310.5,
+            140.3050079345703,
+            322.50799560546875,
+            152.34901428222656
+          ],
+          "text": "68",
+          "enabled": true
+        },
+        {
+          "id": "p3_c95",
+          "page": 3,
+          "bbox": [
+            394.5,
+            140.3050079345703,
+            448.4929504394531,
+            152.34901428222656
+          ],
+          "text": "TN 14JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p3_c96",
+          "page": 3,
+          "bbox": [
+            478.45001220703125,
+            140.3050079345703,
+            532.4430541992188,
+            152.34901428222656
+          ],
+          "text": "PA 14JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p3_c97",
+          "page": 3,
+          "bbox": [
+            310.5,
+            184.20497131347656,
+            335.0090026855469,
+            196.24896240234375
+          ],
+          "text": "9850",
+          "enabled": true
+        },
+        {
+          "id": "p3_c98",
+          "page": 3,
+          "bbox": [
+            394.5,
+            184.20497131347656,
+            448.4929504394531,
+            196.24896240234375
+          ],
+          "text": "TN 14JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p3_c99",
+          "page": 3,
+          "bbox": [
+            478.45001220703125,
+            184.20497131347656,
+            532.4430541992188,
+            196.24896240234375
+          ],
+          "text": "PA 14JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p3_c100",
+          "page": 3,
+          "bbox": [
+            310.5,
+            299.4049987792969,
+            325.0010070800781,
+            311.448974609375
+          ],
+          "text": "8.9",
+          "enabled": true
+        },
+        {
+          "id": "p3_c101",
+          "page": 3,
+          "bbox": [
+            394.5,
+            299.4049987792969,
+            448.4929504394531,
+            311.448974609375
+          ],
+          "text": "TN 14JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p3_c102",
+          "page": 3,
+          "bbox": [
+            478.45001220703125,
+            299.4049987792969,
+            532.4430541992188,
+            311.448974609375
+          ],
+          "text": "PA 14JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p3_c103",
+          "page": 3,
+          "bbox": [
+            317.95001220703125,
+            353.6549987792969,
+            325.9440002441406,
+            365.698974609375
+          ],
+          "text": "X",
+          "enabled": true
+        },
+        {
+          "id": "p3_c104",
+          "page": 3,
+          "bbox": [
+            388.5,
+            353.6549987792969,
+            442.4929504394531,
+            365.698974609375
+          ],
+          "text": "TN 14JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p3_c105",
+          "page": 3,
+          "bbox": [
+            472.45001220703125,
+            353.6549987792969,
+            526.4430541992188,
+            365.698974609375
+          ],
+          "text": "PA 14JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p3_c106",
+          "page": 3,
+          "bbox": [
+            317.95001220703125,
+            396.5550231933594,
+            325.9440002441406,
+            408.5989990234375
+          ],
+          "text": "X",
+          "enabled": true
+        },
+        {
+          "id": "p3_c107",
+          "page": 3,
+          "bbox": [
+            388.5,
+            396.5550231933594,
+            442.4929504394531,
+            408.5989990234375
+          ],
+          "text": "TN 14JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p3_c108",
+          "page": 3,
+          "bbox": [
+            472.45001220703125,
+            396.5550231933594,
+            526.4430541992188,
+            408.5989990234375
+          ],
+          "text": "PA 14JUN26",
+          "enabled": true
+        }
+      ],
+      "max_new_tokens": 132,
+      "steps": 132,
+      "seed": 0,
+      "variation": {
+        "master": 45.0,
+        "diversity": 50.0,
+        "size": 42.0,
+        "placement": 47.0,
+        "stroke": 53.0
+      },
+      "created_at": "2026-08-14T22:02:06.254799+00:00",
+      "updated_at": "2026-08-14T22:03:23.971500+00:00",
+      "error": null,
+      "result_pdf": "/Users/sidharthsirdeshmukh/Documents/handwriting-generation/data/outputs/00a51e4664a7/handwritten.pdf"
+    },
+    "39eae86e6735": {
+      "id": "39eae86e6735",
+      "status": "done",
+      "pair_id": "a5fded5f39",
+      "pair_name": "MBR_Production_Bioreactor_Transfection_DS-26052_EXECUTED_synthetic",
+      "template_path": "/Users/sidharthsirdeshmukh/Documents/handwriting-generation/data/pairs/a5fded5f39/template.pdf",
+      "synthetic_path": "/Users/sidharthsirdeshmukh/Documents/handwriting-generation/data/pairs/a5fded5f39/synthetic.pdf",
+      "cells": [
+        {
+          "id": "p0_c0",
+          "page": 0,
+          "bbox": [
+            436.5,
+            153.95497131347656,
+            478.9999694824219,
+            165.9989776611328
+          ],
+          "text": "DS-26052",
+          "enabled": true
+        },
+        {
+          "id": "p0_c1",
+          "page": 0,
+          "bbox": [
+            436.5,
+            176.1549835205078,
+            486.01995849609375,
+            188.19898986816406
+          ],
+          "text": "10JUN2026",
+          "enabled": true
+        },
+        {
+          "id": "p0_c2",
+          "page": 0,
+          "bbox": [
+            436.5,
+            198.35499572753906,
+            495.4969787597656,
+            210.3989715576172
+          ],
+          "text": "WCB-293-018",
+          "enabled": true
+        },
+        {
+          "id": "p0_c3",
+          "page": 0,
+          "bbox": [
+            184.5,
+            220.5550079345703,
+            235.99998474121094,
+            232.59898376464844
+          ],
+          "text": "BRX-200-02",
+          "enabled": true
+        },
+        {
+          "id": "p0_c4",
+          "page": 0,
+          "bbox": [
+            184.5,
+            531.8049926757812,
+            235.99998474121094,
+            543.8489990234375
+          ],
+          "text": "BRX-200-02",
+          "enabled": true
+        },
+        {
+          "id": "p0_c5",
+          "page": 0,
+          "bbox": [
+            310.5,
+            531.8049926757812,
+            360.5059509277344,
+            543.8489990234375
+          ],
+          "text": "30SEP2026",
+          "enabled": true
+        },
+        {
+          "id": "p0_c6",
+          "page": 0,
+          "bbox": [
+            436.5,
+            531.8049926757812,
+            490.4929504394531,
+            543.8489990234375
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p0_c7",
+          "page": 0,
+          "bbox": [
+            184.5,
+            554.0050048828125,
+            217.99098205566406,
+            566.0490112304688
+          ],
+          "text": "DO-207",
+          "enabled": true
+        },
+        {
+          "id": "p0_c8",
+          "page": 0,
+          "bbox": [
+            310.5,
+            554.0050048828125,
+            361.5049743652344,
+            566.0490112304688
+          ],
+          "text": "12OCT2026",
+          "enabled": true
+        },
+        {
+          "id": "p0_c9",
+          "page": 0,
+          "bbox": [
+            436.5,
+            554.0050048828125,
+            490.4929504394531,
+            566.0490112304688
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p0_c10",
+          "page": 0,
+          "bbox": [
+            184.5,
+            576.2049560546875,
+            224.48898315429688,
+            588.2489624023438
+          ],
+          "text": "PHM-209",
+          "enabled": true
+        },
+        {
+          "id": "p0_c11",
+          "page": 0,
+          "bbox": [
+            310.5,
+            576.2049560546875,
+            362.00897216796875,
+            588.2489624023438
+          ],
+          "text": "05NOV2026",
+          "enabled": true
+        },
+        {
+          "id": "p0_c12",
+          "page": 0,
+          "bbox": [
+            436.5,
+            576.2049560546875,
+            490.4929504394531,
+            588.2489624023438
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p0_c13",
+          "page": 0,
+          "bbox": [
+            184.5,
+            598.4049682617188,
+            223.489990234375,
+            610.448974609375
+          ],
+          "text": "VCC-011",
+          "enabled": true
+        },
+        {
+          "id": "p0_c14",
+          "page": 0,
+          "bbox": [
+            310.5,
+            598.4049682617188,
+            362.00897216796875,
+            610.448974609375
+          ],
+          "text": "20AUG2026",
+          "enabled": true
+        },
+        {
+          "id": "p0_c15",
+          "page": 0,
+          "bbox": [
+            436.5,
+            598.4049682617188,
+            490.4929504394531,
+            610.448974609375
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p0_c16",
+          "page": 0,
+          "bbox": [
+            184.5,
+            620.60498046875,
+            221.50099182128906,
+            632.6489868164062
+          ],
+          "text": "BAL-021",
+          "enabled": true
+        },
+        {
+          "id": "p0_c17",
+          "page": 0,
+          "bbox": [
+            310.5,
+            620.60498046875,
+            362.00897216796875,
+            632.6489868164062
+          ],
+          "text": "22NOV2026",
+          "enabled": true
+        },
+        {
+          "id": "p0_c18",
+          "page": 0,
+          "bbox": [
+            436.5,
+            620.60498046875,
+            490.4929504394531,
+            632.6489868164062
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p0_c19",
+          "page": 0,
+          "bbox": [
+            184.5,
+            642.8049926757812,
+            217.99099731445312,
+            654.8489990234375
+          ],
+          "text": "BSC-06",
+          "enabled": true
+        },
+        {
+          "id": "p0_c20",
+          "page": 0,
+          "bbox": [
+            310.5,
+            642.8049926757812,
+            361.5139465332031,
+            654.8489990234375
+          ],
+          "text": "15DEC2026",
+          "enabled": true
+        },
+        {
+          "id": "p0_c21",
+          "page": 0,
+          "bbox": [
+            436.5,
+            642.8049926757812,
+            490.4929504394531,
+            654.8489990234375
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c22",
+          "page": 1,
+          "bbox": [
+            260.1000061035156,
+            53.50502395629883,
+            336.0799255371094,
+            65.54902267456055
+          ],
+          "text": "PL-REPCAP-0417",
+          "enabled": true
+        },
+        {
+          "id": "p1_c23",
+          "page": 1,
+          "bbox": [
+            360.8999938964844,
+            53.50502395629883,
+            414.8929443359375,
+            65.54902267456055
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c24",
+          "page": 1,
+          "bbox": [
+            461.70001220703125,
+            53.50502395629883,
+            515.6929931640625,
+            65.54902267456055
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c25",
+          "page": 1,
+          "bbox": [
+            260.1000061035156,
+            86.05501556396484,
+            322.59796142578125,
+            98.0990219116211
+          ],
+          "text": "PL-HELP-0417",
+          "enabled": true
+        },
+        {
+          "id": "p1_c26",
+          "page": 1,
+          "bbox": [
+            360.8999938964844,
+            86.05501556396484,
+            414.8929443359375,
+            98.0990219116211
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c27",
+          "page": 1,
+          "bbox": [
+            461.70001220703125,
+            86.05501556396484,
+            515.6929931640625,
+            98.0990219116211
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c28",
+          "page": 1,
+          "bbox": [
+            260.1000061035156,
+            118.6050033569336,
+            329.5819396972656,
+            130.64900970458984
+          ],
+          "text": "PL-TRANS-0417",
+          "enabled": true
+        },
+        {
+          "id": "p1_c29",
+          "page": 1,
+          "bbox": [
+            360.8999938964844,
+            118.6050033569336,
+            414.8929443359375,
+            130.64900970458984
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c30",
+          "page": 1,
+          "bbox": [
+            461.70001220703125,
+            118.6050033569336,
+            515.6929931640625,
+            130.64900970458984
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c31",
+          "page": 1,
+          "bbox": [
+            260.1000061035156,
+            140.8050079345703,
+            299.593994140625,
+            152.84901428222656
+          ],
+          "text": "PEI-0392",
+          "enabled": true
+        },
+        {
+          "id": "p1_c32",
+          "page": 1,
+          "bbox": [
+            360.8999938964844,
+            140.8050079345703,
+            414.8929443359375,
+            152.84901428222656
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c33",
+          "page": 1,
+          "bbox": [
+            461.70001220703125,
+            140.8050079345703,
+            515.6929931640625,
+            152.84901428222656
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c34",
+          "page": 1,
+          "bbox": [
+            260.1000061035156,
+            163.00502014160156,
+            305.0929870605469,
+            175.0490264892578
+          ],
+          "text": "MED-2208",
+          "enabled": true
+        },
+        {
+          "id": "p1_c35",
+          "page": 1,
+          "bbox": [
+            360.8999938964844,
+            163.00502014160156,
+            414.8929443359375,
+            175.0490264892578
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c36",
+          "page": 1,
+          "bbox": [
+            461.70001220703125,
+            163.00502014160156,
+            515.6929931640625,
+            175.0490264892578
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c37",
+          "page": 1,
+          "bbox": [
+            310.5,
+            266.8550109863281,
+            325.0010070800781,
+            278.89898681640625
+          ],
+          "text": "0.9",
+          "enabled": true
+        },
+        {
+          "id": "p1_c38",
+          "page": 1,
+          "bbox": [
+            394.5,
+            266.8550109863281,
+            448.4929504394531,
+            278.89898681640625
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c39",
+          "page": 1,
+          "bbox": [
+            478.45001220703125,
+            266.8550109863281,
+            532.4430541992188,
+            278.89898681640625
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c40",
+          "page": 1,
+          "bbox": [
+            310.5,
+            321.1050109863281,
+            322.50799560546875,
+            333.14898681640625
+          ],
+          "text": "95",
+          "enabled": true
+        },
+        {
+          "id": "p1_c41",
+          "page": 1,
+          "bbox": [
+            394.5,
+            321.1050109863281,
+            448.4929504394531,
+            333.14898681640625
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c42",
+          "page": 1,
+          "bbox": [
+            478.45001220703125,
+            321.1050109863281,
+            532.4430541992188,
+            333.14898681640625
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c43",
+          "page": 1,
+          "bbox": [
+            310.5,
+            365.0050048828125,
+            340.01300048828125,
+            377.0489807128906
+          ],
+          "text": "10000",
+          "enabled": true
+        },
+        {
+          "id": "p1_c44",
+          "page": 1,
+          "bbox": [
+            394.5,
+            365.0050048828125,
+            448.4929504394531,
+            377.0489807128906
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c45",
+          "page": 1,
+          "bbox": [
+            478.45001220703125,
+            365.0050048828125,
+            532.4430541992188,
+            377.0489807128906
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c46",
+          "page": 1,
+          "bbox": [
+            310.5,
+            500.9049987792969,
+            325.0010070800781,
+            512.9490051269531
+          ],
+          "text": "1.7",
+          "enabled": true
+        },
+        {
+          "id": "p1_c47",
+          "page": 1,
+          "bbox": [
+            394.5,
+            500.9049987792969,
+            448.4929504394531,
+            512.9490051269531
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c48",
+          "page": 1,
+          "bbox": [
+            478.45001220703125,
+            500.9049987792969,
+            532.4430541992188,
+            512.9490051269531
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c49",
+          "page": 1,
+          "bbox": [
+            310.5,
+            555.1549682617188,
+            340.01300048828125,
+            567.198974609375
+          ],
+          "text": "10000",
+          "enabled": true
+        },
+        {
+          "id": "p1_c50",
+          "page": 1,
+          "bbox": [
+            394.5,
+            555.1549682617188,
+            448.4929504394531,
+            567.198974609375
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c51",
+          "page": 1,
+          "bbox": [
+            478.45001220703125,
+            555.1549682617188,
+            532.4430541992188,
+            567.198974609375
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c52",
+          "page": 1,
+          "bbox": [
+            394.5,
+            609.4049682617188,
+            448.4929504394531,
+            621.448974609375
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c53",
+          "page": 1,
+          "bbox": [
+            478.45001220703125,
+            609.4049682617188,
+            532.4430541992188,
+            621.448974609375
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c54",
+          "page": 1,
+          "bbox": [
+            310.5,
+            630.10498046875,
+            325.0010070800781,
+            642.1489868164062
+          ],
+          "text": "1.0",
+          "enabled": true
+        },
+        {
+          "id": "p1_c55",
+          "page": 1,
+          "bbox": [
+            336.45001220703125,
+            651.8049926757812,
+            365.9630126953125,
+            663.8489990234375
+          ],
+          "text": "10000",
+          "enabled": true
+        },
+        {
+          "id": "p2_c56",
+          "page": 2,
+          "bbox": [
+            394.5,
+            53.50502395629883,
+            448.4929504394531,
+            65.54902267456055
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c57",
+          "page": 2,
+          "bbox": [
+            478.45001220703125,
+            53.50502395629883,
+            532.4430541992188,
+            65.54902267456055
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c58",
+          "page": 2,
+          "bbox": [
+            310.5,
+            63.855003356933594,
+            330.0050048828125,
+            75.89900970458984
+          ],
+          "text": "10.0",
+          "enabled": true
+        },
+        {
+          "id": "p2_c59",
+          "page": 2,
+          "bbox": [
+            310.5,
+            85.55501556396484,
+            325.0010070800781,
+            97.5990219116211
+          ],
+          "text": "1:2",
+          "enabled": true
+        },
+        {
+          "id": "p2_c60",
+          "page": 2,
+          "bbox": [
+            364.5,
+            96.90499114990234,
+            384.0050048828125,
+            108.9489974975586
+          ],
+          "text": "20.0",
+          "enabled": true
+        },
+        {
+          "id": "p2_c61",
+          "page": 2,
+          "bbox": [
+            310.5,
+            150.1549835205078,
+            379.97308349609375,
+            162.19898986816406
+          ],
+          "text": "3.33 / 3.33 / 3.33",
+          "enabled": true
+        },
+        {
+          "id": "p2_c62",
+          "page": 2,
+          "bbox": [
+            394.5,
+            150.1549835205078,
+            448.4929504394531,
+            162.19898986816406
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c63",
+          "page": 2,
+          "bbox": [
+            478.45001220703125,
+            150.1549835205078,
+            532.4430541992188,
+            162.19898986816406
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c64",
+          "page": 2,
+          "bbox": [
+            310.5,
+            203.4049835205078,
+            322.50799560546875,
+            215.44895935058594
+          ],
+          "text": "20",
+          "enabled": true
+        },
+        {
+          "id": "p2_c65",
+          "page": 2,
+          "bbox": [
+            394.5,
+            203.4049835205078,
+            448.4929504394531,
+            215.44895935058594
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c66",
+          "page": 2,
+          "bbox": [
+            478.45001220703125,
+            203.4049835205078,
+            532.4430541992188,
+            215.44895935058594
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c67",
+          "page": 2,
+          "bbox": [
+            317.95001220703125,
+            257.6549987792969,
+            325.9440002441406,
+            269.698974609375
+          ],
+          "text": "X",
+          "enabled": true
+        },
+        {
+          "id": "p2_c68",
+          "page": 2,
+          "bbox": [
+            388.5,
+            257.6549987792969,
+            442.4929504394531,
+            269.698974609375
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c69",
+          "page": 2,
+          "bbox": [
+            472.45001220703125,
+            257.6549987792969,
+            526.4430541992188,
+            269.698974609375
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c70",
+          "page": 2,
+          "bbox": [
+            310.5,
+            382.20501708984375,
+            330.0050048828125,
+            394.2489929199219
+          ],
+          "text": "37.0",
+          "enabled": true
+        },
+        {
+          "id": "p2_c71",
+          "page": 2,
+          "bbox": [
+            394.5,
+            382.20501708984375,
+            448.4929504394531,
+            394.2489929199219
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c72",
+          "page": 2,
+          "bbox": [
+            478.45001220703125,
+            382.20501708984375,
+            532.4430541992188,
+            394.2489929199219
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c73",
+          "page": 2,
+          "bbox": [
+            310.5,
+            426.1050109863281,
+            322.50799560546875,
+            438.14898681640625
+          ],
+          "text": "40",
+          "enabled": true
+        },
+        {
+          "id": "p2_c74",
+          "page": 2,
+          "bbox": [
+            394.5,
+            426.1050109863281,
+            448.4929504394531,
+            438.14898681640625
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c75",
+          "page": 2,
+          "bbox": [
+            478.45001220703125,
+            426.1050109863281,
+            532.4430541992188,
+            438.14898681640625
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c76",
+          "page": 2,
+          "bbox": [
+            310.5,
+            480.3550109863281,
+            322.50799560546875,
+            492.3990173339844
+          ],
+          "text": "96",
+          "enabled": true
+        },
+        {
+          "id": "p2_c77",
+          "page": 2,
+          "bbox": [
+            394.5,
+            480.3550109863281,
+            448.4929504394531,
+            492.3990173339844
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c78",
+          "page": 2,
+          "bbox": [
+            478.45001220703125,
+            480.3550109863281,
+            532.4430541992188,
+            492.3990173339844
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c79",
+          "page": 2,
+          "bbox": [
+            310.5,
+            524.2550048828125,
+            330.0050048828125,
+            536.2990112304688
+          ],
+          "text": "6.84",
+          "enabled": true
+        },
+        {
+          "id": "p2_c80",
+          "page": 2,
+          "bbox": [
+            394.5,
+            524.2550048828125,
+            448.4929504394531,
+            536.2990112304688
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c81",
+          "page": 2,
+          "bbox": [
+            478.45001220703125,
+            524.2550048828125,
+            532.4430541992188,
+            536.2990112304688
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c82",
+          "page": 2,
+          "bbox": [
+            310.5,
+            568.1549682617188,
+            322.50799560546875,
+            580.198974609375
+          ],
+          "text": "91",
+          "enabled": true
+        },
+        {
+          "id": "p2_c83",
+          "page": 2,
+          "bbox": [
+            394.5,
+            568.1549682617188,
+            448.4929504394531,
+            580.198974609375
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c84",
+          "page": 2,
+          "bbox": [
+            478.45001220703125,
+            568.1549682617188,
+            532.4430541992188,
+            580.198974609375
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c85",
+          "page": 2,
+          "bbox": [
+            310.5,
+            612.0549926757812,
+            330.0050048828125,
+            624.0989990234375
+          ],
+          "text": "7.05",
+          "enabled": true
+        },
+        {
+          "id": "p2_c86",
+          "page": 2,
+          "bbox": [
+            394.5,
+            612.0549926757812,
+            448.4929504394531,
+            624.0989990234375
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c87",
+          "page": 2,
+          "bbox": [
+            478.45001220703125,
+            612.0549926757812,
+            532.4430541992188,
+            624.0989990234375
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c88",
+          "page": 2,
+          "bbox": [
+            310.5,
+            655.9549560546875,
+            322.50799560546875,
+            667.9989624023438
+          ],
+          "text": "79",
+          "enabled": true
+        },
+        {
+          "id": "p2_c89",
+          "page": 2,
+          "bbox": [
+            394.5,
+            655.9549560546875,
+            448.4929504394531,
+            667.9989624023438
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c90",
+          "page": 2,
+          "bbox": [
+            478.45001220703125,
+            655.9549560546875,
+            532.4430541992188,
+            667.9989624023438
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p3_c91",
+          "page": 3,
+          "bbox": [
+            310.5,
+            96.40499114990234,
+            322.50799560546875,
+            108.4489974975586
+          ],
+          "text": "80",
+          "enabled": true
+        },
+        {
+          "id": "p3_c92",
+          "page": 3,
+          "bbox": [
+            394.5,
+            96.40499114990234,
+            448.4929504394531,
+            108.4489974975586
+          ],
+          "text": "TN 14JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p3_c93",
+          "page": 3,
+          "bbox": [
+            478.45001220703125,
+            96.40499114990234,
+            532.4430541992188,
+            108.4489974975586
+          ],
+          "text": "PA 14JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p3_c94",
+          "page": 3,
+          "bbox": [
+            310.5,
+            140.3050079345703,
+            322.50799560546875,
+            152.34901428222656
+          ],
+          "text": "68",
+          "enabled": true
+        },
+        {
+          "id": "p3_c95",
+          "page": 3,
+          "bbox": [
+            394.5,
+            140.3050079345703,
+            448.4929504394531,
+            152.34901428222656
+          ],
+          "text": "TN 14JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p3_c96",
+          "page": 3,
+          "bbox": [
+            478.45001220703125,
+            140.3050079345703,
+            532.4430541992188,
+            152.34901428222656
+          ],
+          "text": "PA 14JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p3_c97",
+          "page": 3,
+          "bbox": [
+            310.5,
+            184.20497131347656,
+            335.0090026855469,
+            196.24896240234375
+          ],
+          "text": "9850",
+          "enabled": true
+        },
+        {
+          "id": "p3_c98",
+          "page": 3,
+          "bbox": [
+            394.5,
+            184.20497131347656,
+            448.4929504394531,
+            196.24896240234375
+          ],
+          "text": "TN 14JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p3_c99",
+          "page": 3,
+          "bbox": [
+            478.45001220703125,
+            184.20497131347656,
+            532.4430541992188,
+            196.24896240234375
+          ],
+          "text": "PA 14JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p3_c100",
+          "page": 3,
+          "bbox": [
+            310.5,
+            299.4049987792969,
+            325.0010070800781,
+            311.448974609375
+          ],
+          "text": "8.9",
+          "enabled": true
+        },
+        {
+          "id": "p3_c101",
+          "page": 3,
+          "bbox": [
+            394.5,
+            299.4049987792969,
+            448.4929504394531,
+            311.448974609375
+          ],
+          "text": "TN 14JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p3_c102",
+          "page": 3,
+          "bbox": [
+            478.45001220703125,
+            299.4049987792969,
+            532.4430541992188,
+            311.448974609375
+          ],
+          "text": "PA 14JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p3_c103",
+          "page": 3,
+          "bbox": [
+            317.95001220703125,
+            353.6549987792969,
+            325.9440002441406,
+            365.698974609375
+          ],
+          "text": "X",
+          "enabled": true
+        },
+        {
+          "id": "p3_c104",
+          "page": 3,
+          "bbox": [
+            388.5,
+            353.6549987792969,
+            442.4929504394531,
+            365.698974609375
+          ],
+          "text": "TN 14JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p3_c105",
+          "page": 3,
+          "bbox": [
+            472.45001220703125,
+            353.6549987792969,
+            526.4430541992188,
+            365.698974609375
+          ],
+          "text": "PA 14JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p3_c106",
+          "page": 3,
+          "bbox": [
+            317.95001220703125,
+            396.5550231933594,
+            325.9440002441406,
+            408.5989990234375
+          ],
+          "text": "X",
+          "enabled": true
+        },
+        {
+          "id": "p3_c107",
+          "page": 3,
+          "bbox": [
+            388.5,
+            396.5550231933594,
+            442.4929504394531,
+            408.5989990234375
+          ],
+          "text": "TN 14JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p3_c108",
+          "page": 3,
+          "bbox": [
+            472.45001220703125,
+            396.5550231933594,
+            526.4430541992188,
+            408.5989990234375
+          ],
+          "text": "PA 14JUN26",
+          "enabled": true
+        }
+      ],
+      "max_new_tokens": 133,
+      "steps": 133,
+      "seed": 0,
+      "variation": {
+        "master": 43.0,
+        "diversity": 56.0,
+        "size": 51.0,
+        "placement": 45.0,
+        "stroke": 61.0
+      },
+      "created_at": "2026-08-14T22:13:12.253372+00:00",
+      "updated_at": "2026-08-14T22:14:16.144691+00:00",
+      "error": null,
+      "result_pdf": "/Users/sidharthsirdeshmukh/Documents/handwriting-generation/data/outputs/39eae86e6735/handwritten.pdf"
+    },
+    "936bac84c080": {
+      "id": "936bac84c080",
+      "status": "done",
+      "pair_id": "b2912409b5",
+      "pair_name": "MBR_Production_Bioreactor_Transfection_DS-26052_EXECUTED_synthetic",
+      "template_path": "/Users/sidharthsirdeshmukh/Documents/handwriting-generation/data/pairs/b2912409b5/template.pdf",
+      "synthetic_path": "/Users/sidharthsirdeshmukh/Documents/handwriting-generation/data/pairs/b2912409b5/synthetic.pdf",
+      "cells": [
+        {
+          "id": "p0_c0",
+          "page": 0,
+          "bbox": [
+            436.5,
+            153.95497131347656,
+            478.9999694824219,
+            165.9989776611328
+          ],
+          "text": "DS-26052",
+          "enabled": true
+        },
+        {
+          "id": "p0_c1",
+          "page": 0,
+          "bbox": [
+            436.5,
+            176.1549835205078,
+            486.01995849609375,
+            188.19898986816406
+          ],
+          "text": "10JUN2026",
+          "enabled": true
+        },
+        {
+          "id": "p0_c2",
+          "page": 0,
+          "bbox": [
+            436.5,
+            198.35499572753906,
+            495.4969787597656,
+            210.3989715576172
+          ],
+          "text": "WCB-293-018",
+          "enabled": true
+        },
+        {
+          "id": "p0_c3",
+          "page": 0,
+          "bbox": [
+            184.5,
+            220.5550079345703,
+            235.99998474121094,
+            232.59898376464844
+          ],
+          "text": "BRX-200-02",
+          "enabled": true
+        },
+        {
+          "id": "p0_c4",
+          "page": 0,
+          "bbox": [
+            184.5,
+            531.8049926757812,
+            235.99998474121094,
+            543.8489990234375
+          ],
+          "text": "BRX-200-02",
+          "enabled": true
+        },
+        {
+          "id": "p0_c5",
+          "page": 0,
+          "bbox": [
+            310.5,
+            531.8049926757812,
+            360.5059509277344,
+            543.8489990234375
+          ],
+          "text": "30SEP2026",
+          "enabled": true
+        },
+        {
+          "id": "p0_c6",
+          "page": 0,
+          "bbox": [
+            436.5,
+            531.8049926757812,
+            490.4929504394531,
+            543.8489990234375
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p0_c7",
+          "page": 0,
+          "bbox": [
+            184.5,
+            554.0050048828125,
+            217.99098205566406,
+            566.0490112304688
+          ],
+          "text": "DO-207",
+          "enabled": true
+        },
+        {
+          "id": "p0_c8",
+          "page": 0,
+          "bbox": [
+            310.5,
+            554.0050048828125,
+            361.5049743652344,
+            566.0490112304688
+          ],
+          "text": "12OCT2026",
+          "enabled": true
+        },
+        {
+          "id": "p0_c9",
+          "page": 0,
+          "bbox": [
+            436.5,
+            554.0050048828125,
+            490.4929504394531,
+            566.0490112304688
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p0_c10",
+          "page": 0,
+          "bbox": [
+            184.5,
+            576.2049560546875,
+            224.48898315429688,
+            588.2489624023438
+          ],
+          "text": "PHM-209",
+          "enabled": true
+        },
+        {
+          "id": "p0_c11",
+          "page": 0,
+          "bbox": [
+            310.5,
+            576.2049560546875,
+            362.00897216796875,
+            588.2489624023438
+          ],
+          "text": "05NOV2026",
+          "enabled": true
+        },
+        {
+          "id": "p0_c12",
+          "page": 0,
+          "bbox": [
+            436.5,
+            576.2049560546875,
+            490.4929504394531,
+            588.2489624023438
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p0_c13",
+          "page": 0,
+          "bbox": [
+            184.5,
+            598.4049682617188,
+            223.489990234375,
+            610.448974609375
+          ],
+          "text": "VCC-011",
+          "enabled": true
+        },
+        {
+          "id": "p0_c14",
+          "page": 0,
+          "bbox": [
+            310.5,
+            598.4049682617188,
+            362.00897216796875,
+            610.448974609375
+          ],
+          "text": "20AUG2026",
+          "enabled": true
+        },
+        {
+          "id": "p0_c15",
+          "page": 0,
+          "bbox": [
+            436.5,
+            598.4049682617188,
+            490.4929504394531,
+            610.448974609375
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p0_c16",
+          "page": 0,
+          "bbox": [
+            184.5,
+            620.60498046875,
+            221.50099182128906,
+            632.6489868164062
+          ],
+          "text": "BAL-021",
+          "enabled": true
+        },
+        {
+          "id": "p0_c17",
+          "page": 0,
+          "bbox": [
+            310.5,
+            620.60498046875,
+            362.00897216796875,
+            632.6489868164062
+          ],
+          "text": "22NOV2026",
+          "enabled": true
+        },
+        {
+          "id": "p0_c18",
+          "page": 0,
+          "bbox": [
+            436.5,
+            620.60498046875,
+            490.4929504394531,
+            632.6489868164062
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p0_c19",
+          "page": 0,
+          "bbox": [
+            184.5,
+            642.8049926757812,
+            217.99099731445312,
+            654.8489990234375
+          ],
+          "text": "BSC-06",
+          "enabled": true
+        },
+        {
+          "id": "p0_c20",
+          "page": 0,
+          "bbox": [
+            310.5,
+            642.8049926757812,
+            361.5139465332031,
+            654.8489990234375
+          ],
+          "text": "15DEC2026",
+          "enabled": true
+        },
+        {
+          "id": "p0_c21",
+          "page": 0,
+          "bbox": [
+            436.5,
+            642.8049926757812,
+            490.4929504394531,
+            654.8489990234375
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c22",
+          "page": 1,
+          "bbox": [
+            260.1000061035156,
+            53.50502395629883,
+            336.0799255371094,
+            65.54902267456055
+          ],
+          "text": "PL-REPCAP-0417",
+          "enabled": true
+        },
+        {
+          "id": "p1_c23",
+          "page": 1,
+          "bbox": [
+            360.8999938964844,
+            53.50502395629883,
+            414.8929443359375,
+            65.54902267456055
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c24",
+          "page": 1,
+          "bbox": [
+            461.70001220703125,
+            53.50502395629883,
+            515.6929931640625,
+            65.54902267456055
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c25",
+          "page": 1,
+          "bbox": [
+            260.1000061035156,
+            86.05501556396484,
+            322.59796142578125,
+            98.0990219116211
+          ],
+          "text": "PL-HELP-0417",
+          "enabled": true
+        },
+        {
+          "id": "p1_c26",
+          "page": 1,
+          "bbox": [
+            360.8999938964844,
+            86.05501556396484,
+            414.8929443359375,
+            98.0990219116211
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c27",
+          "page": 1,
+          "bbox": [
+            461.70001220703125,
+            86.05501556396484,
+            515.6929931640625,
+            98.0990219116211
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c28",
+          "page": 1,
+          "bbox": [
+            260.1000061035156,
+            118.6050033569336,
+            329.5819396972656,
+            130.64900970458984
+          ],
+          "text": "PL-TRANS-0417",
+          "enabled": true
+        },
+        {
+          "id": "p1_c29",
+          "page": 1,
+          "bbox": [
+            360.8999938964844,
+            118.6050033569336,
+            414.8929443359375,
+            130.64900970458984
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c30",
+          "page": 1,
+          "bbox": [
+            461.70001220703125,
+            118.6050033569336,
+            515.6929931640625,
+            130.64900970458984
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c31",
+          "page": 1,
+          "bbox": [
+            260.1000061035156,
+            140.8050079345703,
+            299.593994140625,
+            152.84901428222656
+          ],
+          "text": "PEI-0392",
+          "enabled": true
+        },
+        {
+          "id": "p1_c32",
+          "page": 1,
+          "bbox": [
+            360.8999938964844,
+            140.8050079345703,
+            414.8929443359375,
+            152.84901428222656
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c33",
+          "page": 1,
+          "bbox": [
+            461.70001220703125,
+            140.8050079345703,
+            515.6929931640625,
+            152.84901428222656
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c34",
+          "page": 1,
+          "bbox": [
+            260.1000061035156,
+            163.00502014160156,
+            305.0929870605469,
+            175.0490264892578
+          ],
+          "text": "MED-2208",
+          "enabled": true
+        },
+        {
+          "id": "p1_c35",
+          "page": 1,
+          "bbox": [
+            360.8999938964844,
+            163.00502014160156,
+            414.8929443359375,
+            175.0490264892578
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c36",
+          "page": 1,
+          "bbox": [
+            461.70001220703125,
+            163.00502014160156,
+            515.6929931640625,
+            175.0490264892578
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c37",
+          "page": 1,
+          "bbox": [
+            310.5,
+            266.8550109863281,
+            325.0010070800781,
+            278.89898681640625
+          ],
+          "text": "0.9",
+          "enabled": true
+        },
+        {
+          "id": "p1_c38",
+          "page": 1,
+          "bbox": [
+            394.5,
+            266.8550109863281,
+            448.4929504394531,
+            278.89898681640625
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c39",
+          "page": 1,
+          "bbox": [
+            478.45001220703125,
+            266.8550109863281,
+            532.4430541992188,
+            278.89898681640625
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c40",
+          "page": 1,
+          "bbox": [
+            310.5,
+            321.1050109863281,
+            322.50799560546875,
+            333.14898681640625
+          ],
+          "text": "95",
+          "enabled": true
+        },
+        {
+          "id": "p1_c41",
+          "page": 1,
+          "bbox": [
+            394.5,
+            321.1050109863281,
+            448.4929504394531,
+            333.14898681640625
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c42",
+          "page": 1,
+          "bbox": [
+            478.45001220703125,
+            321.1050109863281,
+            532.4430541992188,
+            333.14898681640625
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c43",
+          "page": 1,
+          "bbox": [
+            310.5,
+            365.0050048828125,
+            340.01300048828125,
+            377.0489807128906
+          ],
+          "text": "10000",
+          "enabled": true
+        },
+        {
+          "id": "p1_c44",
+          "page": 1,
+          "bbox": [
+            394.5,
+            365.0050048828125,
+            448.4929504394531,
+            377.0489807128906
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c45",
+          "page": 1,
+          "bbox": [
+            478.45001220703125,
+            365.0050048828125,
+            532.4430541992188,
+            377.0489807128906
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c46",
+          "page": 1,
+          "bbox": [
+            310.5,
+            500.9049987792969,
+            325.0010070800781,
+            512.9490051269531
+          ],
+          "text": "1.7",
+          "enabled": true
+        },
+        {
+          "id": "p1_c47",
+          "page": 1,
+          "bbox": [
+            394.5,
+            500.9049987792969,
+            448.4929504394531,
+            512.9490051269531
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c48",
+          "page": 1,
+          "bbox": [
+            478.45001220703125,
+            500.9049987792969,
+            532.4430541992188,
+            512.9490051269531
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c49",
+          "page": 1,
+          "bbox": [
+            310.5,
+            555.1549682617188,
+            340.01300048828125,
+            567.198974609375
+          ],
+          "text": "10000",
+          "enabled": true
+        },
+        {
+          "id": "p1_c50",
+          "page": 1,
+          "bbox": [
+            394.5,
+            555.1549682617188,
+            448.4929504394531,
+            567.198974609375
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c51",
+          "page": 1,
+          "bbox": [
+            478.45001220703125,
+            555.1549682617188,
+            532.4430541992188,
+            567.198974609375
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c52",
+          "page": 1,
+          "bbox": [
+            394.5,
+            609.4049682617188,
+            448.4929504394531,
+            621.448974609375
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c53",
+          "page": 1,
+          "bbox": [
+            478.45001220703125,
+            609.4049682617188,
+            532.4430541992188,
+            621.448974609375
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c54",
+          "page": 1,
+          "bbox": [
+            310.5,
+            630.10498046875,
+            325.0010070800781,
+            642.1489868164062
+          ],
+          "text": "1.0",
+          "enabled": true
+        },
+        {
+          "id": "p1_c55",
+          "page": 1,
+          "bbox": [
+            336.45001220703125,
+            651.8049926757812,
+            365.9630126953125,
+            663.8489990234375
+          ],
+          "text": "10000",
+          "enabled": true
+        },
+        {
+          "id": "p2_c56",
+          "page": 2,
+          "bbox": [
+            394.5,
+            53.50502395629883,
+            448.4929504394531,
+            65.54902267456055
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c57",
+          "page": 2,
+          "bbox": [
+            478.45001220703125,
+            53.50502395629883,
+            532.4430541992188,
+            65.54902267456055
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c58",
+          "page": 2,
+          "bbox": [
+            310.5,
+            63.855003356933594,
+            330.0050048828125,
+            75.89900970458984
+          ],
+          "text": "10.0",
+          "enabled": true
+        },
+        {
+          "id": "p2_c59",
+          "page": 2,
+          "bbox": [
+            310.5,
+            85.55501556396484,
+            325.0010070800781,
+            97.5990219116211
+          ],
+          "text": "1:2",
+          "enabled": true
+        },
+        {
+          "id": "p2_c60",
+          "page": 2,
+          "bbox": [
+            364.5,
+            96.90499114990234,
+            384.0050048828125,
+            108.9489974975586
+          ],
+          "text": "20.0",
+          "enabled": true
+        },
+        {
+          "id": "p2_c61",
+          "page": 2,
+          "bbox": [
+            310.5,
+            150.1549835205078,
+            379.97308349609375,
+            162.19898986816406
+          ],
+          "text": "3.33 / 3.33 / 3.33",
+          "enabled": true
+        },
+        {
+          "id": "p2_c62",
+          "page": 2,
+          "bbox": [
+            394.5,
+            150.1549835205078,
+            448.4929504394531,
+            162.19898986816406
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c63",
+          "page": 2,
+          "bbox": [
+            478.45001220703125,
+            150.1549835205078,
+            532.4430541992188,
+            162.19898986816406
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c64",
+          "page": 2,
+          "bbox": [
+            310.5,
+            203.4049835205078,
+            322.50799560546875,
+            215.44895935058594
+          ],
+          "text": "20",
+          "enabled": true
+        },
+        {
+          "id": "p2_c65",
+          "page": 2,
+          "bbox": [
+            394.5,
+            203.4049835205078,
+            448.4929504394531,
+            215.44895935058594
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c66",
+          "page": 2,
+          "bbox": [
+            478.45001220703125,
+            203.4049835205078,
+            532.4430541992188,
+            215.44895935058594
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c67",
+          "page": 2,
+          "bbox": [
+            317.95001220703125,
+            257.6549987792969,
+            325.9440002441406,
+            269.698974609375
+          ],
+          "text": "X",
+          "enabled": true
+        },
+        {
+          "id": "p2_c68",
+          "page": 2,
+          "bbox": [
+            388.5,
+            257.6549987792969,
+            442.4929504394531,
+            269.698974609375
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c69",
+          "page": 2,
+          "bbox": [
+            472.45001220703125,
+            257.6549987792969,
+            526.4430541992188,
+            269.698974609375
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c70",
+          "page": 2,
+          "bbox": [
+            310.5,
+            382.20501708984375,
+            330.0050048828125,
+            394.2489929199219
+          ],
+          "text": "37.0",
+          "enabled": true
+        },
+        {
+          "id": "p2_c71",
+          "page": 2,
+          "bbox": [
+            394.5,
+            382.20501708984375,
+            448.4929504394531,
+            394.2489929199219
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c72",
+          "page": 2,
+          "bbox": [
+            478.45001220703125,
+            382.20501708984375,
+            532.4430541992188,
+            394.2489929199219
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c73",
+          "page": 2,
+          "bbox": [
+            310.5,
+            426.1050109863281,
+            322.50799560546875,
+            438.14898681640625
+          ],
+          "text": "40",
+          "enabled": true
+        },
+        {
+          "id": "p2_c74",
+          "page": 2,
+          "bbox": [
+            394.5,
+            426.1050109863281,
+            448.4929504394531,
+            438.14898681640625
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c75",
+          "page": 2,
+          "bbox": [
+            478.45001220703125,
+            426.1050109863281,
+            532.4430541992188,
+            438.14898681640625
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c76",
+          "page": 2,
+          "bbox": [
+            310.5,
+            480.3550109863281,
+            322.50799560546875,
+            492.3990173339844
+          ],
+          "text": "96",
+          "enabled": true
+        },
+        {
+          "id": "p2_c77",
+          "page": 2,
+          "bbox": [
+            394.5,
+            480.3550109863281,
+            448.4929504394531,
+            492.3990173339844
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c78",
+          "page": 2,
+          "bbox": [
+            478.45001220703125,
+            480.3550109863281,
+            532.4430541992188,
+            492.3990173339844
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c79",
+          "page": 2,
+          "bbox": [
+            310.5,
+            524.2550048828125,
+            330.0050048828125,
+            536.2990112304688
+          ],
+          "text": "6.84",
+          "enabled": true
+        },
+        {
+          "id": "p2_c80",
+          "page": 2,
+          "bbox": [
+            394.5,
+            524.2550048828125,
+            448.4929504394531,
+            536.2990112304688
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c81",
+          "page": 2,
+          "bbox": [
+            478.45001220703125,
+            524.2550048828125,
+            532.4430541992188,
+            536.2990112304688
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c82",
+          "page": 2,
+          "bbox": [
+            310.5,
+            568.1549682617188,
+            322.50799560546875,
+            580.198974609375
+          ],
+          "text": "91",
+          "enabled": true
+        },
+        {
+          "id": "p2_c83",
+          "page": 2,
+          "bbox": [
+            394.5,
+            568.1549682617188,
+            448.4929504394531,
+            580.198974609375
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c84",
+          "page": 2,
+          "bbox": [
+            478.45001220703125,
+            568.1549682617188,
+            532.4430541992188,
+            580.198974609375
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c85",
+          "page": 2,
+          "bbox": [
+            310.5,
+            612.0549926757812,
+            330.0050048828125,
+            624.0989990234375
+          ],
+          "text": "7.05",
+          "enabled": true
+        },
+        {
+          "id": "p2_c86",
+          "page": 2,
+          "bbox": [
+            394.5,
+            612.0549926757812,
+            448.4929504394531,
+            624.0989990234375
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c87",
+          "page": 2,
+          "bbox": [
+            478.45001220703125,
+            612.0549926757812,
+            532.4430541992188,
+            624.0989990234375
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c88",
+          "page": 2,
+          "bbox": [
+            310.5,
+            655.9549560546875,
+            322.50799560546875,
+            667.9989624023438
+          ],
+          "text": "79",
+          "enabled": true
+        },
+        {
+          "id": "p2_c89",
+          "page": 2,
+          "bbox": [
+            394.5,
+            655.9549560546875,
+            448.4929504394531,
+            667.9989624023438
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c90",
+          "page": 2,
+          "bbox": [
+            478.45001220703125,
+            655.9549560546875,
+            532.4430541992188,
+            667.9989624023438
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p3_c91",
+          "page": 3,
+          "bbox": [
+            310.5,
+            96.40499114990234,
+            322.50799560546875,
+            108.4489974975586
+          ],
+          "text": "80",
+          "enabled": true
+        },
+        {
+          "id": "p3_c92",
+          "page": 3,
+          "bbox": [
+            394.5,
+            96.40499114990234,
+            448.4929504394531,
+            108.4489974975586
+          ],
+          "text": "TN 14JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p3_c93",
+          "page": 3,
+          "bbox": [
+            478.45001220703125,
+            96.40499114990234,
+            532.4430541992188,
+            108.4489974975586
+          ],
+          "text": "PA 14JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p3_c94",
+          "page": 3,
+          "bbox": [
+            310.5,
+            140.3050079345703,
+            322.50799560546875,
+            152.34901428222656
+          ],
+          "text": "68",
+          "enabled": true
+        },
+        {
+          "id": "p3_c95",
+          "page": 3,
+          "bbox": [
+            394.5,
+            140.3050079345703,
+            448.4929504394531,
+            152.34901428222656
+          ],
+          "text": "TN 14JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p3_c96",
+          "page": 3,
+          "bbox": [
+            478.45001220703125,
+            140.3050079345703,
+            532.4430541992188,
+            152.34901428222656
+          ],
+          "text": "PA 14JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p3_c97",
+          "page": 3,
+          "bbox": [
+            310.5,
+            184.20497131347656,
+            335.0090026855469,
+            196.24896240234375
+          ],
+          "text": "9850",
+          "enabled": true
+        },
+        {
+          "id": "p3_c98",
+          "page": 3,
+          "bbox": [
+            394.5,
+            184.20497131347656,
+            448.4929504394531,
+            196.24896240234375
+          ],
+          "text": "TN 14JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p3_c99",
+          "page": 3,
+          "bbox": [
+            478.45001220703125,
+            184.20497131347656,
+            532.4430541992188,
+            196.24896240234375
+          ],
+          "text": "PA 14JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p3_c100",
+          "page": 3,
+          "bbox": [
+            310.5,
+            299.4049987792969,
+            325.0010070800781,
+            311.448974609375
+          ],
+          "text": "8.9",
+          "enabled": true
+        },
+        {
+          "id": "p3_c101",
+          "page": 3,
+          "bbox": [
+            394.5,
+            299.4049987792969,
+            448.4929504394531,
+            311.448974609375
+          ],
+          "text": "TN 14JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p3_c102",
+          "page": 3,
+          "bbox": [
+            478.45001220703125,
+            299.4049987792969,
+            532.4430541992188,
+            311.448974609375
+          ],
+          "text": "PA 14JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p3_c103",
+          "page": 3,
+          "bbox": [
+            317.95001220703125,
+            353.6549987792969,
+            325.9440002441406,
+            365.698974609375
+          ],
+          "text": "X",
+          "enabled": true
+        },
+        {
+          "id": "p3_c104",
+          "page": 3,
+          "bbox": [
+            388.5,
+            353.6549987792969,
+            442.4929504394531,
+            365.698974609375
+          ],
+          "text": "TN 14JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p3_c105",
+          "page": 3,
+          "bbox": [
+            472.45001220703125,
+            353.6549987792969,
+            526.4430541992188,
+            365.698974609375
+          ],
+          "text": "PA 14JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p3_c106",
+          "page": 3,
+          "bbox": [
+            317.95001220703125,
+            396.5550231933594,
+            325.9440002441406,
+            408.5989990234375
+          ],
+          "text": "X",
+          "enabled": true
+        },
+        {
+          "id": "p3_c107",
+          "page": 3,
+          "bbox": [
+            388.5,
+            396.5550231933594,
+            442.4929504394531,
+            408.5989990234375
+          ],
+          "text": "TN 14JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p3_c108",
+          "page": 3,
+          "bbox": [
+            472.45001220703125,
+            396.5550231933594,
+            526.4430541992188,
+            408.5989990234375
+          ],
+          "text": "PA 14JUN26",
+          "enabled": true
+        }
+      ],
+      "max_new_tokens": 133,
+      "steps": 133,
+      "seed": 0,
+      "variation": {
+        "master": 46.0,
+        "diversity": 46.0,
+        "size": 46.0,
+        "placement": 46.0,
+        "stroke": 46.0
+      },
+      "created_at": "2026-08-14T22:24:09.787181+00:00",
+      "updated_at": "2026-08-14T22:25:08.151865+00:00",
+      "error": null,
+      "result_pdf": "/Users/sidharthsirdeshmukh/Documents/handwriting-generation/data/outputs/936bac84c080/handwritten.pdf"
+    },
+    "97855ffebcd9": {
+      "id": "97855ffebcd9",
+      "status": "done",
+      "pair_id": "7def609250",
+      "pair_name": "MBR_Production_Bioreactor_Transfection_DS-26052_EXECUTED_synthetic",
+      "template_path": "/Users/sidharthsirdeshmukh/Documents/handwriting-generation/data/pairs/7def609250/template.pdf",
+      "synthetic_path": "/Users/sidharthsirdeshmukh/Documents/handwriting-generation/data/pairs/7def609250/synthetic.pdf",
+      "cells": [
+        {
+          "id": "p0_c0",
+          "page": 0,
+          "bbox": [
+            436.5,
+            153.95497131347656,
+            478.9999694824219,
+            165.9989776611328
+          ],
+          "text": "DS-26052",
+          "enabled": true
+        },
+        {
+          "id": "p0_c1",
+          "page": 0,
+          "bbox": [
+            436.5,
+            176.1549835205078,
+            486.01995849609375,
+            188.19898986816406
+          ],
+          "text": "10JUN2026",
+          "enabled": true
+        },
+        {
+          "id": "p0_c2",
+          "page": 0,
+          "bbox": [
+            436.5,
+            198.35499572753906,
+            495.4969787597656,
+            210.3989715576172
+          ],
+          "text": "WCB-293-018",
+          "enabled": true
+        },
+        {
+          "id": "p0_c3",
+          "page": 0,
+          "bbox": [
+            184.5,
+            220.5550079345703,
+            235.99998474121094,
+            232.59898376464844
+          ],
+          "text": "BRX-200-02",
+          "enabled": true
+        },
+        {
+          "id": "p0_c4",
+          "page": 0,
+          "bbox": [
+            184.5,
+            531.8049926757812,
+            235.99998474121094,
+            543.8489990234375
+          ],
+          "text": "BRX-200-02",
+          "enabled": true
+        },
+        {
+          "id": "p0_c5",
+          "page": 0,
+          "bbox": [
+            310.5,
+            531.8049926757812,
+            360.5059509277344,
+            543.8489990234375
+          ],
+          "text": "30SEP2026",
+          "enabled": true
+        },
+        {
+          "id": "p0_c6",
+          "page": 0,
+          "bbox": [
+            436.5,
+            531.8049926757812,
+            490.4929504394531,
+            543.8489990234375
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p0_c7",
+          "page": 0,
+          "bbox": [
+            184.5,
+            554.0050048828125,
+            217.99098205566406,
+            566.0490112304688
+          ],
+          "text": "DO-207",
+          "enabled": true
+        },
+        {
+          "id": "p0_c8",
+          "page": 0,
+          "bbox": [
+            310.5,
+            554.0050048828125,
+            361.5049743652344,
+            566.0490112304688
+          ],
+          "text": "12OCT2026",
+          "enabled": true
+        },
+        {
+          "id": "p0_c9",
+          "page": 0,
+          "bbox": [
+            436.5,
+            554.0050048828125,
+            490.4929504394531,
+            566.0490112304688
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p0_c10",
+          "page": 0,
+          "bbox": [
+            184.5,
+            576.2049560546875,
+            224.48898315429688,
+            588.2489624023438
+          ],
+          "text": "PHM-209",
+          "enabled": true
+        },
+        {
+          "id": "p0_c11",
+          "page": 0,
+          "bbox": [
+            310.5,
+            576.2049560546875,
+            362.00897216796875,
+            588.2489624023438
+          ],
+          "text": "05NOV2026",
+          "enabled": true
+        },
+        {
+          "id": "p0_c12",
+          "page": 0,
+          "bbox": [
+            436.5,
+            576.2049560546875,
+            490.4929504394531,
+            588.2489624023438
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p0_c13",
+          "page": 0,
+          "bbox": [
+            184.5,
+            598.4049682617188,
+            223.489990234375,
+            610.448974609375
+          ],
+          "text": "VCC-011",
+          "enabled": true
+        },
+        {
+          "id": "p0_c14",
+          "page": 0,
+          "bbox": [
+            310.5,
+            598.4049682617188,
+            362.00897216796875,
+            610.448974609375
+          ],
+          "text": "20AUG2026",
+          "enabled": true
+        },
+        {
+          "id": "p0_c15",
+          "page": 0,
+          "bbox": [
+            436.5,
+            598.4049682617188,
+            490.4929504394531,
+            610.448974609375
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p0_c16",
+          "page": 0,
+          "bbox": [
+            184.5,
+            620.60498046875,
+            221.50099182128906,
+            632.6489868164062
+          ],
+          "text": "BAL-021",
+          "enabled": true
+        },
+        {
+          "id": "p0_c17",
+          "page": 0,
+          "bbox": [
+            310.5,
+            620.60498046875,
+            362.00897216796875,
+            632.6489868164062
+          ],
+          "text": "22NOV2026",
+          "enabled": true
+        },
+        {
+          "id": "p0_c18",
+          "page": 0,
+          "bbox": [
+            436.5,
+            620.60498046875,
+            490.4929504394531,
+            632.6489868164062
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p0_c19",
+          "page": 0,
+          "bbox": [
+            184.5,
+            642.8049926757812,
+            217.99099731445312,
+            654.8489990234375
+          ],
+          "text": "BSC-06",
+          "enabled": true
+        },
+        {
+          "id": "p0_c20",
+          "page": 0,
+          "bbox": [
+            310.5,
+            642.8049926757812,
+            361.5139465332031,
+            654.8489990234375
+          ],
+          "text": "15DEC2026",
+          "enabled": true
+        },
+        {
+          "id": "p0_c21",
+          "page": 0,
+          "bbox": [
+            436.5,
+            642.8049926757812,
+            490.4929504394531,
+            654.8489990234375
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c22",
+          "page": 1,
+          "bbox": [
+            260.1000061035156,
+            53.50502395629883,
+            336.0799255371094,
+            65.54902267456055
+          ],
+          "text": "PL-REPCAP-0417",
+          "enabled": true
+        },
+        {
+          "id": "p1_c23",
+          "page": 1,
+          "bbox": [
+            360.8999938964844,
+            53.50502395629883,
+            414.8929443359375,
+            65.54902267456055
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c24",
+          "page": 1,
+          "bbox": [
+            461.70001220703125,
+            53.50502395629883,
+            515.6929931640625,
+            65.54902267456055
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c25",
+          "page": 1,
+          "bbox": [
+            260.1000061035156,
+            86.05501556396484,
+            322.59796142578125,
+            98.0990219116211
+          ],
+          "text": "PL-HELP-0417",
+          "enabled": true
+        },
+        {
+          "id": "p1_c26",
+          "page": 1,
+          "bbox": [
+            360.8999938964844,
+            86.05501556396484,
+            414.8929443359375,
+            98.0990219116211
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c27",
+          "page": 1,
+          "bbox": [
+            461.70001220703125,
+            86.05501556396484,
+            515.6929931640625,
+            98.0990219116211
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c28",
+          "page": 1,
+          "bbox": [
+            260.1000061035156,
+            118.6050033569336,
+            329.5819396972656,
+            130.64900970458984
+          ],
+          "text": "PL-TRANS-0417",
+          "enabled": true
+        },
+        {
+          "id": "p1_c29",
+          "page": 1,
+          "bbox": [
+            360.8999938964844,
+            118.6050033569336,
+            414.8929443359375,
+            130.64900970458984
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c30",
+          "page": 1,
+          "bbox": [
+            461.70001220703125,
+            118.6050033569336,
+            515.6929931640625,
+            130.64900970458984
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c31",
+          "page": 1,
+          "bbox": [
+            260.1000061035156,
+            140.8050079345703,
+            299.593994140625,
+            152.84901428222656
+          ],
+          "text": "PEI-0392",
+          "enabled": true
+        },
+        {
+          "id": "p1_c32",
+          "page": 1,
+          "bbox": [
+            360.8999938964844,
+            140.8050079345703,
+            414.8929443359375,
+            152.84901428222656
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c33",
+          "page": 1,
+          "bbox": [
+            461.70001220703125,
+            140.8050079345703,
+            515.6929931640625,
+            152.84901428222656
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c34",
+          "page": 1,
+          "bbox": [
+            260.1000061035156,
+            163.00502014160156,
+            305.0929870605469,
+            175.0490264892578
+          ],
+          "text": "MED-2208",
+          "enabled": true
+        },
+        {
+          "id": "p1_c35",
+          "page": 1,
+          "bbox": [
+            360.8999938964844,
+            163.00502014160156,
+            414.8929443359375,
+            175.0490264892578
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c36",
+          "page": 1,
+          "bbox": [
+            461.70001220703125,
+            163.00502014160156,
+            515.6929931640625,
+            175.0490264892578
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c37",
+          "page": 1,
+          "bbox": [
+            310.5,
+            266.8550109863281,
+            325.0010070800781,
+            278.89898681640625
+          ],
+          "text": "0.9",
+          "enabled": true
+        },
+        {
+          "id": "p1_c38",
+          "page": 1,
+          "bbox": [
+            394.5,
+            266.8550109863281,
+            448.4929504394531,
+            278.89898681640625
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c39",
+          "page": 1,
+          "bbox": [
+            478.45001220703125,
+            266.8550109863281,
+            532.4430541992188,
+            278.89898681640625
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c40",
+          "page": 1,
+          "bbox": [
+            310.5,
+            321.1050109863281,
+            322.50799560546875,
+            333.14898681640625
+          ],
+          "text": "95",
+          "enabled": true
+        },
+        {
+          "id": "p1_c41",
+          "page": 1,
+          "bbox": [
+            394.5,
+            321.1050109863281,
+            448.4929504394531,
+            333.14898681640625
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c42",
+          "page": 1,
+          "bbox": [
+            478.45001220703125,
+            321.1050109863281,
+            532.4430541992188,
+            333.14898681640625
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c43",
+          "page": 1,
+          "bbox": [
+            310.5,
+            365.0050048828125,
+            340.01300048828125,
+            377.0489807128906
+          ],
+          "text": "10000",
+          "enabled": true
+        },
+        {
+          "id": "p1_c44",
+          "page": 1,
+          "bbox": [
+            394.5,
+            365.0050048828125,
+            448.4929504394531,
+            377.0489807128906
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c45",
+          "page": 1,
+          "bbox": [
+            478.45001220703125,
+            365.0050048828125,
+            532.4430541992188,
+            377.0489807128906
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c46",
+          "page": 1,
+          "bbox": [
+            310.5,
+            500.9049987792969,
+            325.0010070800781,
+            512.9490051269531
+          ],
+          "text": "1.7",
+          "enabled": true
+        },
+        {
+          "id": "p1_c47",
+          "page": 1,
+          "bbox": [
+            394.5,
+            500.9049987792969,
+            448.4929504394531,
+            512.9490051269531
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c48",
+          "page": 1,
+          "bbox": [
+            478.45001220703125,
+            500.9049987792969,
+            532.4430541992188,
+            512.9490051269531
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c49",
+          "page": 1,
+          "bbox": [
+            310.5,
+            555.1549682617188,
+            340.01300048828125,
+            567.198974609375
+          ],
+          "text": "10000",
+          "enabled": true
+        },
+        {
+          "id": "p1_c50",
+          "page": 1,
+          "bbox": [
+            394.5,
+            555.1549682617188,
+            448.4929504394531,
+            567.198974609375
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c51",
+          "page": 1,
+          "bbox": [
+            478.45001220703125,
+            555.1549682617188,
+            532.4430541992188,
+            567.198974609375
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c52",
+          "page": 1,
+          "bbox": [
+            394.5,
+            609.4049682617188,
+            448.4929504394531,
+            621.448974609375
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c53",
+          "page": 1,
+          "bbox": [
+            478.45001220703125,
+            609.4049682617188,
+            532.4430541992188,
+            621.448974609375
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p1_c54",
+          "page": 1,
+          "bbox": [
+            310.5,
+            630.10498046875,
+            325.0010070800781,
+            642.1489868164062
+          ],
+          "text": "1.0",
+          "enabled": true
+        },
+        {
+          "id": "p1_c55",
+          "page": 1,
+          "bbox": [
+            336.45001220703125,
+            651.8049926757812,
+            365.9630126953125,
+            663.8489990234375
+          ],
+          "text": "10000",
+          "enabled": true
+        },
+        {
+          "id": "p2_c56",
+          "page": 2,
+          "bbox": [
+            394.5,
+            53.50502395629883,
+            448.4929504394531,
+            65.54902267456055
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c57",
+          "page": 2,
+          "bbox": [
+            478.45001220703125,
+            53.50502395629883,
+            532.4430541992188,
+            65.54902267456055
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c58",
+          "page": 2,
+          "bbox": [
+            310.5,
+            63.855003356933594,
+            330.0050048828125,
+            75.89900970458984
+          ],
+          "text": "10.0",
+          "enabled": true
+        },
+        {
+          "id": "p2_c59",
+          "page": 2,
+          "bbox": [
+            310.5,
+            85.55501556396484,
+            325.0010070800781,
+            97.5990219116211
+          ],
+          "text": "1:2",
+          "enabled": true
+        },
+        {
+          "id": "p2_c60",
+          "page": 2,
+          "bbox": [
+            364.5,
+            96.90499114990234,
+            384.0050048828125,
+            108.9489974975586
+          ],
+          "text": "20.0",
+          "enabled": true
+        },
+        {
+          "id": "p2_c61",
+          "page": 2,
+          "bbox": [
+            310.5,
+            150.1549835205078,
+            379.97308349609375,
+            162.19898986816406
+          ],
+          "text": "3.33 / 3.33 / 3.33",
+          "enabled": true
+        },
+        {
+          "id": "p2_c62",
+          "page": 2,
+          "bbox": [
+            394.5,
+            150.1549835205078,
+            448.4929504394531,
+            162.19898986816406
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c63",
+          "page": 2,
+          "bbox": [
+            478.45001220703125,
+            150.1549835205078,
+            532.4430541992188,
+            162.19898986816406
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c64",
+          "page": 2,
+          "bbox": [
+            310.5,
+            203.4049835205078,
+            322.50799560546875,
+            215.44895935058594
+          ],
+          "text": "20",
+          "enabled": true
+        },
+        {
+          "id": "p2_c65",
+          "page": 2,
+          "bbox": [
+            394.5,
+            203.4049835205078,
+            448.4929504394531,
+            215.44895935058594
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c66",
+          "page": 2,
+          "bbox": [
+            478.45001220703125,
+            203.4049835205078,
+            532.4430541992188,
+            215.44895935058594
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c67",
+          "page": 2,
+          "bbox": [
+            317.95001220703125,
+            257.6549987792969,
+            325.9440002441406,
+            269.698974609375
+          ],
+          "text": "X",
+          "enabled": true
+        },
+        {
+          "id": "p2_c68",
+          "page": 2,
+          "bbox": [
+            388.5,
+            257.6549987792969,
+            442.4929504394531,
+            269.698974609375
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c69",
+          "page": 2,
+          "bbox": [
+            472.45001220703125,
+            257.6549987792969,
+            526.4430541992188,
+            269.698974609375
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c70",
+          "page": 2,
+          "bbox": [
+            310.5,
+            382.20501708984375,
+            330.0050048828125,
+            394.2489929199219
+          ],
+          "text": "37.0",
+          "enabled": true
+        },
+        {
+          "id": "p2_c71",
+          "page": 2,
+          "bbox": [
+            394.5,
+            382.20501708984375,
+            448.4929504394531,
+            394.2489929199219
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c72",
+          "page": 2,
+          "bbox": [
+            478.45001220703125,
+            382.20501708984375,
+            532.4430541992188,
+            394.2489929199219
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c73",
+          "page": 2,
+          "bbox": [
+            310.5,
+            426.1050109863281,
+            322.50799560546875,
+            438.14898681640625
+          ],
+          "text": "40",
+          "enabled": true
+        },
+        {
+          "id": "p2_c74",
+          "page": 2,
+          "bbox": [
+            394.5,
+            426.1050109863281,
+            448.4929504394531,
+            438.14898681640625
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c75",
+          "page": 2,
+          "bbox": [
+            478.45001220703125,
+            426.1050109863281,
+            532.4430541992188,
+            438.14898681640625
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c76",
+          "page": 2,
+          "bbox": [
+            310.5,
+            480.3550109863281,
+            322.50799560546875,
+            492.3990173339844
+          ],
+          "text": "96",
+          "enabled": true
+        },
+        {
+          "id": "p2_c77",
+          "page": 2,
+          "bbox": [
+            394.5,
+            480.3550109863281,
+            448.4929504394531,
+            492.3990173339844
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c78",
+          "page": 2,
+          "bbox": [
+            478.45001220703125,
+            480.3550109863281,
+            532.4430541992188,
+            492.3990173339844
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c79",
+          "page": 2,
+          "bbox": [
+            310.5,
+            524.2550048828125,
+            330.0050048828125,
+            536.2990112304688
+          ],
+          "text": "6.84",
+          "enabled": true
+        },
+        {
+          "id": "p2_c80",
+          "page": 2,
+          "bbox": [
+            394.5,
+            524.2550048828125,
+            448.4929504394531,
+            536.2990112304688
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c81",
+          "page": 2,
+          "bbox": [
+            478.45001220703125,
+            524.2550048828125,
+            532.4430541992188,
+            536.2990112304688
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c82",
+          "page": 2,
+          "bbox": [
+            310.5,
+            568.1549682617188,
+            322.50799560546875,
+            580.198974609375
+          ],
+          "text": "91",
+          "enabled": true
+        },
+        {
+          "id": "p2_c83",
+          "page": 2,
+          "bbox": [
+            394.5,
+            568.1549682617188,
+            448.4929504394531,
+            580.198974609375
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c84",
+          "page": 2,
+          "bbox": [
+            478.45001220703125,
+            568.1549682617188,
+            532.4430541992188,
+            580.198974609375
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c85",
+          "page": 2,
+          "bbox": [
+            310.5,
+            612.0549926757812,
+            330.0050048828125,
+            624.0989990234375
+          ],
+          "text": "7.05",
+          "enabled": true
+        },
+        {
+          "id": "p2_c86",
+          "page": 2,
+          "bbox": [
+            394.5,
+            612.0549926757812,
+            448.4929504394531,
+            624.0989990234375
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c87",
+          "page": 2,
+          "bbox": [
+            478.45001220703125,
+            612.0549926757812,
+            532.4430541992188,
+            624.0989990234375
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c88",
+          "page": 2,
+          "bbox": [
+            310.5,
+            655.9549560546875,
+            322.50799560546875,
+            667.9989624023438
+          ],
+          "text": "79",
+          "enabled": true
+        },
+        {
+          "id": "p2_c89",
+          "page": 2,
+          "bbox": [
+            394.5,
+            655.9549560546875,
+            448.4929504394531,
+            667.9989624023438
+          ],
+          "text": "TN 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p2_c90",
+          "page": 2,
+          "bbox": [
+            478.45001220703125,
+            655.9549560546875,
+            532.4430541992188,
+            667.9989624023438
+          ],
+          "text": "PA 10JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p3_c91",
+          "page": 3,
+          "bbox": [
+            310.5,
+            96.40499114990234,
+            322.50799560546875,
+            108.4489974975586
+          ],
+          "text": "80",
+          "enabled": true
+        },
+        {
+          "id": "p3_c92",
+          "page": 3,
+          "bbox": [
+            394.5,
+            96.40499114990234,
+            448.4929504394531,
+            108.4489974975586
+          ],
+          "text": "TN 14JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p3_c93",
+          "page": 3,
+          "bbox": [
+            478.45001220703125,
+            96.40499114990234,
+            532.4430541992188,
+            108.4489974975586
+          ],
+          "text": "PA 14JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p3_c94",
+          "page": 3,
+          "bbox": [
+            310.5,
+            140.3050079345703,
+            322.50799560546875,
+            152.34901428222656
+          ],
+          "text": "68",
+          "enabled": true
+        },
+        {
+          "id": "p3_c95",
+          "page": 3,
+          "bbox": [
+            394.5,
+            140.3050079345703,
+            448.4929504394531,
+            152.34901428222656
+          ],
+          "text": "TN 14JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p3_c96",
+          "page": 3,
+          "bbox": [
+            478.45001220703125,
+            140.3050079345703,
+            532.4430541992188,
+            152.34901428222656
+          ],
+          "text": "PA 14JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p3_c97",
+          "page": 3,
+          "bbox": [
+            310.5,
+            184.20497131347656,
+            335.0090026855469,
+            196.24896240234375
+          ],
+          "text": "9850",
+          "enabled": true
+        },
+        {
+          "id": "p3_c98",
+          "page": 3,
+          "bbox": [
+            394.5,
+            184.20497131347656,
+            448.4929504394531,
+            196.24896240234375
+          ],
+          "text": "TN 14JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p3_c99",
+          "page": 3,
+          "bbox": [
+            478.45001220703125,
+            184.20497131347656,
+            532.4430541992188,
+            196.24896240234375
+          ],
+          "text": "PA 14JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p3_c100",
+          "page": 3,
+          "bbox": [
+            310.5,
+            299.4049987792969,
+            325.0010070800781,
+            311.448974609375
+          ],
+          "text": "8.9",
+          "enabled": true
+        },
+        {
+          "id": "p3_c101",
+          "page": 3,
+          "bbox": [
+            394.5,
+            299.4049987792969,
+            448.4929504394531,
+            311.448974609375
+          ],
+          "text": "TN 14JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p3_c102",
+          "page": 3,
+          "bbox": [
+            478.45001220703125,
+            299.4049987792969,
+            532.4430541992188,
+            311.448974609375
+          ],
+          "text": "PA 14JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p3_c103",
+          "page": 3,
+          "bbox": [
+            317.95001220703125,
+            353.6549987792969,
+            325.9440002441406,
+            365.698974609375
+          ],
+          "text": "X",
+          "enabled": true
+        },
+        {
+          "id": "p3_c104",
+          "page": 3,
+          "bbox": [
+            388.5,
+            353.6549987792969,
+            442.4929504394531,
+            365.698974609375
+          ],
+          "text": "TN 14JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p3_c105",
+          "page": 3,
+          "bbox": [
+            472.45001220703125,
+            353.6549987792969,
+            526.4430541992188,
+            365.698974609375
+          ],
+          "text": "PA 14JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p3_c106",
+          "page": 3,
+          "bbox": [
+            317.95001220703125,
+            396.5550231933594,
+            325.9440002441406,
+            408.5989990234375
+          ],
+          "text": "X",
+          "enabled": true
+        },
+        {
+          "id": "p3_c107",
+          "page": 3,
+          "bbox": [
+            388.5,
+            396.5550231933594,
+            442.4929504394531,
+            408.5989990234375
+          ],
+          "text": "TN 14JUN26",
+          "enabled": true
+        },
+        {
+          "id": "p3_c108",
+          "page": 3,
+          "bbox": [
+            472.45001220703125,
+            396.5550231933594,
+            526.4430541992188,
+            408.5989990234375
+          ],
+          "text": "PA 14JUN26",
+          "enabled": true
+        }
+      ],
+      "max_new_tokens": 135,
+      "steps": 135,
+      "seed": 0,
+      "variation": {
+        "master": 49.0,
+        "diversity": 49.0,
+        "size": 49.0,
+        "placement": 49.0,
+        "stroke": 49.0
+      },
+      "created_at": "2026-08-14T22:28:29.490142+00:00",
+      "updated_at": "2026-08-14T22:29:29.604667+00:00",
+      "error": null,
+      "result_pdf": "/Users/sidharthsirdeshmukh/Documents/handwriting-generation/data/outputs/97855ffebcd9/handwritten.pdf"
+    },
+    "99bf646972d6": {
+      "id": "99bf646972d6",
+      "status": "done",
+      "pair_id": "8d567a2903",
+      "pair_name": "synth-demo-smoke",
+      "template_path": "/Users/sidharthsirdeshmukh/Documents/handwriting-generation/data/pairs/8d567a2903/template.pdf",
+      "synthetic_path": "/Users/sidharthsirdeshmukh/Documents/handwriting-generation/data/pairs/8d567a2903/synthetic.pdf",
+      "cells": [
+        {
+          "id": "p0_c0",
+          "page": 0,
+          "bbox": [
+            436.5,
+            153.95497131347656,
+            478.9999694824219,
+            165.9989776611328
+          ],
+          "text": "DS-26052",
+          "enabled": true
+        },
+        {
+          "id": "p2_c67",
+          "page": 2,
+          "bbox": [
+            317.95001220703125,
+            257.6549987792969,
+            325.9440002441406,
+            269.698974609375
+          ],
+          "text": "X",
+          "enabled": true
+        }
+      ],
+      "max_new_tokens": 96,
+      "steps": 96,
+      "seed": 0,
+      "variation": {
+        "master": 0.0,
+        "diversity": 0.0,
+        "size": 0.0,
+        "placement": 0.0,
+        "stroke": 0.0
+      },
+      "created_at": "2026-08-14T23:02:27.882395+00:00",
+      "updated_at": "2026-08-14T23:03:08.423140+00:00",
+      "error": null,
+      "result_pdf": "/Users/sidharthsirdeshmukh/Documents/handwriting-generation/data/outputs/99bf646972d6/handwritten.pdf"
     }
   }
 }

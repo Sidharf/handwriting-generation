@@ -35,6 +35,22 @@ python scripts/smoke_modal_emuru.py
 
 ## Run locally
 
+Set `OPENAI_API_KEY` for the optional **Generate 4 samples** handwriting style gallery
+(OpenAI Images → drag into the style drop zone for Emuru). Prefer a gitignored repo-root
+`.env`:
+
+```bash
+echo 'OPENAI_API_KEY=sk-...' >> .env
+```
+
+The OpenAI **project** must allow an image model (`gpt-image-1`) or Responses
+`image_generation`. Override with `OPENAI_IMAGE_MODEL=...` if needed.
+
+For UI wiring without Images access, set `OPENAI_SYNTH_DEMO=1` to return local
+placeholder PNGs of `biotech is cool`.
+
+Or `export OPENAI_API_KEY=...` before starting the API.
+
 Terminal 1 — API:
 
 ```bash

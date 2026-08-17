@@ -257,6 +257,7 @@ def create_job(
     cells: List[Dict[str, Any]],
     max_new_tokens: int,
     seed: Optional[int],
+    variation: Optional[Dict[str, Any]] = None,
 ) -> Dict[str, Any]:
     job_id = uuid.uuid4().hex[:12]
     job = {
@@ -271,6 +272,7 @@ def create_job(
         # Keep legacy key for old UI sessions / debugging
         "steps": max_new_tokens,
         "seed": seed,
+        "variation": variation,
         "created_at": _now(),
         "updated_at": _now(),
         "error": None,

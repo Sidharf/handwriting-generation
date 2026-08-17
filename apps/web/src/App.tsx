@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 type Pair = {
   id: string;
@@ -70,6 +70,20 @@ export default function App() {
   const [overlayUrl, setOverlayUrl] = useState<string | null>(null);
   const [maxNewTokens, setMaxNewTokens] = useState(128);
   const [seed, setSeed] = useState(0);
+  const [variationMaster, setVariationMaster] = useState(35);
+  const [variationAxes, setVariationAxes] = useState({
+    diversity: 35,
+    size: 35,
+    placement: 35,
+    stroke: 35,
+  });
+  const [variationManual, setVariationManual] = useState({
+    diversity: false,
+    size: false,
+    placement: false,
+    stroke: false,
+  });
+  const [showVariationAdvanced, setShowVariationAdvanced] = useState(false);
   const [job, setJob] = useState<Job | null>(null);
   const [busy, setBusy] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -78,6 +92,11 @@ export default function App() {
   const [dragFilled, setDragFilled] = useState(false);
   const [styleTextDraft, setStyleTextDraft] = useState("");
   const [pendingStyleFile, setPendingStyleFile] = useState<File | null>(null);
+  const [synthSamples, setSynthSamples] = useState<
+    { id: string; png_base64: string; style_text: string; file: File }[]
+  >([]);
+  const synthFileById = useRef<Map<string, File>>(new Map());
+
 
   const [blank, setBlank] = useState<BucketState>(emptyBucket);
   const [filled, setFilled] = useState<BucketState>(emptyBucket);
@@ -296,14 +315,53 @@ export default function App() {
     }
   }
 
-  function onStyleFiles(files: FileList | File[]) {
-    const file = Array.from(files).find((f) => /\.png$/i.test(f.name));
+  function onStyleFiles(files: FileList | File[], opts?: { styleText?: string }) {
+    const file = Array.from(files).find(
+      (f) => /\.png$/i.test(f.name) || f.type === "image/png"
+    );
     if (!file) {
       setError("Drop a PNG handwriting sample");
       return;
     }
     setPendingStyleFile(file);
+    if (opts?.styleText) {
+      setStyleTextDraft(opts.styleText);
+    } else if (/^synth-biotech/i.test(file.name)) {
+      setStyleTextDraft("biotech is cool");
+    }
     setError(null);
+  }
+
+  async function generateSynthStyles() {
+    setBusy("generating 4 handwriting samples…");
+    setError(null);
+    try {
+      const data = await api<{
+        images: { id: string; png_base64: string; style_text: string; index?: number }[];
+        style_text: string;
+      }>("/api/styles/synthesize", { method: "POST" });
+      const next: { id: string; png_base64: string; style_text: string; file: File }[] = [];
+      const map = new Map<string, File>();
+      for (const img of data.images) {
+        const bin = Uint8Array.from(atob(img.png_base64), (c) => c.charCodeAt(0));
+        const file = new File([bin], `synth-biotech-${img.index ?? next.length}.png`, {
+          type: "image/png",
+        });
+        map.set(img.id, file);
+        next.push({
+          id: img.id,
+          png_base64: img.png_base64,
+          style_text: img.style_text || data.style_text || "biotech is cool",
+          file,
+        });
+      }
+      synthFileById.current = map;
+      setSynthSamples(next);
+    } catch (e) {
+      setError(String(e));
+    } finally {
+      setBusy(null);
+    }
   }
 
   async function activateStyle(id: string) {
@@ -361,6 +419,13 @@ export default function App() {
           cells,
           max_new_tokens: maxNewTokens,
           seed,
+          variation: {
+            master: variationMaster,
+            diversity: variationAxes.diversity,
+            size: variationAxes.size,
+            placement: variationAxes.placement,
+            stroke: variationAxes.stroke,
+          },
           pair_id: selected?.id,
           pair_name: selected?.name || filled.label || "pair",
         }),
@@ -567,7 +632,18 @@ export default function App() {
               onDrop={(e) => {
                 e.preventDefault();
                 setDragStyle(false);
-                if (e.dataTransfer.files?.length) onStyleFiles(e.dataTransfer.files);
+                const synthId = e.dataTransfer.getData("application/x-handwriting-synth");
+                if (e.dataTransfer.files?.length) {
+                  onStyleFiles(e.dataTransfer.files, {
+                    styleText: synthId ? "biotech is cool" : undefined,
+                  });
+                  return;
+                }
+                if (synthId && synthFileById.current.has(synthId)) {
+                  onStyleFiles([synthFileById.current.get(synthId)!], {
+                    styleText: "biotech is cool",
+                  });
+                }
               }}
             >
               Drop handwriting PNG here
@@ -581,8 +657,56 @@ export default function App() {
                     onChange={(e) => e.target.files && onStyleFiles(e.target.files)}
                   />
                 </label>
+                <button
+                  type="button"
+                  className="btn accent"
+                  disabled={Boolean(busy)}
+                  onClick={() => void generateSynthStyles()}
+                >
+                  Generate 4 samples
+                </button>
               </div>
             </div>
+
+            {synthSamples.length > 0 && (
+              <div className="synth-gallery">
+                <p className="sub">
+                  Drag one sample into the drop zone above (transcription:{" "}
+                  <code>biotech is cool</code>).
+                </p>
+                <div className="synth-grid">
+                  {synthSamples.map((s, i) => (
+                    <button
+                      type="button"
+                      key={s.id}
+                      className="synth-tile"
+                      title="Drag into the drop zone, or click to load"
+                      draggable
+                      onDragStart={(e) => {
+                        e.dataTransfer.effectAllowed = "copy";
+                        e.dataTransfer.setData("application/x-handwriting-synth", s.id);
+                        e.dataTransfer.setData("text/plain", s.id);
+                        try {
+                          e.dataTransfer.items.add(s.file);
+                        } catch {
+                          /* some browsers reject File on items.add */
+                        }
+                      }}
+                      onClick={() =>
+                        onStyleFiles([s.file], { styleText: s.style_text || "biotech is cool" })
+                      }
+                    >
+                      <img
+                        src={`data:image/png;base64,${s.png_base64}`}
+                        alt={`Synthetic sample ${i + 1}`}
+                        draggable={false}
+                      />
+                      <span>Sample {i + 1}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {pendingStyleFile && (
               <div className="style-upload-form">
@@ -738,6 +862,98 @@ export default function App() {
                   onChange={(e) => setSeed(Number(e.target.value))}
                 />
               </div>
+            </div>
+
+            <div className="variation-block">
+              <div className="field field-wide">
+                <label>
+                  Cell variation —{" "}
+                  {variationMaster <= 0
+                    ? "None"
+                    : variationMaster < 30
+                      ? "Subtle"
+                      : variationMaster < 65
+                        ? "Natural"
+                        : "Wild"}{" "}
+                  ({variationMaster})
+                </label>
+                <input
+                  type="range"
+                  min={0}
+                  max={100}
+                  value={variationMaster}
+                  onChange={(e) => {
+                    const v = Number(e.target.value);
+                    setVariationMaster(v);
+                    setVariationAxes((prev) => ({
+                      diversity: variationManual.diversity ? prev.diversity : v,
+                      size: variationManual.size ? prev.size : v,
+                      placement: variationManual.placement ? prev.placement : v,
+                      stroke: variationManual.stroke ? prev.stroke : v,
+                    }));
+                  }}
+                />
+                <p className="sub variation-hint">
+                  Increases cell-to-cell differences; Seed still controls the base look.
+                </p>
+              </div>
+              <button
+                type="button"
+                className="btn ghost"
+                onClick={() => setShowVariationAdvanced((s) => !s)}
+              >
+                {showVariationAdvanced ? "Hide advanced" : "Advanced variation"}
+              </button>
+              {showVariationAdvanced && (
+                <div className="variation-advanced">
+                  {(
+                    [
+                      ["diversity", "Diversity (glyph / seed)"],
+                      ["size", "Size"],
+                      ["placement", "Placement + slant"],
+                      ["stroke", "Stroke / ink"],
+                    ] as const
+                  ).map(([key, label]) => (
+                    <div className="field field-wide" key={key}>
+                      <label>
+                        {label} ({variationAxes[key]})
+                        {variationManual[key] ? " · manual" : ""}
+                      </label>
+                      <input
+                        type="range"
+                        min={0}
+                        max={100}
+                        value={variationAxes[key]}
+                        onChange={(e) => {
+                          const v = Number(e.target.value);
+                          setVariationManual((m) => ({ ...m, [key]: true }));
+                          setVariationAxes((prev) => ({ ...prev, [key]: v }));
+                        }}
+                      />
+                    </div>
+                  ))}
+                  <button
+                    type="button"
+                    className="btn"
+                    onClick={() => {
+                      setVariationManual({
+                        diversity: false,
+                        size: false,
+                        placement: false,
+                        stroke: false,
+                      });
+                      setVariationAxes({
+                        diversity: variationMaster,
+                        size: variationMaster,
+                        placement: variationMaster,
+                        stroke: variationMaster,
+                      });
+                    }}
+                  >
+                    Reset axes to master
+                  </button>
+                </div>
+              )}
             </div>
 
             <div className="actions">

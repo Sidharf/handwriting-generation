@@ -34,6 +34,8 @@ def generate_lines_remote(
     max_new_tokens: int = 128,
     seed: Optional[int] = None,
     max_workers: int = MAX_GPU_WORKERS,
+    seed_stride: int = 17,
+    thicken: int = 1,
 ) -> List[bytes]:
     """Invoke EmuruService across up to max_workers GPU containers in parallel."""
     if not texts:
@@ -44,29 +46,30 @@ def generate_lines_remote(
     EmuruService = modal.Cls.from_name(APP_NAME, CLS_NAME)
     svc = EmuruService()
     chunks = _chunk_texts(texts, max_workers)
+    stride = max(1, int(seed_stride))
+    thick = max(0, int(thicken))
 
-    if len(chunks) == 1:
-        start, chunk = chunks[0]
+    def _call(start: int, chunk: List[str]) -> List[bytes]:
+        # Global line i uses seed + i * stride (start_index makes chunks consistent)
         return svc.generate_lines.remote(
             chunk,
             style_png,
             style_text,
             max_new_tokens=max_new_tokens,
-            seed=None if seed is None else seed + start,
+            seed=seed,
+            seed_stride=stride,
+            thicken=thick,
+            start_index=start,
         )
+
+    if len(chunks) == 1:
+        start, chunk = chunks[0]
+        return _call(start, chunk)
 
     results: List[Optional[List[bytes]]] = [None] * len(chunks)
 
     def _run(idx: int, start: int, chunk: List[str]) -> Tuple[int, List[bytes]]:
-        line_seed = None if seed is None else seed + start
-        pngs = svc.generate_lines.remote(
-            chunk,
-            style_png,
-            style_text,
-            max_new_tokens=max_new_tokens,
-            seed=line_seed,
-        )
-        return idx, pngs
+        return idx, _call(start, chunk)
 
     with ThreadPoolExecutor(max_workers=len(chunks)) as pool:
         futs = [
