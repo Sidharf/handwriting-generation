@@ -1,7 +1,8 @@
-"""Detect fill cells from blue typed text on synthetic PDFs.
+"""Detect fill cells from template vs filled PDFs.
 
-Primary signal: PDF text spans drawn in blue on the synthetic document.
-Those become handwriting generation targets, stamped onto the blank template.
+Primary signal: synthetic text spans that are not already on the template at
+that location (black or blue). Blue typed ink is still treated as a fill so
+legacy synthetics keep working.
 
 Each fill is paired to the Nth occurrence of its left-row label on the template
 (instance-index matching). Synthetic-only overflow rows are dropped.
@@ -174,6 +175,15 @@ def _template_has_match(synth: Span, template_spans: List[Span]) -> bool:
     return False
 
 
+def _is_fill_span(sp: Span, template_spans: List[Span]) -> bool:
+    """True if span is a typed fill: blue ink, or text not already on the template."""
+    if not (sp.text or "").strip():
+        return False
+    if _is_blue(sp.color):
+        return True
+    return not _template_has_match(sp, template_spans)
+
+
 def _merge_span_groups(spans: List[Span]) -> List[Tuple[fitz.Rect, str]]:
     """Merge adjacent spans (same line or wrapped continuation) into cells."""
     if not spans:
@@ -213,11 +223,15 @@ def _merge_span_groups(spans: List[Span]) -> List[Tuple[fitz.Rect, str]]:
     return out
 
 
-def _find_left_anchor(fill: fitz.Rect, synth_spans: List[Span]) -> Optional[Span]:
-    """Rightmost non-blue span to the left of fill on roughly the same row."""
+def _find_left_anchor(
+    fill: fitz.Rect,
+    synth_spans: List[Span],
+    template_spans: List[Span],
+) -> Optional[Span]:
+    """Rightmost non-fill span to the left of fill on roughly the same row."""
     candidates: List[Span] = []
     for sp in synth_spans:
-        if _is_blue(sp.color):
+        if _is_fill_span(sp, template_spans):
             continue
         if abs(sp.rect.y0 - fill.y0) > ANCHOR_Y_TOL_PTS:
             continue
@@ -234,13 +248,14 @@ def _find_left_anchor(fill: fitz.Rect, synth_spans: List[Span]) -> Optional[Span
 def _label_instances(
     spans: List[Span],
     key: str,
+    template_spans: List[Span],
     *,
     near_black_only: bool,
 ) -> List[Span]:
     """Occurrences of normalized label key, sorted top-to-bottom, position-deduped."""
     out: List[Span] = []
     for sp in spans:
-        if _is_blue(sp.color):
+        if _is_fill_span(sp, template_spans):
             continue
         if near_black_only and not _is_near_black(sp.color):
             continue
@@ -304,17 +319,23 @@ def _map_fill_to_template_field(
     Pair fill to the Nth template occurrence of its left-row label.
     Returns field rect on the template, or None to skip (no anchor / overflow).
     """
-    anchor = _find_left_anchor(fill, synth_spans)
+    anchor = _find_left_anchor(fill, synth_spans, template_spans)
     if anchor is None:
         return None
     key = _norm(anchor.text)
     if not key:
         return None
 
-    synth_inst = _label_instances(synth_spans, key, near_black_only=False)
-    tmpl_inst = _label_instances(template_spans, key, near_black_only=True)
+    synth_inst = _label_instances(
+        synth_spans, key, template_spans, near_black_only=False
+    )
+    tmpl_inst = _label_instances(
+        template_spans, key, template_spans, near_black_only=True
+    )
     if not tmpl_inst:
-        tmpl_inst = _label_instances(template_spans, key, near_black_only=False)
+        tmpl_inst = _label_instances(
+            template_spans, key, template_spans, near_black_only=False
+        )
     if not synth_inst or not tmpl_inst:
         return None
 
@@ -508,8 +529,8 @@ def detect_fill_cells(
         t_spans = _extract_spans(tpage)
         page_rect = tpage.rect
 
-        # Blue typed fills on the synthetic are the handwriting targets.
-        fills = [sp for sp in s_spans if _is_blue(sp.color) and (sp.text or "").strip()]
+        # Typed fills: blue ink, or synthetic text not already on the template.
+        fills = [sp for sp in s_spans if _is_fill_span(sp, t_spans)]
 
         merged = _merge_span_groups(fills)
 
@@ -519,7 +540,7 @@ def detect_fill_cells(
         for rect, text in merged:
             if rect.width < 2 or rect.height < 2:
                 continue
-            anchor = _find_left_anchor(rect, s_spans)
+            anchor = _find_left_anchor(rect, s_spans, t_spans)
             if anchor is None or not _norm(anchor.text):
                 skipped_no_anchor += 1
                 continue
@@ -578,7 +599,8 @@ def detect_fill_cells(
 
     if not cells:
         raise ValueError(
-            "No blue fill cells detected. Ensure the synthetic PDF has blue typed fills."
+            "No fill cells detected. Ensure the filled PDF has typed values "
+            "that are not already on the template."
         )
     return cells
 

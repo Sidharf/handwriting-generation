@@ -794,8 +794,9 @@ export default function App() {
           <section className="panel">
             <h2>3 · Detected cells & generate</h2>
             <p className="sub">
-              Blue fills on the synthetic PDF become handwriting cells; stamped onto
-              the blank template. Edit text or uncheck before running.
+              Typed values on the filled PDF (black or blue) that are not on the
+              template become handwriting cells, then stamped onto the blank.
+              Edit text or uncheck before running.
             </p>
 
             {overlayUrl && (
