@@ -1,5 +1,5 @@
 {
-  "active_style_id": "d716153c03",
+  "active_style_id": "default",
   "styles": {
     "default": {
       "id": "default",
@@ -146,6 +146,14 @@
       "synthetic_path": "/Users/sidharthsirdeshmukh/Documents/handwriting-generation/data/pairs/7def609250/synthetic.pdf",
       "source": "upload",
       "created_at": "2026-08-14T22:28:10.148804+00:00"
+    },
+    "1ee4236aa9": {
+      "id": "1ee4236aa9",
+      "name": "CoA_Release_OBX201_DS-26051_EXECUTED_synthetic.docx",
+      "template_path": "/Users/sidharthsirdeshmukh/Documents/handwriting-generation/data/pairs/1ee4236aa9/template.pdf",
+      "synthetic_path": "/Users/sidharthsirdeshmukh/Documents/handwriting-generation/data/pairs/1ee4236aa9/synthetic.pdf",
+      "source": "upload",
+      "created_at": "2026-08-20T21:30:10.861026+00:00"
     }
   },
   "jobs": {
