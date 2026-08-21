@@ -6,12 +6,42 @@ import fitz
 import numpy as np
 from PIL import Image
 
+from line_quality import analyze_line
 from pdf_stamp import (
     compute_stamp_rect,
     ensure_minimum_ink_visibility,
+    render_vector_line_png,
     stamp_pdf,
 )
 from variation import resolve_variation
+
+
+def test_comic_sans_vector_rendering_is_deterministic_and_contains_ink() -> None:
+    first = render_vector_line_png("0.5 10:1", seed=31415)
+    second = render_vector_line_png("0.5 10:1", seed=31415)
+
+    assert first == second
+    with Image.open(io.BytesIO(first)) as rendered:
+        gray = np.array(rendered.convert("L"))
+
+    assert gray.shape[0] == 64
+    assert gray.shape[1] >= 80
+    assert np.count_nonzero(gray < 200) > 100
+    assert analyze_line(gray, "0.5 10:1").ok
+
+
+def test_comic_sans_zero_has_an_open_center_without_a_diagonal_slash() -> None:
+    png = render_vector_line_png("0", seed=7)
+    with Image.open(io.BytesIO(png)) as rendered:
+        gray = np.array(rendered.convert("L"))
+
+    ys, xs = np.where(gray < 200)
+    assert xs.size > 0
+    center_x = (int(xs.min()) + int(xs.max())) // 2
+    center_y = (int(ys.min()) + int(ys.max())) // 2
+    center = gray[center_y - 2 : center_y + 3, center_x - 2 : center_x + 3]
+    assert center.shape == (5, 5)
+    assert np.all(center >= 245)
 
 
 def test_compute_stamp_rect_contains_wide_images_for_all_jitter() -> None:

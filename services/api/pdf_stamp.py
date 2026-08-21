@@ -5,13 +5,14 @@ from __future__ import annotations
 import io
 import math
 import random
+from functools import lru_cache
 from pathlib import Path
 from typing import Any, Mapping, Optional, Sequence, Tuple
 
 import cv2
 import fitz
 import numpy as np
-from PIL import Image
+from PIL import Image, ImageDraw, ImageFont
 
 from paths import INK_BLUE
 from table_geometry import (
@@ -37,6 +38,10 @@ INK_DARK_THRESH = 200
 # Pre-inset cell height; inset 15→13pt boxes must still count as short.
 SHORT_FIELD_CELL_HEIGHT_PTS = 16.0
 SHORT_FIELD_FIT = 0.94
+VECTOR_FONT_PATH = Path(
+    "/System/Library/Fonts/Supplemental/Comic Sans MS.ttf"
+)
+VECTOR_FONT_SIZE = 44
 
 
 def thin_ink(png_bytes: bytes, iterations: int = 1) -> bytes:
@@ -183,41 +188,43 @@ def compute_stamp_rect(
     return fitz.Rect(dx, dy, min(target.x1, dx + nw), min(target.y1, dy + nh))
 
 
+@lru_cache(maxsize=1)
+def _vector_font() -> ImageFont.FreeTypeFont:
+    if not VECTOR_FONT_PATH.is_file():
+        raise FileNotFoundError(
+            "Comic Sans MS Regular is required for vector fallback rendering; "
+            f"expected it at {VECTOR_FONT_PATH}"
+        )
+    return ImageFont.truetype(str(VECTOR_FONT_PATH), VECTOR_FONT_SIZE)
+
+
 def render_vector_line_png(text: str, seed: Optional[int] = None) -> bytes:
-    """Hershey stroke letters on white paper. Fallback when Emuru collapses."""
+    """Comic Sans glyphs on white paper. Fallback when Emuru collapses."""
     raw = (text or "").strip() or "_"
     rng = random.Random(0 if seed is None else int(seed))
-    font = cv2.FONT_HERSHEY_SIMPLEX
-    font_scale = 1.55
-    thickness = 2
+    font = _vector_font()
     gap = 2
-    widths = []
-    for ch in raw:
-        (cw, _chh), _ = cv2.getTextSize(ch, font, font_scale, thickness)
-        widths.append(max(cw, 6))
+    widths = [max(6, int(round(font.getlength(ch)))) for ch in raw]
     total_w = int(sum(widths) + gap * max(0, len(raw) - 1) + 28)
     h = 64
-    canvas = np.full((h, max(80, total_w)), 255, dtype=np.uint8)
+    canvas = Image.new("L", (max(80, total_w), h), 255)
+    draw = ImageDraw.Draw(canvas)
     x = 12
-    y = int(h * 0.72)
     for ch, cw in zip(raw, widths):
         jx = int(round(rng.uniform(-1.2, 1.2)))
         jy = int(round(rng.uniform(-2.0, 2.0)))
-        cv2.putText(
-            canvas,
+        draw.text(
+            (x + jx, jy),
             ch,
-            (x + jx, y + jy),
-            font,
-            font_scale,
-            25,
-            thickness,
-            cv2.LINE_AA,
+            font=font,
+            fill=25,
+            stroke_width=1,
+            stroke_fill=25,
         )
         x += cw + gap
-    ok, buf = cv2.imencode(".png", canvas)
-    if not ok:
-        raise RuntimeError("Failed to encode vector line PNG")
-    return buf.tobytes()
+    buf = io.BytesIO()
+    canvas.save(buf, format="PNG")
+    return buf.getvalue()
 
 
 def _ink_rgb01() -> Tuple[float, float, float]:
