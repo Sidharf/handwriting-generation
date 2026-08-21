@@ -3,7 +3,7 @@ from __future__ import annotations
 import cv2
 import numpy as np
 
-from line_qa import line_needs_vector
+from line_qa import is_controlled_status, is_date_like, line_needs_vector
 from line_quality import analyze_line, candidate_quality_key
 
 
@@ -136,6 +136,37 @@ def test_valid_short_numeric_token_still_uses_exact_vector_fallback() -> None:
 
     assert analyze_line(arr, "8.9").ok
     assert line_needs_vector(_png(arr), "8.9")
+
+
+def test_valid_date_token_uses_exact_vector_fallback() -> None:
+    text = "01 OCT 2026"
+    arr = np.full((64, 420), 255, dtype=np.uint8)
+    cv2.putText(
+        arr,
+        text,
+        (8, 43),
+        cv2.FONT_HERSHEY_SIMPLEX,
+        1.15,
+        25,
+        2,
+        cv2.LINE_AA,
+    )
+
+    assert analyze_line(arr, text).ok
+    assert is_date_like(text)
+    assert is_date_like("01OCT2026")
+    assert not is_date_like("ST 01 OCT 2026")
+    assert line_needs_vector(_png(arr), text)
+
+
+def test_valid_controlled_status_uses_exact_vector_fallback() -> None:
+    text = "Verified"
+    arr = _text_line(text=text)
+
+    assert analyze_line(arr, text).ok
+    assert is_controlled_status("  VERIFIED ")
+    assert not is_controlled_status("Verification complete")
+    assert line_needs_vector(_png(arr), text)
 
 
 def test_localized_blob_is_rejected_without_global_width_trigger() -> None:

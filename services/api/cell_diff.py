@@ -44,7 +44,7 @@ HEADER_ANCHOR_MAX_GAP_PTS = 56.0
 MAX_CELL_CHARS = 48
 SOFT_SPLIT_CHARS = 24
 SPLIT_LINE_GAP_PTS = 2.0
-SPLIT_MIN_LINE_PTS = 14.0
+SPLIT_MIN_LINE_PTS = 8.0
 CHECK_EMPTY = frozenset("☐")  # U+2610
 CHECK_MARKED = frozenset("☒☑✓✔")  # U+2612, U+2611, U+2713, U+2714
 CHECK_ASCII_X = frozenset({"X", "x"})
@@ -128,6 +128,13 @@ class Span:
     color: Optional[Tuple[float, float, float]] = None  # 0..1 RGB if available
 
 
+@dataclass
+class MergedFill:
+    rect: fitz.Rect
+    text: str
+    lines: Tuple[str, ...]
+
+
 def _extract_spans(page: fitz.Page) -> List[Span]:
     spans: List[Span] = []
     data = page.get_text("dict", flags=fitz.TEXT_PRESERVE_WHITESPACE)
@@ -209,7 +216,27 @@ def _is_fill_span(sp: Span, template_spans: List[Span]) -> bool:
     return not _template_has_match(sp, template_spans)
 
 
-def _merge_span_groups(spans: List[Span]) -> List[Tuple[fitz.Rect, str]]:
+def _vertical_rule_between(
+    left: Span,
+    right: Span,
+    vertical_rules: Sequence[VerticalRule],
+) -> bool:
+    if left.rect.x1 >= right.rect.x0:
+        return False
+    y0 = min(float(left.rect.y0), float(right.rect.y0))
+    y1 = max(float(left.rect.y1), float(right.rect.y1))
+    return any(
+        left.rect.x1 < rule.x < right.rect.x0
+        and rule.y0 <= y1
+        and rule.y1 >= y0
+        for rule in vertical_rules
+    )
+
+
+def _merge_span_groups(
+    spans: List[Span],
+    vertical_rules: Sequence[VerticalRule] = (),
+) -> List[MergedFill]:
     """Merge adjacent spans (same line or wrapped continuation) into cells."""
     if not spans:
         return []
@@ -220,7 +247,10 @@ def _merge_span_groups(spans: List[Span]) -> List[Tuple[fitz.Rect, str]]:
         for g in groups:
             last = g[-1]
             same_line = abs(sp.rect.y0 - last.rect.y0) < 4 and abs(sp.rect.y1 - last.rect.y1) < 6
-            close_x = sp.rect.x0 <= last.rect.x1 + MERGE_GAP_PTS
+            close_x = (
+                sp.rect.x0 <= last.rect.x1 + MERGE_GAP_PTS
+                and not _vertical_rule_between(last, sp, vertical_rules)
+            )
             # wrapped continuation under previous span
             stacked = (
                 sp.rect.y0 <= last.rect.y1 + 6
@@ -234,17 +264,41 @@ def _merge_span_groups(spans: List[Span]) -> List[Tuple[fitz.Rect, str]]:
         if not placed:
             groups.append([sp])
 
-    out: List[Tuple[fitz.Rect, str]] = []
+    out: List[MergedFill] = []
     for g in groups:
         g = sorted(g, key=lambda s: (s.rect.y0, s.rect.x0))
         rect = g[0].rect
         for sp in g[1:]:
             rect |= sp.rect
-        text = sanitize_text(" ".join(sp.text for sp in g))
+        line_groups: List[List[Span]] = []
+        for sp in g:
+            for line in line_groups:
+                first = line[0]
+                if (
+                    abs(sp.rect.y0 - first.rect.y0) < 4
+                    and abs(sp.rect.y1 - first.rect.y1) < 6
+                ):
+                    line.append(sp)
+                    break
+            else:
+                line_groups.append([sp])
+        lines = tuple(
+            line_text
+            for line in line_groups
+            if (
+                line_text := sanitize_text(
+                    " ".join(
+                        sp.text
+                        for sp in sorted(line, key=lambda item: item.rect.x0)
+                    )
+                )
+            )
+        )
+        text = sanitize_text(" ".join(lines))
         if text:
             pad = 1.0
             rect = fitz.Rect(rect.x0 - pad, rect.y0 - pad, rect.x1 + pad, rect.y1 + pad)
-            out.append((rect, text))
+            out.append(MergedFill(rect=rect, text=text, lines=lines))
     return out
 
 
@@ -571,74 +625,58 @@ def _emit_cells_for_text(
     rect: fitz.Rect,
     text: str,
     cell_i_start: int,
+    source_lines: Optional[Sequence[str]] = None,
 ) -> Tuple[List[FillCell], int]:
-    """Apply size limits: skip >MAX, soft-split 24..48 when height allows."""
+    """Emit every character, preserving wrapped source lines when possible."""
     cells: List[FillCell] = []
     cell_i = cell_i_start
     if not text or rect.width < 2 or rect.height < 2:
         return cells, cell_i
 
-    if len(text) > MAX_CELL_CHARS:
-        return cells, cell_i
+    normalized_lines = [
+        cleaned
+        for line in (source_lines or ())
+        if (cleaned := sanitize_text(line))
+    ]
+    if len(normalized_lines) > 1:
+        preferred = normalized_lines
+    elif len(text) > SOFT_SPLIT_CHARS or ("/" in text and len(text) >= 12):
+        preferred = _split_text_chunks(text, SOFT_SPLIT_CHARS)
+    else:
+        preferred = [text]
 
-    if len(text) <= SOFT_SPLIT_CHARS:
-        # Slash-separated compounds (e.g. molar ratios) still soft-split when multi-part
-        if "/" in text and len(text) >= 12:
-            slash_chunks = _split_text_chunks(text, SOFT_SPLIT_CHARS)
-            if len(slash_chunks) > 1:
-                chunks = slash_chunks
-                n = len(chunks)
-                min_h = n * SPLIT_MIN_LINE_PTS + (n - 1) * SPLIT_LINE_GAP_PTS
-                if rect.height >= min_h:
-                    line_h = (rect.height - (n - 1) * SPLIT_LINE_GAP_PTS) / n
-                    for i, chunk in enumerate(chunks):
-                        y0 = rect.y0 + i * (line_h + SPLIT_LINE_GAP_PTS)
-                        y1 = y0 + line_h
-                        cells.append(
-                            FillCell(
-                                id=f"p{page_i}_c{cell_i}",
-                                page=page_i,
-                                bbox=(
-                                    float(rect.x0),
-                                    float(y0),
-                                    float(rect.x1),
-                                    float(y1),
-                                ),
-                                text=chunk,
-                                enabled=True,
-                            )
-                        )
-                        cell_i += 1
-                    return cells, cell_i
-        cells.append(
-            FillCell(
-                id=f"p{page_i}_c{cell_i}",
-                page=page_i,
-                bbox=(float(rect.x0), float(rect.y0), float(rect.x1), float(rect.y1)),
-                text=text,
-                enabled=True,
-            )
+    chunks: List[str] = []
+    for line in preferred:
+        if len(line) <= MAX_CELL_CHARS:
+            chunks.append(line)
+        else:
+            chunks.extend(_split_text_chunks(line, MAX_CELL_CHARS))
+
+    max_lines = max(
+        1,
+        int(
+            (float(rect.height) + SPLIT_LINE_GAP_PTS)
+            // (SPLIT_MIN_LINE_PTS + SPLIT_LINE_GAP_PTS)
+        ),
+    )
+    if len(chunks) > max_lines:
+        compact_chunks = (
+            [text]
+            if len(text) <= MAX_CELL_CHARS
+            else _split_text_chunks(text, MAX_CELL_CHARS)
         )
-        return cells, cell_i + 1
+        if len(compact_chunks) > max_lines:
+            raise ValueError(
+                "Cannot preserve fill text within mapped field: "
+                f"page={page_i} chars={len(text)} lines={len(compact_chunks)} "
+                f"available_lines={max_lines}"
+            )
+        chunks = compact_chunks
 
-    chunks = _split_text_chunks(text, SOFT_SPLIT_CHARS)
     n = len(chunks)
-    # Need enough height to stack lines (~14pt each + gaps)
-    min_h = n * SPLIT_MIN_LINE_PTS + (n - 1) * SPLIT_LINE_GAP_PTS
-    if rect.height < min_h or n == 1:
-        # Truncate to soft limit as a single cell
-        cells.append(
-            FillCell(
-                id=f"p{page_i}_c{cell_i}",
-                page=page_i,
-                bbox=(float(rect.x0), float(rect.y0), float(rect.x1), float(rect.y1)),
-                text=text[:SOFT_SPLIT_CHARS].rstrip(),
-                enabled=True,
-            )
-        )
-        return cells, cell_i + 1
-
-    line_h = (rect.height - (n - 1) * SPLIT_LINE_GAP_PTS) / n
+    line_h = (
+        float(rect.height) - (n - 1) * SPLIT_LINE_GAP_PTS
+    ) / n
     for i, chunk in enumerate(chunks):
         y0 = rect.y0 + i * (line_h + SPLIT_LINE_GAP_PTS)
         y1 = y0 + line_h
@@ -806,12 +844,13 @@ def detect_fill_cells(
             if id(sp) not in consumed_marks and _is_fill_span(sp, t_spans)
         ]
 
-        merged = _merge_span_groups(fills)
+        merged = _merge_span_groups(fills, page_rules[page_i])
 
-        remapped: List[Tuple[fitz.Rect, str]] = []
+        remapped: List[Tuple[fitz.Rect, str, Tuple[str, ...]]] = []
         skipped_no_anchor = 0
         skipped_overflow = 0
-        for rect, text in merged:
+        for fill in merged:
+            rect = fill.rect
             if rect.width < 2 or rect.height < 2:
                 continue
             anchor = _find_fill_anchor(rect, s_spans, t_spans)
@@ -828,13 +867,14 @@ def detect_fill_cells(
             if mapped is None:
                 skipped_overflow += 1
                 continue
-            remapped.append((mapped, text))
+            remapped.append((mapped, fill.text, fill.lines))
 
         if debug_dir is not None:
             debug_dir.mkdir(parents=True, exist_ok=True)
             simg, zoom = _render_page(sdoc, page_i)
             dbg = simg.copy()
-            for rect, _text in merged:
+            for fill in merged:
+                rect = fill.rect
                 x0, y0, x1, y1 = [int(v * zoom) for v in (rect.x0, rect.y0, rect.x1, rect.y1)]
                 cv2.rectangle(dbg, (x0, y0), (x1, y1), (0, 180, 0), 2)
             cv2.imwrite(
@@ -843,7 +883,7 @@ def detect_fill_cells(
             )
             timg, tzoom = _render_page(tdoc, page_i)
             tdbg = timg.copy()
-            for rect, _text in remapped:
+            for rect, _text, _lines in remapped:
                 x0, y0, x1, y1 = [int(v * tzoom) for v in (rect.x0, rect.y0, rect.x1, rect.y1)]
                 cv2.rectangle(tdbg, (x0, y0), (x1, y1), (37, 99, 235), 2)
             for rect in check_rects:
@@ -869,8 +909,14 @@ def detect_fill_cells(
                 + "\n"
             )
 
-        for rect, text in remapped:
-            new_cells, cell_i = _emit_cells_for_text(page_i, rect, text, cell_i)
+        for rect, text, source_lines in remapped:
+            new_cells, cell_i = _emit_cells_for_text(
+                page_i,
+                rect,
+                text,
+                cell_i,
+                source_lines=source_lines,
+            )
             cells.extend(new_cells)
 
         for rect in check_rects:

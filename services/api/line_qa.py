@@ -2,12 +2,23 @@
 
 from __future__ import annotations
 
+import re
 from typing import Optional, Tuple
 
 import cv2
 import numpy as np
 
 from line_quality import INK_DARK_THRESH, MIN_WIDTH_PER_CHAR, qa_line_ok
+
+
+DATE_TOKEN_RE = re.compile(
+    r"(?i)^\s*\d{1,2}\s*"
+    r"(?:JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)"
+    r"\s*\d{2,4}\s*$"
+)
+CONTROLLED_STATUS_VALUES = frozenset(
+    {"approved", "fail", "pass", "verified"}
+)
 
 
 def _ink_bbox(arr: np.ndarray) -> Optional[Tuple[int, int, int, int]]:
@@ -26,6 +37,15 @@ def is_short_digit_heavy(text: str) -> bool:
     if not alnum:
         return False
     return sum(c.isdigit() for c in alnum) / len(alnum) >= 0.5
+
+
+def is_date_like(text: str) -> bool:
+    return DATE_TOKEN_RE.fullmatch(text or "") is not None
+
+
+def is_controlled_status(text: str) -> bool:
+    normalized = " ".join((text or "").casefold().split())
+    return normalized in CONTROLLED_STATUS_VALUES
 
 
 def short_digit_geometry_ok(arr: np.ndarray, gen_text: str) -> Tuple[bool, str]:
@@ -69,9 +89,12 @@ def line_needs_vector(png: bytes, text: str) -> bool:
     ok, _reason = qa_line_ok(gray, text)
     if not ok:
         return True
-    if is_short_digit_heavy(text):
-        # Emuru can produce plausible-looking but semantically wrong digits
-        # (for example, an "8" shaped like a bracket). Pixel geometry cannot
-        # prove identity, so compact exact-value fields are deterministic.
+    if (
+        is_short_digit_heavy(text)
+        or is_date_like(text)
+        or is_controlled_status(text)
+    ):
+        # Pixel geometry cannot prove glyph identity. Exact-value fields use a
+        # deterministic renderer even when the generated ink looks plausible.
         return True
     return False

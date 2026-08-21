@@ -1,16 +1,20 @@
 from __future__ import annotations
 
 import fitz
+import pytest
 
 from cell_diff import (
     HEADER_ANCHOR_MAX_GAP_PTS,
+    MAX_CELL_CHARS,
     Span,
+    _emit_cells_for_text,
     _find_column_header_anchor,
     _find_fill_anchor,
     _find_left_anchor,
     _map_fill_to_template_field,
+    _merge_span_groups,
 )
-from table_geometry import TABLE_RULE_INSET_PTS, HorizontalRule
+from table_geometry import TABLE_RULE_INSET_PTS, HorizontalRule, VerticalRule
 
 
 BLUE = (0.04, 0.17, 0.55)
@@ -28,6 +32,73 @@ def _span(
     color=BLACK,
 ) -> Span:
     return Span(text=text, rect=fitz.Rect(x0, y0, x1, y1), color=color)
+
+
+def test_wrapped_long_fill_preserves_every_character_inside_its_row() -> None:
+    first = _span(
+        "Post-thaw drug product, identity and",
+        394.5,
+        162.4,
+        543.0,
+        172.6,
+        BLUE,
+    )
+    second = _span("purity panel", 394.5, 174.6, 441.0, 184.8, BLUE)
+
+    merged = _merge_span_groups([first, second])
+
+    assert len(merged) == 1
+    assert merged[0].lines == (
+        "Post-thaw drug product, identity and",
+        "purity panel",
+    )
+    row = fitz.Rect(394.5, 162.4, 557.0, 184.8)
+    cells, next_id = _emit_cells_for_text(
+        0,
+        row,
+        merged[0].text,
+        2,
+        source_lines=merged[0].lines,
+    )
+
+    assert next_id == 4
+    assert [cell.text for cell in cells] == list(merged[0].lines)
+    assert " ".join(cell.text for cell in cells) == merged[0].text
+    assert all(len(cell.text) <= MAX_CELL_CHARS for cell in cells)
+    assert all(cell.bbox[0] >= row.x0 and cell.bbox[2] <= row.x1 for cell in cells)
+    assert cells[0].bbox[1] >= row.y0
+    assert cells[-1].bbox[3] <= row.y1
+    assert cells[0].bbox[3] < cells[1].bbox[1]
+
+
+def test_long_single_line_is_not_silently_truncated_in_a_short_row() -> None:
+    text = "A complete field longer than the soft limit"
+    row = fitz.Rect(100, 100, 300, 112)
+
+    cells, _ = _emit_cells_for_text(0, row, text, 0, source_lines=(text,))
+
+    assert [cell.text for cell in cells] == [text]
+
+
+def test_unfittable_text_raises_instead_of_disappearing() -> None:
+    text = "x" * (MAX_CELL_CHARS + 1)
+    row = fitz.Rect(100, 100, 300, 108)
+
+    with pytest.raises(ValueError, match="Cannot preserve fill text"):
+        _emit_cells_for_text(0, row, text, 0, source_lines=(text,))
+
+
+def test_adjacent_fills_are_not_merged_across_a_vertical_rule() -> None:
+    lot = _span("CD16-BV421-2026-01", 361.9, 476.9, 450.9, 487.0, BLUE)
+    expiry = _span("28FEB2027", 462.7, 476.9, 510.2, 487.0, BLUE)
+    rules = [VerticalRule(x=457.2, y0=367.4, y1=608.1)]
+
+    merged = _merge_span_groups([lot, expiry], rules)
+
+    assert [fill.text for fill in merged] == [
+        "CD16-BV421-2026-01",
+        "28 FEB 2027",
+    ]
 
 
 def test_signoff_uses_column_headers_when_left_row_is_empty() -> None:
