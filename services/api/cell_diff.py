@@ -5,7 +5,8 @@ that location (black or blue). Blue typed ink is still treated as a fill so
 legacy synthetics keep working.
 
 Each fill is paired to the Nth occurrence of its left-row label on the template
-(instance-index matching). Synthetic-only overflow rows are dropped.
+(instance-index matching). Header-over-value cells (SIGN-OFF, approvals) fall
+back to the column header above. Synthetic-only overflow rows are dropped.
 """
 
 from __future__ import annotations
@@ -14,7 +15,7 @@ import json
 import re
 from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional, Sequence, Tuple
 
 import cv2
 import fitz  # PyMuPDF
@@ -23,9 +24,12 @@ import numpy as np
 from paths import EMURU_ALLOWED
 from table_geometry import (
     TABLE_RULE_INSET_PTS,
+    HorizontalRule,
     VerticalRule,
+    extract_horizontal_rules,
     extract_vertical_rules,
     nearest_right_rule,
+    row_below_header,
 )
 
 DPI = 200
@@ -35,6 +39,8 @@ MERGE_GAP_PTS = 14.0
 ANCHOR_Y_TOL_PTS = 8.0
 ANCHOR_X_GAP_PTS = 4.0
 ANCHOR_MATCH_TOL_PTS = 3.0
+HEADER_ANCHOR_SLACK_PTS = 2.0
+HEADER_ANCHOR_MAX_GAP_PTS = 56.0
 MAX_CELL_CHARS = 48
 SOFT_SPLIT_CHARS = 24
 SPLIT_LINE_GAP_PTS = 2.0
@@ -264,6 +270,47 @@ def _find_left_anchor(
     return max(candidates, key=lambda s: s.rect.x1)
 
 
+def _find_column_header_anchor(
+    fill: fitz.Rect,
+    synth_spans: List[Span],
+    template_spans: List[Span],
+) -> Optional[Span]:
+    """Nearest non-fill span above the fill whose x-range covers the fill center."""
+    cx = (float(fill.x0) + float(fill.x1)) / 2.0
+    candidates: List[Span] = []
+    for sp in synth_spans:
+        if _is_fill_span(sp, template_spans):
+            continue
+        if not (sp.text or "").strip():
+            continue
+        if sp.rect.y1 > fill.y0 + HEADER_ANCHOR_SLACK_PTS:
+            continue
+        gap = float(fill.y0) - float(sp.rect.y1)
+        if gap > HEADER_ANCHOR_MAX_GAP_PTS:
+            continue
+        if not (sp.rect.x0 <= cx <= sp.rect.x1):
+            continue
+        candidates.append(sp)
+    if not candidates:
+        return None
+    return max(candidates, key=lambda s: s.rect.y0)
+
+
+def _find_fill_anchor(
+    fill: fitz.Rect,
+    synth_spans: List[Span],
+    template_spans: List[Span],
+) -> Optional[Span]:
+    """Prefer a same-row left label; fall back to the column header above."""
+    left = _find_left_anchor(fill, synth_spans, template_spans)
+    if left is not None and _norm(left.text):
+        return left
+    header = _find_column_header_anchor(fill, synth_spans, template_spans)
+    if header is not None and _norm(header.text):
+        return header
+    return None
+
+
 def _label_instances(
     spans: List[Span],
     key: str,
@@ -328,17 +375,35 @@ def _field_rect(
     return fitz.Rect(x0, y0, x1, y1)
 
 
+def _snap_header_field_y(
+    field: fitz.Rect,
+    header: fitz.Rect,
+    horiz_rules: Sequence[HorizontalRule],
+) -> fitz.Rect:
+    """Fit a header-anchored field into the template row under the header."""
+    row = row_below_header(horiz_rules, header)
+    if row is None:
+        return field
+    y0 = row[0] + TABLE_RULE_INSET_PTS
+    y1 = row[1] - TABLE_RULE_INSET_PTS
+    if y1 - y0 < 2.0:
+        return field
+    return fitz.Rect(field.x0, y0, field.x1, y1)
+
+
 def _map_fill_to_template_field(
     fill: fitz.Rect,
     synth_spans: List[Span],
     template_spans: List[Span],
     page_rect: fitz.Rect,
+    horiz_rules: Optional[Sequence[HorizontalRule]] = None,
 ) -> Optional[fitz.Rect]:
     """
-    Pair fill to the Nth template occurrence of its left-row label.
+    Pair fill to the Nth template occurrence of its row label or column header.
     Returns field rect on the template, or None to skip (no anchor / overflow).
     """
-    anchor = _find_left_anchor(fill, synth_spans, template_spans)
+    left = _find_left_anchor(fill, synth_spans, template_spans)
+    anchor = _find_fill_anchor(fill, synth_spans, template_spans)
     if anchor is None:
         return None
     key = _norm(anchor.text)
@@ -367,7 +432,11 @@ def _map_fill_to_template_field(
     dx = t_label.rect.x0 - s_label.rect.x0
     dy = t_label.rect.y0 - s_label.rect.y0
     mapped = fitz.Rect(fill.x0 + dx, fill.y0 + dy, fill.x1 + dx, fill.y1 + dy)
-    return _field_rect(mapped, t_label, page_rect)
+    field = _field_rect(mapped, t_label, page_rect)
+    header_anchored = left is None
+    if header_anchored and horiz_rules:
+        field = _snap_header_field_y(field, t_label.rect, horiz_rules)
+    return field
 
 
 def _dedupe_cells(cells: List[FillCell]) -> List[FillCell]:
@@ -715,6 +784,7 @@ def detect_fill_cells(
     cell_i = 0
     page_rects: Dict[int, fitz.Rect] = {}
     page_rules: Dict[int, List[VerticalRule]] = {}
+    page_horiz: Dict[int, List[HorizontalRule]] = {}
 
     for page_i in range(shared_pages):
         spage = sdoc[page_i]
@@ -724,6 +794,7 @@ def detect_fill_cells(
         page_rect = tpage.rect
         page_rects[page_i] = fitz.Rect(page_rect)
         page_rules[page_i] = extract_vertical_rules(tpage)
+        page_horiz[page_i] = extract_horizontal_rules(tpage)
 
         check_rects, consumed_marks = _detect_check_fills(s_spans, t_spans, page_rect)
 
@@ -743,11 +814,17 @@ def detect_fill_cells(
         for rect, text in merged:
             if rect.width < 2 or rect.height < 2:
                 continue
-            anchor = _find_left_anchor(rect, s_spans, t_spans)
+            anchor = _find_fill_anchor(rect, s_spans, t_spans)
             if anchor is None or not _norm(anchor.text):
                 skipped_no_anchor += 1
                 continue
-            mapped = _map_fill_to_template_field(rect, s_spans, t_spans, page_rect)
+            mapped = _map_fill_to_template_field(
+                rect,
+                s_spans,
+                t_spans,
+                page_rect,
+                horiz_rules=page_horiz[page_i],
+            )
             if mapped is None:
                 skipped_overflow += 1
                 continue

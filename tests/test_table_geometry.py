@@ -5,9 +5,12 @@ import fitz
 from cell_diff import FillCell, _expand_text_fields_to_columns
 from table_geometry import (
     TABLE_RULE_INSET_PTS,
+    HorizontalRule,
     VerticalRule,
+    extract_horizontal_rules,
     extract_vertical_rules,
     nearest_right_rule,
+    row_below_header,
 )
 
 
@@ -86,3 +89,41 @@ def test_next_field_remains_a_conservative_fallback_boundary() -> None:
 
     assert left.bbox[2] == 442.0
     assert right.bbox[2] == 500.0
+
+
+def test_extracts_horizontal_rules_and_row_below_header() -> None:
+    doc = fitz.open()
+    page = doc.new_page(width=612, height=792)
+    shape = page.new_shape()
+    shape.draw_rect(fitz.Rect(54.0, 379.1, 558.0, 402.4))
+    shape.draw_rect(fitz.Rect(54.0, 402.4, 306.0, 424.5))
+    shape.draw_rect(fitz.Rect(306.0, 402.4, 558.0, 424.5))
+    shape.draw_line(fitz.Point(53.8, 435.8), fitz.Point(558.2, 435.8))
+    shape.draw_rect(fitz.Rect(220, 410, 226, 412))
+    shape.finish(color=(0, 0, 0), width=0.8)
+    shape.commit()
+
+    rules = extract_horizontal_rules(page)
+    header = fitz.Rect(59.5, 413.3, 222.0, 423.3)
+    row = row_below_header(rules, header)
+
+    assert row is not None
+    assert abs(row[0] - 424.5) < 0.5
+    assert abs(row[1] - 435.8) < 0.5
+    title = fitz.Rect(59.5, 389.9, 205.5, 401.1)
+    title_row = row_below_header(rules, title)
+    assert title_row is not None
+    assert title_row[1] < 430.0
+    doc.close()
+
+
+def test_row_below_header_skips_title_band_for_column_header() -> None:
+    rules = [
+        HorizontalRule(y=379.4, x0=53.8, x1=558.2),
+        HorizontalRule(y=402.6, x0=54.2, x1=557.8),
+        HorizontalRule(y=424.9, x0=54.2, x1=557.8),
+        HorizontalRule(y=435.8, x0=53.8, x1=558.2),
+    ]
+    header = fitz.Rect(59.5, 413.3, 222.0, 423.3)
+    row = row_below_header(rules, header)
+    assert row == (424.9, 435.8)
