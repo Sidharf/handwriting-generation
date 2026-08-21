@@ -25,8 +25,11 @@ from variation import (
 
 # Embed raster at this multiple of PDF-point size so viewers don't upsample mush.
 STAMP_DPI_SCALE = 4
+SHORT_FIELD_DPI_SCALE = 8
 INK_DARK_THRESH = 200
-SHORT_FIELD_HEIGHT_PTS = 14.0
+# Pre-inset cell height; inset 15→13pt boxes must still count as short.
+SHORT_FIELD_CELL_HEIGHT_PTS = 16.0
+SHORT_FIELD_FIT = 0.94
 
 
 def thin_ink(png_bytes: bytes, iterations: int = 1) -> bytes:
@@ -128,19 +131,25 @@ def stamp_check_x(
     line_weight: int,
 ) -> None:
     """Draw a jittered two-stroke X over a printed ☐ in blue ink."""
-    x0, y0, x1, y1 = [float(v) for v in bbox]
-    w, h = max(x1 - x0, 1.0), max(y1 - y0, 1.0)
+    bx0, by0, bx1, by1 = [float(v) for v in bbox]
+    w, h = max(bx1 - bx0, 1.0), max(by1 - by0, 1.0)
+    # ☐ glyphs usually sit on the left of a wide advance; square that region.
+    side = min(w, h)
+    x0 = bx0
+    y0 = by0 + (h - side) / 2.0
+    x1 = x0 + side
+    y1 = y0 + side
     cx, cy = (x0 + x1) / 2.0, (y0 + y1) / 2.0
-    pad = min(w, h)
+    pad = side
     inset = pad * 0.12
-    overshoot = pad * 0.10
+    overshoot = pad * 0.04
     ax0 = x0 + inset - overshoot
     ay0 = y0 + inset - overshoot
     ax1 = x1 - inset + overshoot
     ay1 = y1 - inset + overshoot
 
-    leftover_x = max(0.0, w * 0.15)
-    leftover_y = max(0.0, h * 0.15)
+    leftover_x = max(0.0, side * 0.15)
+    leftover_y = max(0.0, side * 0.15)
     jx, jy, rot = placement_offsets(axes.placement, seed, cell_index, leftover_x, leftover_y)
     amp = pad * 0.12
 
@@ -202,6 +211,8 @@ def stamp_pdf(
     kind=="check" cells get a vector X and do not consume a PNG.
 
     Scale primarily to cell height (~85%), allow width up to 1.15x cell width.
+    Short cells (pre-inset height < 16pt) use a higher fit, DPI, and a lower
+    alpha floor. Line weight still applies (thin_ink when negative).
     Place rect is in PDF points; embedded PNG is high-DPI (not point-sized pixels).
     variation=None or all-zero axes → legacy placement (85% height, centered, no rotate).
     line_weight: -2..+2; negative applies erosion (thinning) before stamping.
@@ -223,6 +234,7 @@ def stamp_pdf(
             cell_i += 1
             continue
         x0, y0, x1, y1 = cell["bbox"]
+        short_field = (float(y1) - float(y0)) < SHORT_FIELD_CELL_HEIGHT_PTS
         inset = 1.0
         target = fitz.Rect(x0 + inset, y0 + inset, x1 - inset, y1 - inset)
         if target.width < 2 or target.height < 2:
@@ -230,12 +242,9 @@ def stamp_pdf(
 
         floor, power, a_scale = stroke_ink_params(axes.stroke, seed, png_i)
         png_data = line_pngs[png_i]
-        short_field = float(target.height) < SHORT_FIELD_HEIGHT_PTS
         if short_field:
             floor = min(floor, 0.02)
             power = min(power, 0.85)
-            if thin_iters == 0:
-                png_data = thicken_ink(png_data, iterations=1)
         if thin_iters > 0:
             png_data = thin_ink(png_data, iterations=thin_iters)
         rgba = crop_ink(
@@ -256,6 +265,8 @@ def stamp_pdf(
         tw, th = float(target.width), float(target.height)
 
         fit = height_fit_frac(axes.size, seed, png_i)
+        if short_field:
+            fit = max(fit, SHORT_FIELD_FIT)
         target_h = max(1.0, th * fit)
         aspect = float(rgba.width) / max(float(rgba.height), 1.0)
         nh = target_h
@@ -287,8 +298,9 @@ def stamp_pdf(
         dy = min(max(dy, target.y0), target.y0 + leftover_y)
         place = fitz.Rect(dx, dy, dx + nw, dy + nh)
 
-        px_w = max(1, int(round(nw * STAMP_DPI_SCALE)))
-        px_h = max(1, int(round(nh * STAMP_DPI_SCALE)))
+        dpi_scale = SHORT_FIELD_DPI_SCALE if short_field else STAMP_DPI_SCALE
+        px_w = max(1, int(round(nw * dpi_scale)))
+        px_h = max(1, int(round(nh * dpi_scale)))
         hi = rgba.resize((px_w, px_h), Image.Resampling.LANCZOS)
 
         buf = io.BytesIO()

@@ -11,6 +11,7 @@ Each fill is paired to the Nth occurrence of its left-row label on the template
 from __future__ import annotations
 
 import json
+import re
 from dataclasses import asdict, dataclass
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
@@ -31,12 +32,16 @@ ANCHOR_MATCH_TOL_PTS = 3.0
 MAX_CELL_CHARS = 48
 SOFT_SPLIT_CHARS = 24
 SPLIT_LINE_GAP_PTS = 2.0
-MIN_FIELD_HEIGHT_PTS = 15.0
+SPLIT_MIN_LINE_PTS = 14.0
 CHECK_EMPTY = frozenset("☐")  # U+2610
 CHECK_MARKED = frozenset("☒☑✓✔")  # U+2612, U+2611, U+2713, U+2714
 CHECK_ASCII_X = frozenset({"X", "x"})
 CHECK_MATCH_DIST_PTS = 8.0
 CHECK_BESIDE_GAP_PTS = 4.0
+COLUMN_GAP_PTS = 8.0
+COLUMN_PAGE_MARGIN_PTS = 18.0
+# Matches pdf_stamp max_w = tw * 1.15 so expanded fields don't overflow the next column.
+STAMP_WIDTH_SLACK = 1.15
 
 
 @dataclass
@@ -72,8 +77,6 @@ def sanitize_text(text: str) -> str:
         ">": "",
     }
     # 2.21 x 10^13 / 2.21×10¹³ style → ASCII
-    import re
-
     text = re.sub(
         r"(\d+(?:\.\d+)?)\s*[xX×]\s*10\s*[\^¹]?[\s]*([0-9¹²³⁴⁵⁶⁷⁸⁹⁰]+)",
         lambda m: f"{m.group(1)} x 10e{_sup_to_ascii(m.group(2))}",
@@ -88,6 +91,12 @@ def sanitize_text(text: str) -> str:
         if ch in EMURU_ALLOWED:
             out.append(ch)
     cleaned = "".join(out)
+    cleaned = re.sub(r"\s*/\s*", "/", cleaned)
+    cleaned = re.sub(
+        r"(?i)\b(\d{1,2})(JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)(\d{2,4})\b",
+        lambda m: f"{m.group(1)} {m.group(2).upper()} {m.group(3)}",
+        cleaned,
+    )
     while "  " in cleaned:
         cleaned = cleaned.replace("  ", " ")
     return cleaned.strip()
@@ -304,7 +313,7 @@ def _field_rect(
     page_rect: fitz.Rect,
 ) -> fitz.Rect:
     """Expand mapped glyph box into a stamp field rect on the template."""
-    h = max(float(mapped.height), float(t_label.rect.height) * 1.15, MIN_FIELD_HEIGHT_PTS)
+    h = max(float(mapped.height), float(t_label.rect.height) * 1.15)
     cy = (mapped.y0 + mapped.y1) / 2.0
     y0 = cy - h / 2.0
     y1 = cy + h / 2.0
@@ -377,6 +386,58 @@ def _dedupe_cells(cells: List[FillCell]) -> List[FillCell]:
     return out
 
 
+def _same_row(a: FillCell, b: FillCell) -> bool:
+    """True if two cells sit on the same table row."""
+    _, ay0, _, ay1 = a.bbox
+    _, by0, _, by1 = b.bbox
+    acy = (ay0 + ay1) / 2.0
+    bcy = (by0 + by1) / 2.0
+    if abs(acy - bcy) <= ANCHOR_Y_TOL_PTS:
+        return True
+    return not (ay1 <= by0 or by1 <= ay0)
+
+
+def _expand_text_fields_to_columns(
+    cells: List[FillCell],
+    page_rects: Dict[int, fitz.Rect],
+) -> None:
+    """Widen text-cell x1 to the next fill (or page edge) on the same row.
+
+    Check cells are left unchanged so the vector X stays on the printed ☐.
+    """
+    by_page: Dict[int, List[FillCell]] = {}
+    for c in cells:
+        by_page.setdefault(c.page, []).append(c)
+
+    for page_i, page_cells in by_page.items():
+        page_rect = page_rects.get(page_i)
+        if page_rect is None:
+            continue
+        page_limit = float(page_rect.x1) - COLUMN_PAGE_MARGIN_PTS
+        for cell in page_cells:
+            if cell.kind == "check":
+                continue
+            x0, y0, x1, y1 = cell.bbox
+            next_x0: Optional[float] = None
+            for other in page_cells:
+                ox0 = other.bbox[0]
+                if ox0 <= x0 + 0.5:
+                    continue
+                if not _same_row(cell, other):
+                    continue
+                if next_x0 is None or ox0 < next_x0:
+                    next_x0 = ox0
+            limit = (next_x0 - COLUMN_GAP_PTS) if next_x0 is not None else page_limit
+            limit = min(limit, page_limit)
+            usable = limit - x0
+            if usable <= 0:
+                continue
+            expanded = x0 + usable / STAMP_WIDTH_SLACK
+            new_x1 = max(x1, min(page_limit, expanded))
+            if new_x1 > x1 + 0.5:
+                cell.bbox = (x0, y0, new_x1, y1)
+
+
 def _split_text_chunks(text: str, max_len: int = SOFT_SPLIT_CHARS) -> List[str]:
     """Split on spaces and '/' into chunks of length <= max_len."""
     text = text.strip()
@@ -439,7 +500,7 @@ def _emit_cells_for_text(
             if len(slash_chunks) > 1:
                 chunks = slash_chunks
                 n = len(chunks)
-                min_h = n * 10.0 + (n - 1) * SPLIT_LINE_GAP_PTS
+                min_h = n * SPLIT_MIN_LINE_PTS + (n - 1) * SPLIT_LINE_GAP_PTS
                 if rect.height >= min_h:
                     line_h = (rect.height - (n - 1) * SPLIT_LINE_GAP_PTS) / n
                     for i, chunk in enumerate(chunks):
@@ -474,8 +535,8 @@ def _emit_cells_for_text(
 
     chunks = _split_text_chunks(text, SOFT_SPLIT_CHARS)
     n = len(chunks)
-    # Need enough height to stack lines (~10pt each + gaps)
-    min_h = n * 10.0 + (n - 1) * SPLIT_LINE_GAP_PTS
+    # Need enough height to stack lines (~14pt each + gaps)
+    min_h = n * SPLIT_MIN_LINE_PTS + (n - 1) * SPLIT_LINE_GAP_PTS
     if rect.height < min_h or n == 1:
         # Truncate to soft limit as a single cell
         cells.append(
@@ -633,6 +694,7 @@ def detect_fill_cells(
 
     cells: List[FillCell] = []
     cell_i = 0
+    page_rects: Dict[int, fitz.Rect] = {}
 
     for page_i in range(shared_pages):
         spage = sdoc[page_i]
@@ -640,6 +702,7 @@ def detect_fill_cells(
         s_spans = _extract_spans(spage)
         t_spans = _extract_spans(tpage)
         page_rect = tpage.rect
+        page_rects[page_i] = fitz.Rect(page_rect)
 
         check_rects, consumed_marks = _detect_check_fills(s_spans, t_spans, page_rect)
 
@@ -729,6 +792,7 @@ def detect_fill_cells(
     sdoc.close()
 
     cells = _dedupe_cells(cells)
+    _expand_text_fields_to_columns(cells, page_rects)
     # Re-id after dedupe for stable sequential ids
     for i, c in enumerate(cells):
         c.id = f"p{c.page}_c{i}"
