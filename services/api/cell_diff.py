@@ -32,6 +32,9 @@ MAX_CELL_CHARS = 48
 SOFT_SPLIT_CHARS = 24
 SPLIT_LINE_GAP_PTS = 2.0
 MIN_FIELD_HEIGHT_PTS = 11.0
+CHECK_EMPTY = frozenset("☐")  # U+2610
+CHECK_MARKED = frozenset("☒☑✓✔")  # U+2612, U+2611, U+2713, U+2714
+CHECK_MATCH_DIST_PTS = 8.0
 
 
 @dataclass
@@ -41,6 +44,7 @@ class FillCell:
     bbox: Tuple[float, float, float, float]  # x0, y0, x1, y1 PDF points
     text: str
     enabled: bool = True
+    kind: str = "text"  # "text" | "check"
 
     def to_dict(self) -> Dict[str, Any]:
         d = asdict(self)
@@ -362,6 +366,7 @@ def _dedupe_cells(cells: List[FillCell]) -> List[FillCell]:
             round(c.bbox[2]),
             round(c.bbox[3]),
             c.text,
+            c.kind,
         )
         if key in seen:
             continue
@@ -499,6 +504,67 @@ def _emit_cells_for_text(
     return cells, cell_i
 
 
+def _box_kind(text: str) -> Optional[str]:
+    t = (text or "").strip()
+    if t in CHECK_EMPTY:
+        return "empty"
+    if t in CHECK_MARKED:
+        return "checked"
+    return None
+
+
+def _near_box(a: fitz.Rect, b: fitz.Rect) -> bool:
+    if _iou(a, b) >= 0.35:
+        return True
+    acx, acy = _center(a)
+    bcx, bcy = _center(b)
+    return ((acx - bcx) ** 2 + (acy - bcy) ** 2) ** 0.5 <= CHECK_MATCH_DIST_PTS
+
+
+def _detect_check_fills(
+    synth_spans: List[Span],
+    template_spans: List[Span],
+    page_rect: fitz.Rect,
+) -> List[fitz.Rect]:
+    """Pair synthetic ☒/☑/✓ with the overlapping template ☐. Returns template rects."""
+    empty_boxes = [sp for sp in template_spans if _box_kind(sp.text) == "empty"]
+    checked_tmpl = [sp for sp in template_spans if _box_kind(sp.text) == "checked"]
+    used = set()
+    out: List[fitz.Rect] = []
+    for sp in synth_spans:
+        if _box_kind(sp.text) != "checked":
+            continue
+        if any(_near_box(sp.rect, t.rect) for t in checked_tmpl):
+            continue
+        best_i: Optional[int] = None
+        best_score: Optional[Tuple[float, float]] = None
+        scx, scy = _center(sp.rect)
+        for i, t in enumerate(empty_boxes):
+            if i in used:
+                continue
+            if not _near_box(sp.rect, t.rect):
+                continue
+            iou = _iou(sp.rect, t.rect)
+            tcx, tcy = _center(t.rect)
+            dist = ((tcx - scx) ** 2 + (tcy - scy) ** 2) ** 0.5
+            score = (-iou, dist)
+            if best_score is None or score < best_score:
+                best_score = score
+                best_i = i
+        if best_i is None:
+            continue
+        used.add(best_i)
+        box = empty_boxes[best_i].rect
+        x0 = max(float(page_rect.x0), float(box.x0))
+        y0 = max(float(page_rect.y0), float(box.y0))
+        x1 = min(float(page_rect.x1), float(box.x1))
+        y1 = min(float(page_rect.y1), float(box.y1))
+        if x1 - x0 < 2 or y1 - y0 < 2:
+            continue
+        out.append(fitz.Rect(x0, y0, x1, y1))
+    return out
+
+
 def _render_page(doc: fitz.Document, page_index: int, dpi: int = DPI):
     page = doc[page_index]
     zoom = dpi / 72.0
@@ -550,6 +616,8 @@ def detect_fill_cells(
                 continue
             remapped.append((mapped, text))
 
+        check_rects = _detect_check_fills(s_spans, t_spans, page_rect)
+
         if debug_dir is not None:
             debug_dir.mkdir(parents=True, exist_ok=True)
             simg, zoom = _render_page(sdoc, page_i)
@@ -566,6 +634,9 @@ def detect_fill_cells(
             for rect, _text in remapped:
                 x0, y0, x1, y1 = [int(v * tzoom) for v in (rect.x0, rect.y0, rect.x1, rect.y1)]
                 cv2.rectangle(tdbg, (x0, y0), (x1, y1), (37, 99, 235), 2)
+            for rect in check_rects:
+                x0, y0, x1, y1 = [int(v * tzoom) for v in (rect.x0, rect.y0, rect.x1, rect.y1)]
+                cv2.rectangle(tdbg, (x0, y0), (x1, y1), (37, 99, 235), 2)
             cv2.imwrite(
                 str(debug_dir / f"page_{page_i}_template_remap.png"),
                 cv2.cvtColor(tdbg, cv2.COLOR_RGB2BGR),
@@ -577,6 +648,7 @@ def detect_fill_cells(
                         "page": page_i,
                         "merged": len(merged),
                         "kept": len(remapped),
+                        "checks": len(check_rects),
                         "skipped_no_anchor": skipped_no_anchor,
                         "skipped_overflow": skipped_overflow,
                     },
@@ -588,6 +660,19 @@ def detect_fill_cells(
         for rect, text in remapped:
             new_cells, cell_i = _emit_cells_for_text(page_i, rect, text, cell_i)
             cells.extend(new_cells)
+
+        for rect in check_rects:
+            cells.append(
+                FillCell(
+                    id=f"p{page_i}_c{cell_i}",
+                    page=page_i,
+                    bbox=(float(rect.x0), float(rect.y0), float(rect.x1), float(rect.y1)),
+                    text="X",
+                    enabled=True,
+                    kind="check",
+                )
+            )
+            cell_i += 1
 
     tdoc.close()
     sdoc.close()

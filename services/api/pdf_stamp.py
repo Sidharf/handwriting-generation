@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import io
+import math
 from pathlib import Path
 from typing import Any, Mapping, Optional, Sequence, Tuple
 
@@ -13,10 +14,12 @@ from PIL import Image
 
 from paths import INK_BLUE
 from variation import (
+    VariationAxes,
     height_fit_frac,
     line_weight_params,
     placement_offsets,
     resolve_variation,
+    rng_unit,
     stroke_ink_params,
 )
 
@@ -81,6 +84,87 @@ def crop_ink(im: Image.Image, pad: int = 2) -> Image.Image:
     return im.crop((x0, y0, x1, y1))
 
 
+def _ink_rgb01() -> Tuple[float, float, float]:
+    return (INK_BLUE[0] / 255.0, INK_BLUE[1] / 255.0, INK_BLUE[2] / 255.0)
+
+
+def _rotate_pt(
+    x: float, y: float, cx: float, cy: float, deg: float
+) -> Tuple[float, float]:
+    rad = math.radians(deg)
+    c, s = math.cos(rad), math.sin(rad)
+    dx, dy = x - cx, y - cy
+    return cx + dx * c - dy * s, cy + dx * s + dy * c
+
+
+def stamp_check_x(
+    page: fitz.Page,
+    bbox: Sequence[float],
+    axes: VariationAxes,
+    seed: Optional[int],
+    cell_index: int,
+    line_weight: int,
+) -> None:
+    """Draw a jittered two-stroke X over a printed ☐ in blue ink."""
+    x0, y0, x1, y1 = [float(v) for v in bbox]
+    w, h = max(x1 - x0, 1.0), max(y1 - y0, 1.0)
+    cx, cy = (x0 + x1) / 2.0, (y0 + y1) / 2.0
+    pad = min(w, h)
+    inset = pad * 0.12
+    overshoot = pad * 0.10
+    ax0 = x0 + inset - overshoot
+    ay0 = y0 + inset - overshoot
+    ax1 = x1 - inset + overshoot
+    ay1 = y1 - inset + overshoot
+
+    leftover_x = max(0.0, w * 0.15)
+    leftover_y = max(0.0, h * 0.15)
+    jx, jy, rot = placement_offsets(axes.placement, seed, cell_index, leftover_x, leftover_y)
+    amp = pad * 0.12
+
+    def j(channel: int) -> float:
+        return amp * rng_unit(seed, cell_index, channel)
+
+    p1 = (ax0 + j(10) + jx, ay0 + j(11) + jy)
+    p2 = (ax1 + j(12) + jx, ay1 + j(13) + jy)
+    p3 = (ax1 + j(14) + jx, ay0 + j(15) + jy)
+    p4 = (ax0 + j(16) + jx, ay1 + j(17) + jy)
+    if abs(rot) > 0.05:
+        p1 = _rotate_pt(p1[0], p1[1], cx, cy, rot)
+        p2 = _rotate_pt(p2[0], p2[1], cx, cy, rot)
+        p3 = _rotate_pt(p3[0], p3[1], cx, cy, rot)
+        p4 = _rotate_pt(p4[0], p4[1], cx, cy, rot)
+
+    lw = max(-2, min(2, int(line_weight)))
+    base_w = 0.75 + 0.16 * lw
+    _, _, a_scale = stroke_ink_params(axes.stroke, seed, cell_index)
+    w1 = float(max(0.45, min(1.1, base_w * (1.0 + 0.08 * rng_unit(seed, cell_index, 18)))))
+    w2 = float(max(0.45, min(1.1, base_w * (1.0 + 0.08 * rng_unit(seed, cell_index, 19)))))
+    opacity = float(max(0.75, min(1.0, 0.92 * a_scale)))
+    color = _ink_rgb01()
+
+    shape = page.new_shape()
+    shape.draw_line(fitz.Point(*p1), fitz.Point(*p2))
+    shape.finish(
+        color=color,
+        width=w1,
+        stroke_opacity=opacity,
+        closePath=False,
+        lineCap=1,
+        lineJoin=1,
+    )
+    shape.draw_line(fitz.Point(*p3), fitz.Point(*p4))
+    shape.finish(
+        color=color,
+        width=w2,
+        stroke_opacity=opacity,
+        closePath=False,
+        lineCap=1,
+        lineJoin=1,
+    )
+    shape.commit()
+
+
 def stamp_pdf(
     template_pdf: Path,
     cells: Sequence[dict],
@@ -91,8 +175,9 @@ def stamp_pdf(
     line_weight: int = 0,
 ) -> Path:
     """
-    cells: list of {page, bbox:[x0,y0,x1,y1], enabled}
-    line_pngs: one PNG per enabled cell, in order of enabled cells
+    cells: list of {page, bbox:[x0,y0,x1,y1], enabled, kind?}
+    line_pngs: one PNG per enabled *text* cell, in order of those cells.
+    kind=="check" cells get a vector X and do not consume a PNG.
 
     Scale primarily to cell height (~85%), allow width up to 1.15x cell width.
     Place rect is in PDF points; embedded PNG is high-DPI (not point-sized pixels).
@@ -103,12 +188,18 @@ def stamp_pdf(
     _, thin_iters = line_weight_params(line_weight)
     doc = fitz.open(template_pdf)
     png_i = 0
+    cell_i = 0
     for cell in cells:
         if not cell.get("enabled", True):
             continue
-        if png_i >= len(line_pngs):
-            break
         page = doc[cell["page"]]
+        if cell.get("kind") == "check":
+            stamp_check_x(page, cell["bbox"], axes, seed, cell_i, line_weight)
+            cell_i += 1
+            continue
+        if png_i >= len(line_pngs):
+            cell_i += 1
+            continue
         x0, y0, x1, y1 = cell["bbox"]
         inset = 1.0
         target = fitz.Rect(x0 + inset, y0 + inset, x1 - inset, y1 - inset)
@@ -176,6 +267,7 @@ def stamp_pdf(
         hi.save(buf, format="PNG")
         page.insert_image(place, stream=buf.getvalue(), keep_proportion=False, overlay=True)
         png_i += 1
+        cell_i += 1
 
     out_pdf.parent.mkdir(parents=True, exist_ok=True)
     doc.save(out_pdf)

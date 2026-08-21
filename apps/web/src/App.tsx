@@ -22,6 +22,7 @@ type Cell = {
   bbox: number[];
   text: string;
   enabled: boolean;
+  kind?: "text" | "check";
 };
 
 type Job = {
@@ -834,6 +835,7 @@ export default function App() {
                           <input
                             type="text"
                             value={c.text}
+                            readOnly={c.kind === "check"}
                             onChange={(e) => updateCell(c.id, { text: e.target.value })}
                           />
                         </td>

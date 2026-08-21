@@ -175,6 +175,7 @@ def overlay(template_path: str, cells_json: str = "[]", page: int = 0):
             bbox=tuple(c["bbox"]),
             text=c.get("text", ""),
             enabled=c.get("enabled", True),
+            kind=c.get("kind", "text"),
         )
         for c in cells_raw
     ]
@@ -266,7 +267,8 @@ def _run_job(job_id: str, line_weight: int = 0) -> None:
         update_job(job_id, status="calling_modal")
         job = get_job(job_id)
         enabled = [c for c in job["cells"] if c.get("enabled", True)]
-        texts = [c.get("text") or " " for c in enabled]
+        text_cells = [c for c in enabled if c.get("kind") != "check"]
+        texts = [c.get("text") or " " for c in text_cells]
         style_png, style_text = get_active_style()
         max_new_tokens = int(job.get("max_new_tokens") or job.get("steps") or 128)
         axes = resolve_variation(job.get("variation"))
