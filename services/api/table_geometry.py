@@ -167,6 +167,43 @@ def _rule_overlaps_header(rule: HorizontalRule, header: fitz.Rect) -> bool:
     return overlap / header_width >= MIN_ROW_OVERLAP_FRAC
 
 
+def enclosing_row(
+    rules: Sequence[HorizontalRule],
+    *,
+    x0: float,
+    x1: float,
+    y: float,
+) -> Optional[Tuple[float, float]]:
+    """Return the horizontal-rule row containing a field anchor."""
+    left, right = sorted((float(x0), float(x1)))
+    width = max(1.0, right - left)
+    overlapping = [
+        rule
+        for rule in rules
+        if max(0.0, min(rule.x1, right) - max(rule.x0, left)) / width
+        >= MIN_ROW_OVERLAP_FRAC
+    ]
+    top = max(
+        (
+            rule.y
+            for rule in overlapping
+            if rule.y < float(y) - VERTICAL_TOLERANCE_PTS
+        ),
+        default=None,
+    )
+    bottom = min(
+        (
+            rule.y
+            for rule in overlapping
+            if rule.y > float(y) + VERTICAL_TOLERANCE_PTS
+        ),
+        default=None,
+    )
+    if top is None or bottom is None or bottom - top < 2.0:
+        return None
+    return (top, bottom)
+
+
 def row_below_header(
     rules: Sequence[HorizontalRule],
     header: fitz.Rect,

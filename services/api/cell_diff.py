@@ -26,6 +26,7 @@ from table_geometry import (
     TABLE_RULE_INSET_PTS,
     HorizontalRule,
     VerticalRule,
+    enclosing_row,
     extract_horizontal_rules,
     extract_vertical_rules,
     nearest_right_rule,
@@ -445,6 +446,29 @@ def _snap_header_field_y(
     return fitz.Rect(field.x0, y0, field.x1, y1)
 
 
+def _snap_overflowing_row_field_y(
+    field: fitz.Rect,
+    label: fitz.Rect,
+    horiz_rules: Sequence[HorizontalRule],
+) -> fitz.Rect:
+    """Fit an overflowing left-anchored field into its template row."""
+    row = enclosing_row(
+        horiz_rules,
+        x0=field.x0,
+        x1=field.x1,
+        y=(float(label.y0) + float(label.y1)) / 2.0,
+    )
+    if row is None:
+        return field
+    y0 = row[0] + TABLE_RULE_INSET_PTS
+    y1 = row[1] - TABLE_RULE_INSET_PTS
+    if y1 - y0 < 2.0:
+        return field
+    if field.y0 >= row[0] and field.y1 <= row[1]:
+        return field
+    return fitz.Rect(field.x0, y0, field.x1, y1)
+
+
 def _map_fill_to_template_field(
     fill: fitz.Rect,
     synth_spans: List[Span],
@@ -490,6 +514,12 @@ def _map_fill_to_template_field(
     header_anchored = left is None
     if header_anchored and horiz_rules:
         field = _snap_header_field_y(field, t_label.rect, horiz_rules)
+    elif horiz_rules:
+        field = _snap_overflowing_row_field_y(
+            field,
+            t_label.rect,
+            horiz_rules,
+        )
     return field
 
 

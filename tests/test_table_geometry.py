@@ -7,6 +7,7 @@ from table_geometry import (
     TABLE_RULE_INSET_PTS,
     HorizontalRule,
     VerticalRule,
+    enclosing_row,
     extract_horizontal_rules,
     extract_vertical_rules,
     nearest_right_rule,
@@ -115,6 +116,20 @@ def test_extracts_horizontal_rules_and_row_below_header() -> None:
     assert title_row is not None
     assert title_row[1] < 430.0
     doc.close()
+
+
+def test_enclosing_row_brackets_anchor_with_overlapping_rules() -> None:
+    rules = [
+        HorizontalRule(y=157.95, x0=54.25, x1=557.75),
+        HorizontalRule(y=180.15, x0=54.25, x1=557.75),
+        HorizontalRule(y=202.35, x0=54.25, x1=557.75),
+        HorizontalRule(y=170.0, x0=20.0, x1=80.0),
+    ]
+
+    row = enclosing_row(rules, x0=394.5, x1=557.0, y=169.0)
+
+    assert row == (157.95, 180.15)
+    assert enclosing_row(rules, x0=570.0, x1=600.0, y=169.0) is None
 
 
 def test_row_below_header_skips_title_band_for_column_header() -> None:

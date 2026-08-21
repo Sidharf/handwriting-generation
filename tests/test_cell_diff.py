@@ -13,6 +13,7 @@ from cell_diff import (
     _find_left_anchor,
     _map_fill_to_template_field,
     _merge_span_groups,
+    _snap_overflowing_row_field_y,
 )
 from table_geometry import TABLE_RULE_INSET_PTS, HorizontalRule, VerticalRule
 
@@ -35,6 +36,7 @@ def _span(
 
 
 def test_wrapped_long_fill_preserves_every_character_inside_its_row() -> None:
+    label = _span("Sample description", 220.0, 164.0, 320.0, 174.0)
     first = _span(
         "Post-thaw drug product, identity and",
         394.5,
@@ -52,7 +54,21 @@ def test_wrapped_long_fill_preserves_every_character_inside_its_row() -> None:
         "Post-thaw drug product, identity and",
         "purity panel",
     )
-    row = fitz.Rect(394.5, 162.4, 557.0, 184.8)
+    rules = [
+        HorizontalRule(y=157.95, x0=54.25, x1=557.75),
+        HorizontalRule(y=180.15, x0=54.25, x1=557.75),
+    ]
+    mapped = _map_fill_to_template_field(
+        merged[0].rect,
+        [label, first, second],
+        [label],
+        PAGE,
+        horiz_rules=rules,
+    )
+    assert mapped is not None
+    assert mapped.y0 == 157.95 + TABLE_RULE_INSET_PTS
+    assert mapped.y1 == 180.15 - TABLE_RULE_INSET_PTS
+    row = mapped
     cells, next_id = _emit_cells_for_text(
         0,
         row,
@@ -67,7 +83,7 @@ def test_wrapped_long_fill_preserves_every_character_inside_its_row() -> None:
     assert all(len(cell.text) <= MAX_CELL_CHARS for cell in cells)
     assert all(cell.bbox[0] >= row.x0 and cell.bbox[2] <= row.x1 for cell in cells)
     assert cells[0].bbox[1] >= row.y0
-    assert cells[-1].bbox[3] <= row.y1
+    assert cells[-1].bbox[3] <= row.y1 + 1e-6
     assert cells[0].bbox[3] < cells[1].bbox[1]
 
 
@@ -78,6 +94,19 @@ def test_long_single_line_is_not_silently_truncated_in_a_short_row() -> None:
     cells, _ = _emit_cells_for_text(0, row, text, 0, source_lines=(text,))
 
     assert [cell.text for cell in cells] == [text]
+
+
+def test_field_inside_actual_rules_is_not_expanded_for_the_inset() -> None:
+    field = fitz.Rect(394.5, 145.3, 557.0, 157.35)
+    label = fitz.Rect(220.0, 145.0, 320.0, 157.0)
+    rules = [
+        HorizontalRule(y=135.75, x0=54.25, x1=557.75),
+        HorizontalRule(y=157.95, x0=54.25, x1=557.75),
+    ]
+
+    snapped = _snap_overflowing_row_field_y(field, label, rules)
+
+    assert snapped == field
 
 
 def test_unfittable_text_raises_instead_of_disappearing() -> None:
