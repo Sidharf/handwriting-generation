@@ -26,6 +26,7 @@ from variation import (
 # Embed raster at this multiple of PDF-point size so viewers don't upsample mush.
 STAMP_DPI_SCALE = 4
 INK_DARK_THRESH = 200
+SHORT_FIELD_HEIGHT_PTS = 14.0
 
 
 def thin_ink(png_bytes: bytes, iterations: int = 1) -> bytes:
@@ -43,6 +44,27 @@ def thin_ink(png_bytes: bytes, iterations: int = 1) -> bytes:
     eroded = cv2.erode(ink, kernel, iterations=iterations)
     out = np.full_like(gray, 255)
     out[eroded > 0] = gray[eroded > 0]
+    ok, buf = cv2.imencode(".png", out)
+    if not ok:
+        return png_bytes
+    return buf.tobytes()
+
+
+def thicken_ink(png_bytes: bytes, iterations: int = 1) -> bytes:
+    """Dilate dark ink so hairlines survive short-field downscale."""
+    if iterations <= 0:
+        return png_bytes
+    arr = np.frombuffer(png_bytes, dtype=np.uint8)
+    gray = cv2.imdecode(arr, cv2.IMREAD_GRAYSCALE)
+    if gray is None:
+        return png_bytes
+    ink = (gray < INK_DARK_THRESH).astype(np.uint8) * 255
+    if ink.max() == 0:
+        return png_bytes
+    kernel = np.ones((2, 2), np.uint8)
+    thick = cv2.dilate(ink, kernel, iterations=iterations)
+    out = gray.copy()
+    out[thick > 0] = np.minimum(out[thick > 0], 40)
     ok, buf = cv2.imencode(".png", out)
     if not ok:
         return png_bytes
@@ -208,6 +230,12 @@ def stamp_pdf(
 
         floor, power, a_scale = stroke_ink_params(axes.stroke, seed, png_i)
         png_data = line_pngs[png_i]
+        short_field = float(target.height) < SHORT_FIELD_HEIGHT_PTS
+        if short_field:
+            floor = min(floor, 0.02)
+            power = min(power, 0.85)
+            if thin_iters == 0:
+                png_data = thicken_ink(png_data, iterations=1)
         if thin_iters > 0:
             png_data = thin_ink(png_data, iterations=thin_iters)
         rgba = crop_ink(

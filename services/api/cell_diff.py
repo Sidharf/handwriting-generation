@@ -31,10 +31,12 @@ ANCHOR_MATCH_TOL_PTS = 3.0
 MAX_CELL_CHARS = 48
 SOFT_SPLIT_CHARS = 24
 SPLIT_LINE_GAP_PTS = 2.0
-MIN_FIELD_HEIGHT_PTS = 11.0
+MIN_FIELD_HEIGHT_PTS = 15.0
 CHECK_EMPTY = frozenset("☐")  # U+2610
 CHECK_MARKED = frozenset("☒☑✓✔")  # U+2612, U+2611, U+2713, U+2714
+CHECK_ASCII_X = frozenset({"X", "x"})
 CHECK_MATCH_DIST_PTS = 8.0
+CHECK_BESIDE_GAP_PTS = 4.0
 
 
 @dataclass
@@ -513,6 +515,11 @@ def _box_kind(text: str) -> Optional[str]:
     return None
 
 
+def _is_check_mark_span(sp: Span) -> bool:
+    t = (sp.text or "").strip()
+    return t in CHECK_MARKED or t in CHECK_ASCII_X
+
+
 def _near_box(a: fitz.Rect, b: fitz.Rect) -> bool:
     if _iou(a, b) >= 0.35:
         return True
@@ -521,48 +528,87 @@ def _near_box(a: fitz.Rect, b: fitz.Rect) -> bool:
     return ((acx - bcx) ** 2 + (acy - bcy) ** 2) ** 0.5 <= CHECK_MATCH_DIST_PTS
 
 
+def _beside_right(mark: fitz.Rect, box: fitz.Rect) -> bool:
+    """True if mark sits just to the right of box on the same row."""
+    _, mcy = _center(mark)
+    _, bcy = _center(box)
+    if abs(mcy - bcy) > CHECK_MATCH_DIST_PTS:
+        return False
+    gap = mark.x0 - box.x1
+    return -1.0 <= gap <= CHECK_BESIDE_GAP_PTS
+
+
+def _mark_pairs_to_box(mark: fitz.Rect, box: fitz.Rect) -> bool:
+    return _near_box(mark, box) or _beside_right(mark, box)
+
+
+def _box_already_marked(box: fitz.Rect, template_spans: List[Span]) -> bool:
+    """True if the template already has X/☒ next to this empty box."""
+    for sp in template_spans:
+        if not _is_check_mark_span(sp):
+            continue
+        if _mark_pairs_to_box(sp.rect, box):
+            return True
+    return False
+
+
+def _clamp_box(box: fitz.Rect, page_rect: fitz.Rect) -> Optional[fitz.Rect]:
+    x0 = max(float(page_rect.x0), float(box.x0))
+    y0 = max(float(page_rect.y0), float(box.y0))
+    x1 = min(float(page_rect.x1), float(box.x1))
+    y1 = min(float(page_rect.y1), float(box.y1))
+    if x1 - x0 < 2 or y1 - y0 < 2:
+        return None
+    return fitz.Rect(x0, y0, x1, y1)
+
+
 def _detect_check_fills(
     synth_spans: List[Span],
     template_spans: List[Span],
     page_rect: fitz.Rect,
-) -> List[fitz.Rect]:
-    """Pair synthetic ☒/☑/✓ with the overlapping template ☐. Returns template rects."""
+) -> Tuple[List[fitz.Rect], set]:
+    """Pair ☒-on-☐ or X-beside-☐ to template empty boxes.
+
+    Returns (template box rects, ids of consumed synth spans).
+    Pre-marked template boxes are skipped; those synth marks are still consumed
+    so they do not become text fills.
+    """
     empty_boxes = [sp for sp in template_spans if _box_kind(sp.text) == "empty"]
-    checked_tmpl = [sp for sp in template_spans if _box_kind(sp.text) == "checked"]
     used = set()
+    consumed: set = set()
     out: List[fitz.Rect] = []
     for sp in synth_spans:
-        if _box_kind(sp.text) != "checked":
+        if not _is_check_mark_span(sp):
             continue
-        if any(_near_box(sp.rect, t.rect) for t in checked_tmpl):
-            continue
-        best_i: Optional[int] = None
-        best_score: Optional[Tuple[float, float]] = None
-        scx, scy = _center(sp.rect)
+        candidates: List[int] = []
         for i, t in enumerate(empty_boxes):
             if i in used:
                 continue
-            if not _near_box(sp.rect, t.rect):
-                continue
-            iou = _iou(sp.rect, t.rect)
-            tcx, tcy = _center(t.rect)
+            if _mark_pairs_to_box(sp.rect, t.rect):
+                candidates.append(i)
+        if not candidates:
+            continue
+        unmarked = [
+            i for i in candidates if not _box_already_marked(empty_boxes[i].rect, template_spans)
+        ]
+        if not unmarked:
+            consumed.add(id(sp))
+            continue
+        scx, scy = _center(sp.rect)
+
+        def _score(i: int) -> Tuple[float, float]:
+            box = empty_boxes[i].rect
+            tcx, tcy = _center(box)
             dist = ((tcx - scx) ** 2 + (tcy - scy) ** 2) ** 0.5
-            score = (-iou, dist)
-            if best_score is None or score < best_score:
-                best_score = score
-                best_i = i
-        if best_i is None:
-            continue
+            return (-_iou(sp.rect, box), dist)
+
+        best_i = min(unmarked, key=_score)
         used.add(best_i)
-        box = empty_boxes[best_i].rect
-        x0 = max(float(page_rect.x0), float(box.x0))
-        y0 = max(float(page_rect.y0), float(box.y0))
-        x1 = min(float(page_rect.x1), float(box.x1))
-        y1 = min(float(page_rect.y1), float(box.y1))
-        if x1 - x0 < 2 or y1 - y0 < 2:
-            continue
-        out.append(fitz.Rect(x0, y0, x1, y1))
-    return out
+        consumed.add(id(sp))
+        clamped = _clamp_box(empty_boxes[best_i].rect, page_rect)
+        if clamped is not None:
+            out.append(clamped)
+    return out, consumed
 
 
 def _render_page(doc: fitz.Document, page_index: int, dpi: int = DPI):
@@ -595,8 +641,15 @@ def detect_fill_cells(
         t_spans = _extract_spans(tpage)
         page_rect = tpage.rect
 
+        check_rects, consumed_marks = _detect_check_fills(s_spans, t_spans, page_rect)
+
         # Typed fills: blue ink, or synthetic text not already on the template.
-        fills = [sp for sp in s_spans if _is_fill_span(sp, t_spans)]
+        # Check-mark spans (☒ or lone X beside ☐) are handled above.
+        fills = [
+            sp
+            for sp in s_spans
+            if id(sp) not in consumed_marks and _is_fill_span(sp, t_spans)
+        ]
 
         merged = _merge_span_groups(fills)
 
@@ -615,8 +668,6 @@ def detect_fill_cells(
                 skipped_overflow += 1
                 continue
             remapped.append((mapped, text))
-
-        check_rects = _detect_check_fills(s_spans, t_spans, page_rect)
 
         if debug_dir is not None:
             debug_dir.mkdir(parents=True, exist_ok=True)
