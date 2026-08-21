@@ -123,6 +123,21 @@ def stroke_ink_params(
     return float(floor), power, alpha_scale
 
 
+def line_weight_params(line_weight: int) -> tuple[int, int]:
+    """Map UI line_weight (-2..+2) to (thicken_for_modal, thin_for_stamp).
+
+    Negative values skip Modal dilation and apply local erosion instead.
+    Zero preserves current default behavior (thicken=1, no erosion).
+    Positive values increase dilation strength.
+    """
+    lw = max(-2, min(2, int(line_weight)))
+    if lw < 0:
+        return 0, abs(lw)
+    if lw == 0:
+        return 1, 0
+    return lw, 0
+
+
 def band_label(master: float) -> str:
     m = _clamp100(master)
     if m <= 0:

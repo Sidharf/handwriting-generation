@@ -70,6 +70,7 @@ export default function App() {
   const [overlayUrl, setOverlayUrl] = useState<string | null>(null);
   const [maxNewTokens, setMaxNewTokens] = useState(128);
   const [seed, setSeed] = useState(0);
+  const [lineWeight, setLineWeight] = useState(0);
   const [variationMaster, setVariationMaster] = useState(35);
   const [variationAxes, setVariationAxes] = useState({
     diversity: 35,
@@ -419,6 +420,7 @@ export default function App() {
           cells,
           max_new_tokens: maxNewTokens,
           seed,
+          line_weight: lineWeight,
           variation: {
             master: variationMaster,
             diversity: variationAxes.diversity,
@@ -862,6 +864,27 @@ export default function App() {
                   value={seed}
                   onChange={(e) => setSeed(Number(e.target.value))}
                 />
+              </div>
+            </div>
+
+            <div className="field field-wide" style={{ marginTop: 14 }}>
+              <label>
+                Line weight —{" "}
+                {lineWeight < 0 ? "Thin" : lineWeight === 0 ? "Natural" : "Bold"}{" "}
+                ({lineWeight > 0 ? "+" : ""}{lineWeight})
+              </label>
+              <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                <span style={{ fontSize: 11, opacity: 0.6 }}>Thin</span>
+                <input
+                  type="range"
+                  min={-2}
+                  max={2}
+                  step={1}
+                  value={lineWeight}
+                  onChange={(e) => setLineWeight(Number(e.target.value))}
+                  style={{ flex: 1 }}
+                />
+                <span style={{ fontSize: 11, opacity: 0.6 }}>Bold</span>
               </div>
             </div>
 

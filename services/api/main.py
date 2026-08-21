@@ -30,7 +30,7 @@ from store import (
     update_job,
     update_style_text,
 )
-from variation import resolve_variation, seed_stride, thicken_iterations
+from variation import line_weight_params, resolve_variation, seed_stride, thicken_iterations
 from style_synthesize import STYLE_TEXT, synthesize_handwriting_samples
 
 
@@ -84,6 +84,8 @@ class JobRequest(BaseModel):
     pair_name: Optional[str] = None
     # {master, diversity, size, placement, stroke} each 0..100
     variation: Optional[Dict[str, Any]] = None
+    # Line weight: -2 (thin) to +2 (bold), 0 = natural (default)
+    line_weight: int = Field(default=0, ge=-2, le=2)
 
 
 class StyleTextUpdate(BaseModel):
@@ -259,7 +261,7 @@ def styles_image(style_id: str, prepared: bool = False):
     return FileResponse(path, media_type="image/png")
 
 
-def _run_job(job_id: str) -> None:
+def _run_job(job_id: str, line_weight: int = 0) -> None:
     try:
         update_job(job_id, status="calling_modal")
         job = get_job(job_id)
@@ -269,7 +271,8 @@ def _run_job(job_id: str) -> None:
         max_new_tokens = int(job.get("max_new_tokens") or job.get("steps") or 128)
         axes = resolve_variation(job.get("variation"))
         stride = seed_stride(axes.diversity)
-        thick = thicken_iterations(axes.stroke)
+        lw_thicken, _ = line_weight_params(line_weight)
+        thick = lw_thicken if line_weight != 0 else thicken_iterations(axes.stroke)
         pngs = generate_lines_remote(
             texts,
             style_png,
@@ -288,6 +291,7 @@ def _run_job(job_id: str) -> None:
             out,
             variation=axes.as_dict(),
             seed=job.get("seed"),
+            line_weight=line_weight,
         )
         # also save line previews
         lines_dir = OUTPUTS_DIR / job_id / "lines"
@@ -315,7 +319,9 @@ def jobs_create(req: JobRequest):
     if req.variation is not None:
         variation = resolve_variation(req.variation).as_dict()
     job = create_job(pair, req.cells, max_new_tokens, req.seed, variation=variation)
-    thread = threading.Thread(target=_run_job, args=(job["id"],), daemon=True)
+    thread = threading.Thread(
+        target=_run_job, args=(job["id"],), kwargs={"line_weight": req.line_weight}, daemon=True
+    )
     thread.start()
     return job
 

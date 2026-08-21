@@ -6,6 +6,7 @@ import io
 from pathlib import Path
 from typing import Any, Mapping, Optional, Sequence, Tuple
 
+import cv2
 import fitz
 import numpy as np
 from PIL import Image
@@ -13,6 +14,7 @@ from PIL import Image
 from paths import INK_BLUE
 from variation import (
     height_fit_frac,
+    line_weight_params,
     placement_offsets,
     resolve_variation,
     stroke_ink_params,
@@ -20,6 +22,28 @@ from variation import (
 
 # Embed raster at this multiple of PDF-point size so viewers don't upsample mush.
 STAMP_DPI_SCALE = 4
+INK_DARK_THRESH = 200
+
+
+def thin_ink(png_bytes: bytes, iterations: int = 1) -> bytes:
+    """Erode dark ink to produce thinner strokes. Mirrors thicken_ink in sampler."""
+    if iterations <= 0:
+        return png_bytes
+    arr = np.frombuffer(png_bytes, dtype=np.uint8)
+    gray = cv2.imdecode(arr, cv2.IMREAD_GRAYSCALE)
+    if gray is None:
+        return png_bytes
+    ink = (gray < INK_DARK_THRESH).astype(np.uint8) * 255
+    if ink.max() == 0:
+        return png_bytes
+    kernel = np.ones((2, 2), np.uint8)
+    eroded = cv2.erode(ink, kernel, iterations=iterations)
+    out = np.full_like(gray, 255)
+    out[eroded > 0] = gray[eroded > 0]
+    ok, buf = cv2.imencode(".png", out)
+    if not ok:
+        return png_bytes
+    return buf.tobytes()
 
 
 def grayscale_to_blue_rgba(
@@ -64,6 +88,7 @@ def stamp_pdf(
     out_pdf: Path,
     variation: Optional[Mapping[str, Any]] = None,
     seed: Optional[int] = None,
+    line_weight: int = 0,
 ) -> Path:
     """
     cells: list of {page, bbox:[x0,y0,x1,y1], enabled}
@@ -72,8 +97,10 @@ def stamp_pdf(
     Scale primarily to cell height (~85%), allow width up to 1.15x cell width.
     Place rect is in PDF points; embedded PNG is high-DPI (not point-sized pixels).
     variation=None or all-zero axes → legacy placement (85% height, centered, no rotate).
+    line_weight: -2..+2; negative applies erosion (thinning) before stamping.
     """
     axes = resolve_variation(variation)
+    _, thin_iters = line_weight_params(line_weight)
     doc = fitz.open(template_pdf)
     png_i = 0
     for cell in cells:
@@ -89,9 +116,12 @@ def stamp_pdf(
             target = fitz.Rect(x0, y0, x1, y1)
 
         floor, power, a_scale = stroke_ink_params(axes.stroke, seed, png_i)
+        png_data = line_pngs[png_i]
+        if thin_iters > 0:
+            png_data = thin_ink(png_data, iterations=thin_iters)
         rgba = crop_ink(
             grayscale_to_blue_rgba(
-                line_pngs[png_i],
+                png_data,
                 alpha_floor=floor,
                 darkness_power=power,
                 alpha_scale=a_scale,
