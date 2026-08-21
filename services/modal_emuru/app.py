@@ -17,6 +17,7 @@ _THIS = Path(__file__).resolve()
 _PARENTS = _THIS.parents
 REPO_ROOT = _PARENTS[2] if len(_PARENTS) >= 3 else Path("/opt")
 SAMPLER_LOCAL = _THIS.parent / "sampler.py"
+QUALITY_LOCAL = REPO_ROOT / "services" / "api" / "line_quality.py"
 
 volume = modal.Volume.from_name(VOLUME_NAME, create_if_missing=True)
 
@@ -49,6 +50,7 @@ image = (
         }
     )
     .add_local_file(str(SAMPLER_LOCAL), remote_path="/opt/sampler.py")
+    .add_local_file(str(QUALITY_LOCAL), remote_path="/opt/line_quality.py")
 )
 
 app = modal.App(APP_NAME, image=image)

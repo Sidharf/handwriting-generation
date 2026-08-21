@@ -13,6 +13,9 @@ import numpy as np
 REPO = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(REPO / "services" / "api"))
 
+from line_quality import INK_DARK_THRESH, analyze_line, qa_line_ok  # noqa: E402
+from line_qa import line_needs_vector  # noqa: E402
+from pdf_stamp import render_vector_line_png  # noqa: E402
 from style_prep import preprocess_style_png  # noqa: E402
 import modal  # noqa: E402
 
@@ -25,12 +28,11 @@ CASES = [
     ("X", {"min_chars_equiv": 1}),
     ("8.9", {"min_chars_equiv": 2}),
     ("DS-26052", {"min_chars_equiv": 5}),
+    ("30 NOV 2026", {"min_chars_equiv": 7}),
+    ("94.8", {"min_chars_equiv": 3}),
+    ("K562-2026-01/100", {"min_chars_equiv": 10}),
+    ("KL 21 JUL 26", {"min_chars_equiv": 7}),
 ]
-
-INK_DARK_THRESH = 200
-LEFT_INK_FRAC = 0.15
-MIN_INK_DENSITY = 0.04
-MIN_WIDTH_PER_CHAR = 10
 
 
 def sanitize_text_local(text: str) -> str:
@@ -50,38 +52,6 @@ def _decode_gray(png: bytes) -> np.ndarray:
     if img is None:
         raise RuntimeError("failed to decode PNG")
     return img
-
-
-def _ink_bbox(arr: np.ndarray):
-    ys, xs = np.where(arr < INK_DARK_THRESH)
-    if len(xs) == 0:
-        return None
-    return int(xs.min()), int(ys.min()), int(xs.max()) + 1, int(ys.max()) + 1
-
-
-def qa_line_ok(arr: np.ndarray, gen_text: str) -> tuple[bool, str]:
-    h, w = arr.shape[:2]
-    ink_mask = arr < INK_DARK_THRESH
-    dens = float(ink_mask.mean())
-    bbox = _ink_bbox(arr)
-    nchar = max(1, len(gen_text.replace(" ", "")))
-
-    if dens < 0.008:
-        return False, f"near_empty dens={dens:.4f}"
-    if bbox is None:
-        return False, "no_ink"
-    x0, _, x1, _ = bbox
-    ink_w = x1 - x0
-    if ink_w < max(24, MIN_WIDTH_PER_CHAR * min(nchar, 8) * 0.35):
-        return False, f"too_narrow ink_w={ink_w} nchar={nchar}"
-    if w >= 400 and dens < MIN_INK_DENSITY:
-        left = ink_mask[:, : max(1, int(w * LEFT_INK_FRAC))].sum()
-        total = max(1, int(ink_mask.sum()))
-        if left / total > 0.85:
-            return False, f"left_truncated dens={dens:.4f} w={w}"
-    if w >= 700 and dens < 0.035:
-        return False, f"sparse_wide dens={dens:.4f} w={w}"
-    return True, "ok"
 
 
 def _local_unit_checks() -> None:
@@ -114,6 +84,7 @@ def main() -> int:
     out_dir.mkdir(parents=True, exist_ok=True)
 
     failures: list[str] = []
+    fallback_count = 0
     for i, ((raw, rules), png) in enumerate(zip(CASES, pngs)):
         expected = rules.get("expect_sanitize", sanitize_text_local(raw))
         if sanitize_text_local(raw) != expected:
@@ -121,18 +92,29 @@ def main() -> int:
                 f"{raw}: sanitize got {sanitize_text_local(raw)!r} want {expected!r}"
             )
 
+        raw_quality = analyze_line(_decode_gray(png), expected)
+        source = "emuru"
+        if line_needs_vector(png, expected):
+            png = render_vector_line_png(expected, seed=7 + i)
+            fallback_count += 1
+            fallback_reason = (
+                raw_quality.reason if not raw_quality.ok else "exact_numeric"
+            )
+            source = f"vector({fallback_reason})"
+
         gray = _decode_gray(png)
         w, h = _png_wh(png)
         safe = raw.replace(",", "c").replace(" ", "_").replace("/", "_")
         path = out_dir / f"{i:02d}_{safe}.png"
         path.write_bytes(png)
 
-        ok, reason = qa_line_ok(gray, expected)
-        dens = float((gray < INK_DARK_THRESH).mean())
-        ys, xs = np.where(gray < INK_DARK_THRESH)
-        ink_w = int(xs.max() - xs.min() + 1) if len(xs) else 0
+        quality = analyze_line(gray, expected)
+        ok, reason = quality.ok, quality.reason
+        dens = quality.metrics["dark_density"]
+        ink_w = int(quality.metrics["ink_w"])
         print(
-            f"{raw!r} -> {path.name} {w}x{h} dens={dens:.4f} ink_w={ink_w} qa={reason}"
+            f"{raw!r} -> {path.name} {w}x{h} dens={dens:.4f} "
+            f"ink_w={ink_w} qa={reason} source={source}"
         )
 
         if not ok:
@@ -156,7 +138,7 @@ def main() -> int:
         for f in failures:
             print(" -", f)
         return 1
-    print("OK — quality smoke passed")
+    print(f"OK — quality smoke passed ({fallback_count} vector fallbacks)")
     return 0
 
 

@@ -14,9 +14,10 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
 from cell_diff import FillCell, detect_fill_cells, render_overlay_png
+from line_qa import line_needs_vector
 from modal_client import generate_lines_remote
 from paths import OUTPUTS_DIR, REPO_ROOT
-from pdf_stamp import stamp_pdf
+from pdf_stamp import render_vector_line_png, stamp_pdf
 from store import (
     add_style,
     create_job,
@@ -284,6 +285,15 @@ def _run_job(job_id: str, line_weight: int = 0) -> None:
             seed_stride=stride,
             thicken=thick,
         )
+        filled: list = []
+        for i, (cell, png) in enumerate(zip(text_cells, pngs)):
+            text = cell.get("text") or " "
+            if line_needs_vector(png, text):
+                line_seed = None if job.get("seed") is None else int(job["seed"]) + i
+                filled.append(render_vector_line_png(text, seed=line_seed))
+            else:
+                filled.append(png)
+        pngs = filled
         update_job(job_id, status="stamping")
         out = OUTPUTS_DIR / job_id / "handwritten.pdf"
         stamp_pdf(

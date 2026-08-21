@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import re
-from typing import List, Optional, Tuple
+from typing import List, Optional
 
 import cv2
 import numpy as np
@@ -11,14 +11,12 @@ import torch
 from PIL import Image
 from torchvision.transforms import functional as TF
 
+from line_quality import INK_DARK_THRESH, candidate_quality_key, qa_line_ok
+
 
 IMG_H = 64
 MAX_STYLE_W = 768
 MIN_STYLE_W = 64
-INK_DARK_THRESH = 200
-MIN_INK_DENSITY = 0.04
-LEFT_INK_FRAC = 0.15  # truncation if almost all ink is in left 15%
-MIN_WIDTH_PER_CHAR = 10  # px of cropped ink width expected per character
 
 
 def _sup_to_ascii(s: str) -> str:
@@ -70,6 +68,23 @@ def tokens_for_line(max_new_tokens_ceiling: int, text: str) -> int:
     """Scale tokens by content length, capped by job ceiling (and 256)."""
     needed = 16 + 12 * max(1, len(text))
     return int(max(64, min(256, min(max_new_tokens_ceiling, needed))))
+
+
+def soften_gen_prompt(text: str) -> str:
+    """Make short/digit strings easier for Emuru; QA still uses the original."""
+    t = (text or "").strip() or "_"
+    t = re.sub(r"(\d):(\d)", r"\1 / \2", t)
+    nchar = len(t.replace(" ", ""))
+    if nchar <= 4:
+        t = f" {t} "
+    return t
+
+
+def is_digit_heavy(text: str) -> bool:
+    alnum = [c for c in (text or "") if c.isalnum()]
+    if not alnum:
+        return False
+    return sum(c.isdigit() for c in alnum) / len(alnum) >= 0.7
 
 
 def style_png_to_tensor(style_png: bytes, device: torch.device) -> torch.Tensor:
@@ -136,46 +151,6 @@ def thicken_ink(arr: np.ndarray, iterations: int = 1) -> np.ndarray:
     out = arr.copy()
     out[thick > 0] = np.minimum(out[thick > 0], 40)
     return out
-
-
-def _ink_bbox(arr: np.ndarray) -> Optional[Tuple[int, int, int, int]]:
-    ys, xs = np.where(arr < INK_DARK_THRESH)
-    if len(xs) == 0:
-        return None
-    return int(xs.min()), int(ys.min()), int(xs.max()) + 1, int(ys.max()) + 1
-
-
-def qa_line_ok(arr: np.ndarray, gen_text: str) -> Tuple[bool, str]:
-    """Return (ok, reason). Detect sparse / truncated / collapsed generations."""
-    h, w = arr.shape[:2]
-    ink_mask = arr < INK_DARK_THRESH
-    dens = float(ink_mask.mean())
-    bbox = _ink_bbox(arr)
-    nchar = max(1, len(gen_text.replace(" ", "")))
-
-    if dens < 0.008:
-        return False, f"near_empty dens={dens:.4f}"
-
-    if bbox is None:
-        return False, "no_ink"
-
-    x0, _, x1, _ = bbox
-    ink_w = x1 - x0
-    # Collapsed content (e.g. 10000 → single stroke)
-    if ink_w < max(24, MIN_WIDTH_PER_CHAR * min(nchar, 8) * 0.35):
-        return False, f"too_narrow ink_w={ink_w} nchar={nchar}"
-
-    # Signature truncation: wide canvas, ink only on far left
-    if w >= 400 and dens < MIN_INK_DENSITY:
-        left = ink_mask[:, : max(1, int(w * LEFT_INK_FRAC))].sum()
-        total = max(1, int(ink_mask.sum()))
-        if left / total > 0.85:
-            return False, f"left_truncated dens={dens:.4f} w={w}"
-
-    if w >= 700 and dens < 0.035:
-        return False, f"sparse_wide dens={dens:.4f} w={w}"
-
-    return True, "ok"
 
 
 class EmuruSampler:
@@ -290,24 +265,23 @@ class EmuruSampler:
         if not style_prompt or style_prompt == "_":
             raise ValueError("style_text is required for Emuru")
 
-        tokens = tokens_for_line(max_new_tokens, gen_text)
-        # Pure / mostly-digit strings collapse more often — start higher.
-        alnum = [c for c in gen_text if c.isalnum()]
-        digit_heavy = bool(alnum) and sum(c.isdigit() for c in alnum) / len(alnum) >= 0.7
-        if digit_heavy:
-            tokens = int(min(256, max(tokens, min(max_new_tokens, 96))))
+        prompt = soften_gen_prompt(gen_text)
+        tokens = tokens_for_line(max_new_tokens, prompt)
+        short = len(gen_text.replace(" ", "")) <= 6
+        digit_heavy = is_digit_heavy(gen_text)
+        if digit_heavy or short:
+            tokens = int(min(256, max(tokens, min(max_new_tokens, 128))))
 
         style_img = style_png_to_tensor(style_png, self.device)
 
-        def score(a: np.ndarray) -> float:
-            bb = _ink_bbox(a)
-            dens = float((a < INK_DARK_THRESH).mean())
-            width = 0 if bb is None else (bb[2] - bb[0])
-            return dens * max(width, 1)
-
-        arr = self._sample_once(gen_text, style_prompt, style_img, tokens, seed)
+        arr = thicken_ink(
+            self._sample_once(prompt, style_prompt, style_img, tokens, seed),
+            iterations=thicken,
+        )
         ok, reason = qa_line_ok(arr, gen_text)
-        attempts = 1 if ok else (3 if digit_heavy else 2)
+        quality_key = candidate_quality_key(arr, gen_text)
+        max_attempts = 5 if (digit_heavy or short) else 2
+        attempts = 1 if ok else max_attempts
         cur_tokens = tokens
         for attempt in range(1, attempts):
             if ok:
@@ -315,24 +289,28 @@ class EmuruSampler:
             cur_tokens = int(min(256, max(cur_tokens + 32, int(cur_tokens * 1.5))))
             retry_seed = None if seed is None else seed + attempt
             print(
-                f"Emuru QA retry text={gen_text!r} reason={reason} "
+                f"Emuru QA retry text={gen_text!r} prompt={prompt!r} reason={reason} "
                 f"tokens={tokens}->{cur_tokens} attempt={attempt}",
                 flush=True,
             )
-            arr2 = self._sample_once(
-                gen_text, style_prompt, style_img, cur_tokens, retry_seed
+            arr2 = thicken_ink(
+                self._sample_once(
+                    prompt, style_prompt, style_img, cur_tokens, retry_seed
+                ),
+                iterations=thicken,
             )
             ok2, reason2 = qa_line_ok(arr2, gen_text)
-            if ok2 or score(arr2) > score(arr):
+            quality_key2 = candidate_quality_key(arr2, gen_text)
+            if quality_key2 > quality_key:
                 arr = arr2
                 ok, reason = ok2, reason2
+                quality_key = quality_key2
             if not ok:
                 print(
                     f"Emuru QA still weak text={gen_text!r} reason={reason}",
                     flush=True,
                 )
 
-        arr = thicken_ink(arr, iterations=thicken)
         return encode_gray_png(arr)
 
     def generate_lines(

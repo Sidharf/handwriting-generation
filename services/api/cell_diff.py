@@ -21,6 +21,12 @@ import fitz  # PyMuPDF
 import numpy as np
 
 from paths import EMURU_ALLOWED
+from table_geometry import (
+    TABLE_RULE_INSET_PTS,
+    VerticalRule,
+    extract_vertical_rules,
+    nearest_right_rule,
+)
 
 DPI = 200
 IOU_MATCH = 0.15
@@ -40,8 +46,6 @@ CHECK_MATCH_DIST_PTS = 8.0
 CHECK_BESIDE_GAP_PTS = 4.0
 COLUMN_GAP_PTS = 8.0
 COLUMN_PAGE_MARGIN_PTS = 18.0
-# Matches pdf_stamp max_w = tw * 1.15 so expanded fields don't overflow the next column.
-STAMP_WIDTH_SLACK = 1.15
 
 
 @dataclass
@@ -400,11 +404,13 @@ def _same_row(a: FillCell, b: FillCell) -> bool:
 def _expand_text_fields_to_columns(
     cells: List[FillCell],
     page_rects: Dict[int, fitz.Rect],
+    page_rules: Optional[Dict[int, List[VerticalRule]]] = None,
 ) -> None:
-    """Widen text-cell x1 to the next fill (or page edge) on the same row.
+    """Fit text-cell x1 to the next fill or vector table rule on its row.
 
     Check cells are left unchanged so the vector X stays on the printed ☐.
     """
+    rules_by_page = page_rules or {}
     by_page: Dict[int, List[FillCell]] = {}
     for c in cells:
         by_page.setdefault(c.page, []).append(c)
@@ -427,14 +433,27 @@ def _expand_text_fields_to_columns(
                     continue
                 if next_x0 is None or ox0 < next_x0:
                     next_x0 = ox0
-            limit = (next_x0 - COLUMN_GAP_PTS) if next_x0 is not None else page_limit
-            limit = min(limit, page_limit)
-            usable = limit - x0
-            if usable <= 0:
+
+            rule_x = nearest_right_rule(
+                rules_by_page.get(page_i, ()),
+                x0=x0,
+                y0=y0,
+                y1=y1,
+            )
+            limits = [page_limit]
+            if next_x0 is not None:
+                limits.append(next_x0 - COLUMN_GAP_PTS)
+            if rule_x is not None:
+                limits.append(rule_x - TABLE_RULE_INSET_PTS)
+            elif next_x0 is None:
+                # An unbounded last column must not be grown toward the page edge.
+                limits.append(x1)
+
+            limit = min(limits)
+            if limit - x0 < 2.0:
                 continue
-            expanded = x0 + usable / STAMP_WIDTH_SLACK
-            new_x1 = max(x1, min(page_limit, expanded))
-            if new_x1 > x1 + 0.5:
+            new_x1 = max(x0 + 2.0, limit)
+            if abs(new_x1 - x1) > 0.5:
                 cell.bbox = (x0, y0, new_x1, y1)
 
 
@@ -695,6 +714,7 @@ def detect_fill_cells(
     cells: List[FillCell] = []
     cell_i = 0
     page_rects: Dict[int, fitz.Rect] = {}
+    page_rules: Dict[int, List[VerticalRule]] = {}
 
     for page_i in range(shared_pages):
         spage = sdoc[page_i]
@@ -703,6 +723,7 @@ def detect_fill_cells(
         t_spans = _extract_spans(tpage)
         page_rect = tpage.rect
         page_rects[page_i] = fitz.Rect(page_rect)
+        page_rules[page_i] = extract_vertical_rules(tpage)
 
         check_rects, consumed_marks = _detect_check_fills(s_spans, t_spans, page_rect)
 
@@ -792,7 +813,7 @@ def detect_fill_cells(
     sdoc.close()
 
     cells = _dedupe_cells(cells)
-    _expand_text_fields_to_columns(cells, page_rects)
+    _expand_text_fields_to_columns(cells, page_rects, page_rules)
     # Re-id after dedupe for stable sequential ids
     for i, c in enumerate(cells):
         c.id = f"p{c.page}_c{i}"
